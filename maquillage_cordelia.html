@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIAMAKEUP - Beauté & Formation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Poppins', sans-serif; background:#f5f5dc; color:#333; line-height:1.6; padding-top:85px;}
+html { scroll-behavior: smooth; }
+
+/* Topbar */
+.topbar {
+    background:#2c1e18;
+    color:#fff;
+    font-size:14px;
+    padding:8px 5vw;
+    display:flex;
+    justify-content:flex-end;
+    gap:20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 102;
+}
+.topbar a { color:#D4AF37; text-decoration:none; transition: 0.3s; }
+.topbar a:hover {color:#b8962e; text-decoration:underline;}
+
+/* Header */
+header {
+    background:#5C4033;
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 5vw;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    position: fixed;
+    top: 35px;
+    width: 100%;
+    z-index: 101;
+}
+.logo {
+    font-size:28px;
+    font-weight:700;
+    color:#D4AF37;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    transition: all 0.3s ease;
+    letter-spacing:1px;
+}
+.logo img { height:50px; margin-right:10px; transition: all 0.3s ease; }
+.logo:hover img { transform: translateY(-3px) scale(1.05); filter: brightness(1.2); }
+.logo:hover { color:#b8962e; text-shadow: 2px 2px 8px rgba(212,175,55,0.5); }
+
+nav a { margin-left:20px; color:#fff; text-decoration:none; font-weight:500; transition: 0.3s; }
+nav a:hover {color:#D4AF37;}
+nav a.active { background:#D4AF37; color:#5C4033; pointer-events:none; border-radius:5px; padding:5px 10px; }
+
+/* Hero */
+.hero {
+    height: 85vh;
+    background-image: url("lia_make_up_3.png");
+    background-position: center 40%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+}
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+}
+.hero h1 {font-size:48px; margin-bottom:15px; color:#D4AF37; font-weight:700;}
+.hero p {font-size:20px; margin-bottom:20px; font-weight:500;}
+
+.btn {
+    display:inline-block;
+    padding:12px 25px;
+    background:#D4AF37;
+    color:#5C4033;
+    font-weight:600;
+    border-radius:30px;
+    text-decoration:none;
+    transition:0.3s;
+    margin:5px;
+}
+.btn:hover { background:#b8962e; transform: scale(1.05); }
+
+/* Section Title */
+.section-title {
+    text-align:center;
+    font-size:32px;
+    color:#5C4033;
+    margin:60px 0 40px;
+    position:relative;
+    font-weight:600;
+}
+.section-title::after {
+    content:"";
+    display:block;
+    width:60px;
+    height:4px;
+    background:#D4AF37;
+    margin:10px auto 0;
+    border-radius:2px;
+}
+
+/* Ajustement du scroll pour section avec header fixe */
+#services { scroll-margin-top: 120px; }
+
+/* Service Cards */
+.service-cards {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+    padding:0 5vw 60px;
+}
+.service-card {
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+    transition:transform 0.3s, box-shadow 0.3s;
+    display:flex;
+    flex-direction:column;
+}
+.service-card:hover {
+    transform:translateY(-8px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+.service-card img { width:100%; height:200px; object-fit:cover; }
+.service-content { padding:20px; text-align:center; }
+.service-content h3 { color:#5C4033; margin-bottom:10px; font-weight:700; }
+.service-content p { font-size:15px; margin-bottom:15px; color:#444; }
+.service-content a.btn { font-weight:700; }
+
+/* Testimonials */
+.testimonials {
+    padding:60px 5vw;
+    background:#fff;
+    text-align:center;
+}
+.testimonials h2 {color:#5C4033; margin-bottom:30px; font-weight:700;}
+.testimonial {
+    max-width:600px;
+    margin:20px auto;
+    font-style:italic;
+    color:#444;
+}
+
+/* About */
+.about {
+    background:#5C4033;
+    color:#fff;
+    padding:60px 5vw;
+    text-align:center;
+}
+.about h2 {color:#D4AF37; margin-bottom:20px; font-weight:700;}
+.about p {max-width:800px; margin:0 auto; line-height:1.6; font-weight:500;}
+
+/* Footer */
+footer {
+    background:#2c1e18;
+    color:#fff;
+    text-align:center;
+    padding:30px 5vw;
+}
+footer h3 {color:#D4AF37; margin-bottom:10px; font-weight:700;}
+footer p {margin:5px 0;}
+footer a {color:#D4AF37; margin:0 8px; text-decoration:none;}
+footer a:hover {text-decoration:underline;}
+
+/* Animations */
+@keyframes fadeInUp { 0% {opacity:0; transform:translateY(20px);} 100% {opacity:1; transform:translateY(0);} }
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  <a href="tel:+22507070707"><i class="fas fa-phone"></i> +225 07 77 86 73 09</a>
+  <a href="mailto:contact@liamakeup.ci"><i class="fas fa-envelope"></i> contact@liamakeup.ci</a>
+  <a href="#"><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</a>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <img src="logo_liamakeup_1.png" alt="">
+    LIAMAKEUP
+  </div>
+  <nav>
+    <a href="#" class="active">Accueil</a>
+    <a href="formation.html">Formations</a>
+    <a href="produits.html">Produits</a>
+    <a href="propos.html">À propos</a>
+     <a href="Contact.html">Contact</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Révélez votre beauté</h1>
+    <p>Maquillage, formations et produits de qualité en Côte d’Ivoire</p>
+    <a href="#services" class="btn">Nos Services</a>
+    <a href="https://wa.me/22507070707" class="btn"><i class="fab fa-whatsapp"></i> Commander</a>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="services">
+  <h2 class="section-title">Nos Services</h2>
+  <div class="service-cards">
+    <div class="service-card">
+      <img src="lia_formation.png" alt="Formation maquillage">
+      <div class="service-content">
+        <h3>Formations</h3>
+        <p><strong>Devenez maquilleuse professionnelle</strong> grâce à nos cours certifiés adaptés aux tendances africaines et internationales.</p>
+        <a href="formation.html" class="btn">En savoir plus</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img src="vente_lia_make_1.png" alt="Produits de maquillage">
+      <div class="service-content">
+        <h3>Vente de Produits</h3>
+        <p><strong>Produits authentiques et haut de gamme :</strong> rouges à lèvres, palettes, pinceaux et plus encore.</p>
+        <a href="produits.html" class="btn">Découvrir la boutique</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img src="caoching.png" alt="Coaching beauté">
+      <div class="service-content">
+        <h3>Coaching Beauté</h3>
+        <p><strong>Apprenez à sublimer votre visage</strong> au quotidien grâce à nos séances personnalisées.</p>
+        <a href="contact.html" class="btn">Réserver une séance</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Témoignages -->
+<section class="testimonials">
+  <h2>Ce que disent nos clientes</h2>
+  <div class="testimonial">« Grâce à LIAMAKEUP, j’ai appris à me maquiller pour mon mariage traditionnel. Un service exceptionnel ! » – Aïssata, Abidjan</div>
+  <div class="testimonial">« Les produits sont authentiques et tiennent toute la journée. Je recommande à 100%. » – Clarisse, Bouaké</div>
+</section>
+
+<!-- Pourquoi nous -->
+<section class="about">
+  <h2>Pourquoi choisir LIAMAKEUP ?</h2>
+  <p>Parce que nous croyons que chaque femme ivoirienne mérite de briller. Nous allions expertise, authenticité et passion pour vous offrir des formations de qualité et des produits de maquillage haut de gamme. Avec LIAMAKEUP, la beauté n’a pas de frontières.</p>
+</section>
+
+<!-- Footer -->
+<footer>
+  <h3>Contactez-nous</h3>
+  <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
+  <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
+  <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
+  <p>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/22507070707"><i class="fab fa-whatsapp"></i></a>
+  </p>
+  <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+</footer>
+
+</body>
+</html>

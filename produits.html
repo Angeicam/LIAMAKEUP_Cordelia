@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIAMAKEUP - Produits</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Poppins', sans-serif; background:#f5f5dc; color:#333; line-height:1.6; padding-top:85px;}
+html { scroll-behavior: smooth; }
+
+/* Topbar */
+.topbar {
+    background:#2c1e18;
+    color:#fff;
+    font-size:14px;
+    padding:8px 5vw;
+    display:flex;
+    justify-content:flex-end;
+    gap:20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 102;
+}
+.topbar a { color:#D4AF37; text-decoration:none; transition:0.3s; }
+.topbar a:hover { color:#b8962e; text-decoration:underline; }
+
+/* Header */
+header {
+    background:#5C4033;
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 5vw;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    position: fixed;
+    top:35px;
+    width:100%;
+    z-index:101;
+}
+.logo { font-size:28px; font-weight:700; color:#D4AF37; cursor:pointer; display:flex; align-items:center; transition: all 0.3s ease; letter-spacing:1px; }
+.logo img { height:50px; margin-right:10px; transition: all 0.3s ease; }
+.logo:hover img { transform: translateY(-3px) scale(1.05); filter: brightness(1.2); }
+.logo:hover { color:#b8962e; text-shadow:2px 2px 8px rgba(212,175,55,0.5); }
+nav a { margin-left:20px; color:#fff; text-decoration:none; font-weight:500; transition:0.3s; }
+nav a:hover {color:#D4AF37;}
+nav a.active { background:#D4AF37; color:#5C4033; pointer-events:none; border-radius:5px; padding:5px 10px; }
+
+/* Hero */
+.hero {
+    height:50vh;
+    background-image:url("produits.png");
+    background-position:center 40%;
+    background-size:cover;
+    background-repeat:no-repeat;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#fff;
+}
+.hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.4); }
+.hero-content { position:relative; z-index:1; max-width:800px; }
+.hero h1 { font-size:48px; color:#D4AF37; margin-bottom:15px; font-weight:700; }
+.hero p { font-size:20px; margin-bottom:20px; font-weight:500; }
+
+/* Section Titles */
+.section-title { text-align:center; font-size:32px; color:#5C4033; margin:60px 0 40px; font-weight:600; }
+.section-title::after { content:""; display:block; width:60px; height:4px; background:#D4AF37; margin:10px auto 0; border-radius:2px; }
+
+/* Produits */
+.products { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; padding:0 5vw 60px; }
+.product-card {
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+    transition:transform 0.3s, box-shadow 0.3s;
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+}
+.product-card:hover { transform:translateY(-8px); box-shadow:0 10px 25px rgba(0,0,0,0.15); }
+.product-card img { width:100%; height:250px; object-fit:cover; }
+.product-card .product-content { padding:20px; }
+.product-card h3 { color:#5C4033; margin-bottom:10px; font-weight:700; }
+.product-card p { font-size:14px; color:#444; margin-bottom:15px; }
+.product-card .price { color:#D4AF37; font-weight:700; font-size:16px; margin-bottom:10px; }
+.product-card a.btn {
+    display:inline-block;
+    padding:10px 20px;
+    background:#D4AF37;
+    color:#5C4033;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+.product-card a.btn:hover { background:#b8962e; transform:scale(1.05); }
+
+/* Footer */
+footer {
+    background:#2c1e18;
+    color:#fff;
+    text-align:center;
+    padding:30px 5vw;
+}
+footer h3 {color:#D4AF37; margin-bottom:10px; font-weight:700;}
+footer p {margin:5px 0;}
+footer a {color:#D4AF37; margin:0 8px; text-decoration:none;}
+footer a:hover {text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  <a href="tel:+22507070707"><i class="fas fa-phone"></i> +225 07 77 86 73 09</a>
+  <a href="mailto:contact@liamakeup.ci"><i class="fas fa-envelope"></i> contact@liamakeup.ci</a>
+  <a href="#"><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</a>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <img src="logo_liamakeup_1.png" alt="">
+    LIAMAKEUP
+  </div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="formation.html">Formations</a>
+    <a href="#" class="active">Produits</a>
+    <a href="propos.html">À propos</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Nos Produits</h1>
+    <p>Des produits de maquillage de qualité pour révéler votre beauté</p>
+  </div>
+</section>
+
+<!-- Produits -->
+<section id="products" class="products-section">
+  <h2 class="section-title">Notre Catalogue</h2>
+  <div class="products">
+
+    <!-- Kit Perso -->
+    <div class="product-card">
+      <img src="Média_78.jpg" alt="Kit de maquillage personnel">
+      <div class="product-content">
+        <h3>Kit de Maquillage Perso</h3>
+        <p>Le kit idéal pour débuter et créer des looks simples au quotidien. Comprend : rouge à lèvres, mini palette d’ombres, pinceau de base et miroir.</p>
+        <p class="price">50.000 FCFA</p>
+        <a href="https://wa.me/22507070707" class="btn"><i class="fab fa-whatsapp"></i> Commander</a>
+      </div>
+    </div>
+
+    <!-- Kit Apprenti -->
+    <div class="product-card">
+      <img src="Média_78.jpg" alt="Kit de maquillage apprenti">
+      <div class="product-content">
+        <h3>Kit de Maquillage Apprenti</h3>
+        <p>Pour les passionnés souhaitant progresser. Contient : palette complète d’ombres, pinceaux variés, rouge à lèvres longue tenue, fond de teint et accessoires de précision.</p>
+        <p class="price">100.000 FCFA</p>
+        <a href="https://wa.me/22507070707" class="btn"><i class="fab fa-whatsapp"></i> Commander</a>
+      </div>
+    </div>
+
+    <!-- Kit Pro -->
+    <div class="product-card">
+      <img src="Média_78.jpg" alt="Kit de maquillage professionnel">
+      <div class="product-content">
+        <h3>Kit de Maquillage Pro</h3>
+        <p>Destiné aux professionnels et maquilleurs confirmés. Comprend : palette pro avec multiples textures, pinceaux premium, accessoires avancés, rouge à lèvres et produits pour teint impeccable.</p>
+        <p class="price">150.000 FCFA</p>
+        <a href="https://wa.me/22507070707" class="btn"><i class="fab fa-whatsapp"></i> Commander</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <h3>Contactez-nous</h3>
+  <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
+  <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
+  <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
+  <p>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/22507070707"><i class="fab fa-whatsapp"></i></a>
+  </p>
+  <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIAMAKEUP - Formations</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Poppins', sans-serif; background:#f5f5dc; color:#333; line-height:1.6; padding-top:90px;}
+html { scroll-behavior: smooth; }
+
+/* Topbar */
+.topbar {
+    background:#2c1e18;
+    color:#fff;
+    font-size:14px;
+    padding:8px 5vw;
+    display:flex;
+    justify-content:flex-end;
+    gap:20px;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:102;
+    flex-wrap:wrap;
+}
+.topbar a {color:#D4AF37; text-decoration:none; transition:0.3s;}
+.topbar a:hover {color:#b8962e; text-decoration:underline;}
+
+/* Header */
+header {
+    background:#5C4033;
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 5vw;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    position:fixed;
+    top:35px;
+    width:100%;
+    z-index:101;
+    flex-wrap:wrap;
+}
+.logo {font-size:28px; font-weight:700; color:#D4AF37; cursor:pointer; display:flex; align-items:center; transition:0.3s;}
+.logo img {height:50px; margin-right:10px; transition:0.3s;}
+.logo:hover img {transform:translateY(-3px) scale(1.05);}
+.logo:hover {color:#b8962e; text-shadow:2px 2px 8px rgba(212,175,55,0.5);}
+nav a {margin-left:20px; color:#fff; text-decoration:none; font-weight:500; transition:0.3s;}
+nav a:hover {color:#D4AF37;}
+nav a.active {background:#D4AF37; color:#5C4033; pointer-events:none; border-radius:5px; padding:5px 10px;}
+
+/* Hero */
+.hero {
+    height:50vh;
+    background-image:url('formalite_1.png');
+    background-position:center 40%;
+    background-size:cover;
+    background-repeat:no-repeat;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#fff;
+}
+.hero::after {content:""; position:absolute; inset:0; background:rgba(0,0,0,0.4);}
+.hero-content {position:relative; z-index:1; max-width:800px;}
+.hero-content h1 {font-size:48px; color:#D4AF37; margin-bottom:15px; font-weight:700;}
+.hero-content p {font-size:20px; margin-bottom:20px; font-weight:500;}
+
+/* Section Titles */
+.section-title {text-align:center; font-size:32px; color:#5C4033; margin:60px 0 40px; font-weight:600;}
+.section-title::after {content:""; display:block; width:60px; height:4px; background:#D4AF37; margin:10px auto 0; border-radius:2px;}
+
+/* Cards */
+.products {display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:25px; padding:0 5vw 60px;}
+.product-card {
+  background:#fff;
+  border-radius:15px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.1);
+  text-align:center;
+  transition:0.3s;
+  padding:25px;
+  cursor:pointer;
+}
+.product-card:hover {transform:translateY(-8px); box-shadow:0 10px 25px rgba(0,0,0,0.15);}
+.product-card h3 {color:#5C4033; margin-bottom:10px; font-weight:700;}
+.product-card p {font-size:14px; color:#444; margin-bottom:10px;}
+.product-card .location i {color:#D4AF37; margin-right:6px;}
+.product-card .price {color:#D4AF37; font-weight:700; font-size:16px; margin-bottom:10px;}
+.product-card .old-price {text-decoration:line-through; color:#888; font-size:13px; margin-bottom:10px;}
+.product-card a.btn {display:inline-block; padding:10px 20px; background:#D4AF37; color:#5C4033; border-radius:30px; text-decoration:none; font-weight:600; transition:0.3s;}
+.product-card a.btn:hover {background:#b8962e; transform:scale(1.05);}
+
+/* Modal */
+.modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6); overflow-y:auto;}
+.modal-content{
+  background:url('Maquillage_12.png') no-repeat center center/cover;
+  margin:5% auto;padding:20px 25px;border-radius:15px;width:80%;max-width:450px;
+  position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.3);text-align:center;color:#fff;
+}
+.modal-content::before{content:""; position:absolute; inset:0; background:rgba(0,0,0,0.5); border-radius:15px;}
+.modal-content>*{position:relative; z-index:1;}
+.close{position:absolute;top:10px;right:20px;font-size:26px;cursor:pointer;color:#fff;}
+.modal-header h2{color:#D4AF37;margin-bottom:10px;font-size:24px;text-transform:uppercase;}
+.modal-body{padding:10px;font-size:15px;text-align:left;}
+.modal-row{display:flex;justify-content:space-between;margin:6px 0;font-size:15px;}
+.modal-row span{font-weight:700;color:#D4AF37;}
+.modal-body p.desc{margin-top:10px;font-size:14px;color:#fff;line-height:1.4;}
+.modal-body .price{color:#D4AF37;font-weight:700;font-size:18px;margin-top:10px;}
+.modal-body .old-price{text-decoration:line-through;color:#fff;font-size:15px;margin-top:5px;}
+.modal-cta{margin-top:20px;text-align:center;}
+.modal-cta button{display:inline-block;margin:5px;padding:12px 25px;border-radius:25px;font-weight:700;border:none; cursor:pointer;}
+.modal-cta button#modal-whatsapp{background:#25D366;color:#fff;}
+.modal-cta button#modal-download{background:#D4AF37;color:#5C4033;}
+.modal-footer{margin-top:20px;border-top:1px solid #ddd;padding-top:10px;font-size:14px;color:#fff;text-align:center;}
+.modal-footer a{color:#D4AF37;text-decoration:none;margin:0 5px;}
+.modal-footer a:hover{text-decoration:underline;}
+
+/* Footer */
+footer {background:#2c1e18;color:#fff;text-align:center;padding:30px 5vw;}
+footer h3 {color:#D4AF37;margin-bottom:10px;font-weight:700;}
+footer p {margin:5px 0;}
+footer a {color:#D4AF37;margin:0 8px;text-decoration:none;}
+footer a:hover {text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  <a href="tel:+2250777867309"><i class="fas fa-phone"></i> +225 07 77 86 73 09</a>
+  <a href="mailto:contact@liamakeup.ci"><i class="fas fa-envelope"></i> contact@liamakeup.ci</a>
+  <a href="#"><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</a>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="logo"><img src="logo_liamakeup_1.png" alt="LIAMAKEUP Logo">LIAMAKEUP</div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="formation.html" class="active">Formations</a>
+    <a href="produits.html">Produits</a>
+    <a href="propos.html">À propos</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Nos Formations</h1>
+    <p>Découvrez nos formations adaptées à tous les niveaux</p>
+  </div>
+</section>
+
+<h2 class="section-title">Nos Programmes</h2>
+
+<section class="products">
+  <!-- Carte 1 -->
+  <div class="product-card"
+       data-title="Maquillage Événementiel"
+       data-dates="10-30 Nov 2025"
+       data-location="Abidjan"
+       data-desc="Techniques complètes pour sublimer vos clients lors de mariages."
+       data-price="110.000 FCFA"
+       data-oldprice="160.000 FCFA">
+    <h3>Maquillage Événementiel</h3>
+    <p><i class="fas fa-calendar-alt"></i> 10-30 Nov 2025</p>
+    <p class="location"><i class="fas fa-map-marker-alt"></i> Abidjan</p>
+    <p>Techniques complètes pour sublimer vos clients lors de mariages.</p>
+    <p class="price">110.000 FCFA</p>
+    <p class="old-price">160.000 FCFA</p>
+    <a href="#" class="btn"><i class="fab fa-whatsapp"></i> Détails</a>
+  </div>
+
+  <!-- Carte 2 -->
+  <div class="product-card"
+       data-title="Perfectionnement Auto-Perso"
+       data-dates="05-19 Déc 2025"
+       data-location="Yamoussoukro"
+       data-desc="Perfectionnez votre maquillage quotidien."
+       data-price="50.000 FCFA"
+       data-oldprice="70.000 FCFA">
+    <h3>Perfectionnement Auto-Perso</h3>
+    <p><i class="fas fa-calendar-alt"></i> 05-19 Déc 2025</p>
+    <p class="location"><i class="fas fa-map-marker-alt"></i> Yamoussoukro</p>
+    <p>Perfectionnez votre maquillage quotidien.</p>
+    <p class="price">50.000 FCFA</p>
+    <p class="old-price">70.000 FCFA</p>
+    <a href="#" class="btn"><i class="fab fa-whatsapp"></i> Détails</a>
+  </div>
+
+  <!-- Carte 3 -->
+  <div class="product-card"
+       data-title="Formation Artistique"
+       data-dates="15-30 Jan 2026"
+       data-location="Abidjan"
+       data-desc="Maquillage créatif et effets spéciaux."
+       data-price="130.000 FCFA"
+       data-oldprice="170.000 FCFA">
+    <h3>Formation Artistique</h3>
+    <p><i class="fas fa-calendar-alt"></i> 15-30 Jan 2026</p>
+    <p class="location"><i class="fas fa-map-marker-alt"></i> Abidjan</p>
+    <p>Maquillage créatif et effets spéciaux.</p>
+    <p class="price">130.000 FCFA</p>
+    <p class="old-price">170.000 FCFA</p>
+    <a href="#" class="btn"><i class="fab fa-whatsapp"></i> Détails</a>
+  </div>
+
+  <!-- Carte 4 -->
+  <div class="product-card"
+       data-title="Makeup Studio Pro"
+       data-dates="01-20 Fév 2026"
+       data-location="Bouaké"
+       data-desc="Formation complète pour maquilleurs professionnels."
+       data-price="150.000 FCFA"
+       data-oldprice="200.000 FCFA">
+    <h3>Makeup Studio Pro</h3>
+    <p><i class="fas fa-calendar-alt"></i> 01-20 Fév 2026</p>
+    <p class="location"><i class="fas fa-map-marker-alt"></i> Bouaké</p>
+    <p>Formation complète pour maquilleurs professionnels.</p>
+    <p class="price">150.000 FCFA</p>
+    <p class="old-price">200.000 FCFA</p>
+    <a href="#" class="btn"><i class="fab fa-whatsapp"></i> Détails</a>
+  </div>
+
+  <!-- Carte 5 -->
+  <div class="product-card"
+       data-title="Masterclass Avancée"
+       data-dates="10-25 Mar 2026"
+       data-location="Abidjan"
+       data-desc="Techniques avancées et professionnelles."
+       data-price="200.000 FCFA"
+       data-oldprice="250.000 FCFA">
+    <h3>Masterclass Avancée</h3>
+    <p><i class="fas fa-calendar-alt"></i> 10-25 Mar 2026</p>
+    <p class="location"><i class="fas fa-map-marker-alt"></i> Abidjan</p>
+    <p>Techniques avancées et professionnelles.</p>
+    <p class="price">200.000 FCFA</p>
+    <p class="old-price">250.000 FCFA</p>
+    <a href="#" class="btn"><i class="fab fa-whatsapp"></i> Détails</a>
+  </div>
+</section>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close" id="modal-close">&times;</span>
+    <img src="logo_liamakeup_1.png" alt="LIAMAKEUP">
+    <div class="modal-header"><h2 id="modal-title"></h2></div>
+    <div class="modal-body">
+      <div class="modal-row"><span>Dates :</span> <span id="modal-dates"></span></div>
+      <div class="modal-row"><span>Lieu :</span> <span id="modal-location"></span></div>
+      <p class="desc" id="modal-desc"></p>
+      <div class="modal-row"><span>Prix :</span> <span class="price" id="modal-price"></span></div>
+      <div class="modal-row"><span>Ancien Prix :</span> <span class="old-price" id="modal-oldprice"></span></div>
+    </div>
+    <div class="modal-cta">
+      <button id="modal-whatsapp"><i class="fab fa-whatsapp"></i> Réserver</button>
+      <button id="modal-download"><i class="fas fa-download"></i> Télécharger</button>
+    </div>
+    <div class="modal-footer">
+      <p>Suivez-nous :</p>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+      <a href="https://wa.me/2250777867309"><i class="fab fa-whatsapp"></i></a>
+      <p style="margin-top:10px;">Contact : <a href="mailto:contact@liamakeup.ci">contact@liamakeup.ci</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <h3>Contactez-nous</h3>
+  <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
+  <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
+  <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
+  <p>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/2250777867309"><i class="fab fa-whatsapp"></i></a>
+  </p>
+  <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const modal=document.getElementById('modal');
+const modalClose=document.getElementById('modal-close');
+const cards=document.querySelectorAll('.product-card');
+
+cards.forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.getElementById('modal-title').textContent=card.dataset.title;
+    document.getElementById('modal-dates').textContent=card.dataset.dates;
+    document.getElementById('modal-location').textContent=card.dataset.location;
+    document.getElementById('modal-desc').textContent=card.dataset.desc;
+    document.getElementById('modal-price').textContent=card.dataset.price;
+    document.getElementById('modal-oldprice').textContent=card.dataset.oldprice;
+    document.getElementById('modal-whatsapp').onclick = ()=>{
+      window.open("https://wa.me/2250777867309?text="+encodeURIComponent("Bonjour, je veux réserver la formation "+card.dataset.title));
+    };
+    modal.style.display='block';
+  });
+});
+
+modalClose.addEventListener('click',()=>{ modal.style.display='none'; });
+window.addEventListener('click',e=>{ if(e.target==modal){ modal.style.display='none'; }});
+
+document.getElementById('modal-download').addEventListener('click', function() {
+  const modalContent = document.querySelector('.modal-content').cloneNode(true);
+  modalContent.querySelector('.close')?.remove();
+  const header = modalContent.querySelector('.modal-header h2');
+  if(header) header.textContent = "Avis de préinscription - " + header.textContent;
+  html2pdf().set({
+    margin: 10,
+    filename: (header ? header.textContent : 'fiche') + '.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(modalContent).save();
+});
+</script>
+
+</body>
+</html>
