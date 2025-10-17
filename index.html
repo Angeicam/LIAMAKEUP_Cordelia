@@ -7,309 +7,199 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Variables pour gérer les hauteurs fixes (modifiables si besoin) */
 :root{
-  --topbar-height: 44px;    /* hauteur de la topbar */
-  --header-height: 64px;    /* hauteur du header */
+  --topbar-height: 44px;
+  --header-height: 64px;
+  --accent: #D4AF37;
+  --brand-bg: #5C4033;
+  --muted-bg: #f5f5dc;
+  --text: #333;
+  --btn-radius: 28px;
+  --touch-min: 44px;
 }
 
-/* Reset & global */
-* {margin:0; padding:0; box-sizing:border-box;}
-body {
-  font-family:'Poppins', sans-serif;
-  background:#f5f5dc; /* fond inchangé */
-  color:#333;
-  line-height:1.6;
-  /* padding-top calculé automatiquement selon les éléments fixés */
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--muted-bg);
+  color:var(--text);
+  line-height:1.5;
   padding-top: calc(var(--topbar-height) + var(--header-height));
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
-html { scroll-behavior: smooth; }
+
+/* Fluid typography */
+h1{font-size:clamp(1.4rem, 3.6vw, 3rem); line-height:1.05}
+h2{font-size:clamp(1.15rem, 2.8vw, 1.9rem)}
+p{font-size:clamp(.9rem, 1.8vw, 1rem)}
 
 /* Topbar */
-.topbar {
-    background:#2c1e18;
-    color:#fff;
-    font-size:14px;
-    padding:0 5vw;
-    height: var(--topbar-height);
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    gap:16px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 102;
+.topbar{
+  position:fixed; top:0; left:0; right:0;
+  height:var(--topbar-height);
+  background:#2c1e18; color:#fff;
+  display:flex; align-items:center; justify-content:flex-end;
+  gap:14px; padding:0 4vw; z-index:110;
+  font-size:.95rem;
 }
-.topbar a { color:#D4AF37; text-decoration:none; transition: 0.25s; display:inline-flex; align-items:center; gap:8px; }
-.topbar a:hover {color:#b8962e; text-decoration:underline;}
+.topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center;}
+.topbar .tb-text{ display:inline-block; white-space:nowrap;}
+.topbar .tb-mini{ display:none; }
 
 /* Header */
-header {
-    background:#5C4033;
-    color:#fff;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 5vw;
-    height: var(--header-height);
-    box-shadow:0 4px 10px rgba(0,0,0,0.3);
-    position: fixed;
-    top: var(--topbar-height);
-    width: 100%;
-    z-index: 101;
+header{
+  position:fixed; top:var(--topbar-height); left:0; right:0;
+  height:var(--header-height); background:var(--brand-bg); color:#fff;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 4vw; z-index:109; box-shadow:0 4px 10px rgba(0,0,0,.25);
 }
-.logo {
-    font-size:28px;
-    font-weight:700;
-    color:#D4AF37;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    transition: all 0.3s ease;
-    letter-spacing:1px;
-}
-.logo img { height:50px; margin-right:10px; transition: all 0.3s ease; }
-.logo:hover img { transform: translateY(-3px) scale(1.05); filter: brightness(1.2); }
-.logo:hover { color:#b8962e; text-shadow: 2px 2px 8px rgba(212,175,55,0.5); }
-
+.logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
+.logo img{height:48px; width:auto;}
 /* Nav */
-nav {
-  display:flex;
-  align-items:center;
-  gap:6px;
-  flex-wrap:wrap;
+.nav-wrap{display:flex; align-items:center; gap:12px}
+nav{display:flex; gap:8px; align-items:center}
+nav a{
+  color:#fff; text-decoration:none; font-weight:600;
+  padding:8px 10px; border-radius:8px; font-size:.95rem;
+  min-height:var(--touch-min); display:inline-flex; align-items:center; justify-content:center;
 }
-nav a { margin-left:12px; color:#fff; text-decoration:none; font-weight:500; transition: 0.25s; padding:6px 8px; border-radius:4px; font-size:15px; white-space:nowrap;}
-nav a:hover {color:#D4AF37;}
-nav a.active { background:#D4AF37; color:#5C4033; pointer-events:none; }
+nav a:hover{color:var(--brand-bg); background:var(--accent)}
+nav a.active{background:var(--accent); color:var(--brand-bg); pointer-events:none}
+
+/* Hamburger for mobile */
+.nav-toggle{
+  display:none; background:transparent; border:0; color:#fff; font-size:1.25rem;
+  padding:8px; border-radius:8px; align-items:center;
+}
 
 /* Hero */
-.hero {
-    height: 85vh;
-    background-image: url("lia_make_up_3.png");
-    background-position: center 40%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #fff;
-    overflow: hidden;
+.hero{
+  position:relative; display:flex; align-items:center; justify-content:center; text-align:center;
+  color:#fff; background-image:url("lia_make_up_3.png"); background-size:cover; background-position:center 40%;
+  min-height:70vh; padding:4vw 1.5vw;
 }
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-}
-.hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-    animation: fadeInUp 1s ease forwards;
-    opacity: 0;
-    padding: 0 16px;
-}
-.hero h1 {font-size:48px; margin-bottom:15px; color:#D4AF37; font-weight:700; line-height:1.05;}
-.hero p {font-size:20px; margin-bottom:20px; font-weight:500;}
+.hero::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.45) }
+.hero-content{ position:relative; z-index:2; max-width:900px; padding:10px 12px }
+.hero h1{ color:var(--accent); margin-bottom:8px; font-weight:800}
+.hero p{ margin-bottom:14px; font-weight:500}
 
 /* Buttons */
-.btn {
-    display:inline-block;
-    padding:12px 25px;
-    background:#D4AF37;
-    color:#5C4033;
-    font-weight:600;
-    border-radius:30px;
-    text-decoration:none;
-    transition:0.3s;
-    margin:5px;
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:10px 18px; border-radius:var(--btn-radius);
+  background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none;
+  transition:transform .18s ease;
+  min-height:44px;
 }
-.btn:hover { background:#b8962e; transform: scale(1.05); }
+.btn:hover{ transform:scale(1.03); }
 
-/* Section Title */
-.section-title {
-    text-align:center;
-    font-size:32px;
-    color:#5C4033;
-    margin:60px 0 40px;
-    position:relative;
-    font-weight:600;
-}
-.section-title::after {
-    content:"";
-    display:block;
-    width:60px;
-    height:4px;
-    background:#D4AF37;
-    margin:10px auto 0;
-    border-radius:2px;
-}
+/* Sections */
+.section-title{ text-align:center; color:var(--brand-bg); margin:40px 0 20px; font-weight:700; }
+.section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* Ajustement du scroll pour section avec header fixe */
-#services { scroll-margin-top: calc(var(--topbar-height) + var(--header-height) + 10px); }
-
-/* Service Cards */
-.service-cards {
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:25px;
-    padding:0 5vw 60px;
-}
-.service-card {
-    background:#fff;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 6px 15px rgba(0,0,0,0.1);
-    transition:transform 0.3s, box-shadow 0.3s;
-    display:flex;
-    flex-direction:column;
-}
-.service-card:hover {
-    transform:translateY(-8px);
-    box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-.service-card img { width:100%; height:200px; object-fit:cover; }
-.service-content { padding:20px; text-align:center; }
-.service-content h3 { color:#5C4033; margin-bottom:10px; font-weight:700; }
-.service-content p { font-size:15px; margin-bottom:15px; color:#444; }
-.service-content a.btn { font-weight:700; }
+/* Service cards */
+.service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:0 4vw 48px }
+.service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
+.service-card img{ width:100%; height:200px; object-fit:cover }
+.service-content{ padding:16px; text-align:center; }
+.service-content h3{ color:var(--brand-bg); margin-bottom:8px; font-weight:700}
+.service-content p{ color:#444; margin-bottom:12px }
 
 /* Testimonials */
-.testimonials {
-    padding:60px 5vw;
-    background:#fff;
-    text-align:center;
-}
-.testimonials h2 {color:#5C4033; margin-bottom:30px; font-weight:700;}
-.testimonial {
-    max-width:600px;
-    margin:20px auto;
-    font-style:italic;
-    color:#444;
-    padding:0 12px;
-}
+.testimonials{ padding:36px 4vw; background:#fff; text-align:center }
+.testimonial{ max-width:700px; margin:12px auto; font-style:italic; color:#444 }
 
 /* About */
-.about {
-    background:#5C4033;
-    color:#fff;
-    padding:60px 5vw;
-    text-align:center;
-}
-.about h2 {color:#D4AF37; margin-bottom:20px; font-weight:700;}
-.about p {max-width:800px; margin:0 auto; line-height:1.6; font-weight:500; padding:0 12px;}
+.about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center }
+.about p{ max-width:900px; margin:0 auto }
 
 /* Footer */
-footer {
-    background:#2c1e18;
-    color:#fff;
-    text-align:center;
-    padding:30px 5vw;
-}
-footer h3 {color:#D4AF37; margin-bottom:10px; font-weight:700;}
-footer p {margin:5px 0;}
-footer a {color:#D4AF37; margin:0 8px; text-decoration:none;}
-footer a:hover {text-decoration:underline;}
+footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
+footer a{ color:var(--accent); margin:0 8px; text-decoration:none }
 
-/* Animations */
-@keyframes fadeInUp { 0% {opacity:0; transform:translateY(20px);} 100% {opacity:1; transform:translateY(0);} }
-
-/* --------------------------
-   Responsive tweaks
-   -------------------------- */
-
-/* Tablet */
-@media (max-width: 1024px) {
-  :root { --topbar-height:48px; --header-height:60px; }
-  .hero { height:70vh; background-position:center 40%; }
-  .hero h1 { font-size:38px; }
-  .hero p { font-size:18px; }
-  .service-card img { height:180px; }
+/* Small screens */
+@media (max-width: 900px){
+  .hero{ min-height:58vh; background-position:center 35% }
+  .logo img{ height:42px }
 }
 
-/* Small screens / phones */
-@media (max-width: 768px) {
-  :root { --topbar-height:52px; --header-height:56px; }
-  .logo img { height:42px; }
-  .logo { font-size:20px; }
-  nav a { margin-left:8px; font-size:14px; padding:6px 8px; }
-  .hero { height:60vh; background-position:center 35%; }
-  .hero h1 { font-size:28px; }
-  .hero p { font-size:15px; }
-  .btn { padding:10px 18px; font-size:14px; }
-  .service-cards { gap:18px; padding-bottom:40px; }
-  .service-card img { height:170px; }
-  .section-title { font-size:26px; margin-top:40px; }
+/* Mobile behaviour */
+@media (max-width: 768px){
+  :root{ --topbar-height:48px; --header-height:56px }
+  .topbar{ justify-content:flex-start; gap:12px }
+  .topbar .tb-text{ display:none }
+  .topbar .tb-mini{ display:inline-block }
+  /* header nav -> hidden, show hamburger */
+  nav{ display:none; position:fixed; top:calc(var(--topbar-height) + var(--header-height)); right:0; background:#fff; color:#333; width:70%; max-width:320px; height:100vh; padding:20px; box-shadow:-6px 0 18px rgba(0,0,0,.12); flex-direction:column; gap:10px; z-index:120; overflow:auto; }
+  nav.open{ display:flex }
+  .nav-toggle{ display:inline-flex }
+  nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
+  .hero{ padding:6vw 4vw; min-height:52vh }
+  .service-cards{ padding-bottom:36px }
+  .btn{ width:auto; }
 }
 
 /* Very small phones */
-@media (max-width: 420px) {
-  :root { --topbar-height:56px; --header-height:56px; }
-  .topbar { font-size:13px; padding:0 3.5vw; }
-  header { padding:0 3.5vw; }
-  .logo img { height:34px; margin-right:8px; }
-  .logo { font-size:18px; }
-  nav { gap:6px; }
-  nav a { font-size:13px; margin-left:6px; padding:5px 6px; }
-  .hero { height:52vh; }
-  .hero-content { padding: 0 12px; }
-  .hero h1 { font-size:22px; }
-  .hero p { font-size:14px; }
-  .service-cards { grid-template-columns: 1fr; padding:0 4vw 40px; }
-  .service-card img { height:160px; }
-  .testimonial { font-size:14px; padding:0 10px; }
-  .about p { font-size:15px; padding:0 10px; }
-  footer p { font-size:14px; }
+@media (max-width: 420px){
+  :root{ --topbar-height:52px; --header-height:54px }
+  .logo img{ height:36px }
+  .hero h1{ font-size:1.3rem }
+  .service-card img{ height:150px }
 }
 
-/* If user wants nav compact, they can enable wrapping */
-@media (max-width:360px) {
-  nav { gap:4px; }
-  nav a { padding:4px 6px; font-size:12px; }
-}
+/* ensure clickable targets */
+a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
 </style>
 </head>
 <body>
 
 <!-- Topbar -->
-<div class="topbar">
-  <a href="tel:+22507070707"><i class="fas fa-phone"></i> +225 07 77 86 73 09</a>
-  <a href="mailto:contact@liamakeup.ci"><i class="fas fa-envelope"></i> contact@liamakeup.ci</a>
-  <a href="#"><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</a>
+<div class="topbar" role="banner">
+  <a href="tel:+22507070707" aria-label="Appeler LIAMAKEUP"><i class="fas fa-phone tb-mini"></i><span class="tb-text"><i class="fas fa-phone"></i> +225 07 77 86 73 09</span></a>
+  <a href="mailto:contact@liamakeup.ci" aria-label="Envoyer un email"><i class="fas fa-envelope tb-mini"></i><span class="tb-text">contact@liamakeup.ci</span></a>
+  <a href="#" aria-label="Localisation"><i class="fas fa-map-marker-alt tb-mini"></i><span class="tb-text">Yamoussoukro, Côte d’Ivoire</span></a>
 </div>
 
 <!-- Header -->
-<header>
-  <div class="logo">
-    <img src="logo_liamakeup_1.png" alt="">
-    LIAMAKEUP
+<header role="navigation">
+  <div class="logo" onclick="location.href='index.html'">
+    <img src="logo_liamakeup_1.png" alt="LIAMAKEUP logo">
+    <span>LIAMAKEUP</span>
   </div>
-  <nav>
-    <a href="#" class="active">Accueil</a>
-    <a href="formation.html">Formations</a>
-    <a href="produits.html">Produits</a>
-    <a href="propos.html">À propos</a>
-     <a href="Contact.html">Contact</a>
-  </nav>
+
+  <div class="nav-wrap">
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Ouvrir le menu">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <nav id="mainNav" aria-label="Menu principal">
+      <a href="index.html" class="active" aria-current="page">Accueil</a>
+      <a href="formation.html">Formations</a>
+      <a href="produits.html">Produits</a>
+      <a href="propos.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
 </header>
 
 <!-- Hero -->
-<section class="hero">
+<section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-content">
     <h1>Révélez votre beauté</h1>
     <p>Maquillage, formations et produits de qualité en Côte d’Ivoire</p>
-    <a href="#services" class="btn">Nos Services</a>
-    <a href="https://wa.me/22507070707" class="btn"><i class="fab fa-whatsapp"></i> Commander</a>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <a href="#services" class="btn">Nos Services</a>
+      <a href="https://wa.me/22507070707" class="btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Commander</a>
+    </div>
   </div>
 </section>
 
 <!-- Services -->
-<section id="services" class="services">
-  <h2 class="section-title">Nos Services</h2>
+<section id="services" class="services" aria-labelledby="servicesTitle">
+  <h2 id="servicesTitle" class="section-title">Nos Services</h2>
   <div class="service-cards">
     <div class="service-card">
       <img src="lia_formation.png" alt="Formation maquillage">
@@ -319,6 +209,7 @@ footer a:hover {text-decoration:underline;}
         <a href="formation.html" class="btn">En savoir plus</a>
       </div>
     </div>
+
     <div class="service-card">
       <img src="vente_lia_make_1.png" alt="Produits de maquillage">
       <div class="service-content">
@@ -327,6 +218,7 @@ footer a:hover {text-decoration:underline;}
         <a href="produits.html" class="btn">Découvrir la boutique</a>
       </div>
     </div>
+
     <div class="service-card">
       <img src="caoching.png" alt="Coaching beauté">
       <div class="service-content">
@@ -338,32 +230,68 @@ footer a:hover {text-decoration:underline;}
   </div>
 </section>
 
-<!-- Témoignages -->
-<section class="testimonials">
-  <h2>Ce que disent nos clientes</h2>
+<!-- Testimonials -->
+<section class="testimonials" aria-label="Témoignages">
+  <h2 class="section-title">Ce que disent nos clientes</h2>
   <div class="testimonial">« Grâce à LIAMAKEUP, j’ai appris à me maquiller pour mon mariage traditionnel. Un service exceptionnel ! » – Aïssata, Abidjan</div>
   <div class="testimonial">« Les produits sont authentiques et tiennent toute la journée. Je recommande à 100%. » – Clarisse, Bouaké</div>
 </section>
 
-<!-- Pourquoi nous -->
-<section class="about">
-  <h2>Pourquoi choisir LIAMAKEUP ?</h2>
+<!-- About -->
+<section class="about" aria-labelledby="aboutTitle">
+  <h2 id="aboutTitle">Pourquoi choisir LIAMAKEUP ?</h2>
   <p>Parce que nous croyons que chaque femme ivoirienne mérite de briller. Nous allions expertise, authenticité et passion pour vous offrir des formations de qualité et des produits de maquillage haut de gamme. Avec LIAMAKEUP, la beauté n’a pas de frontières.</p>
 </section>
 
 <!-- Footer -->
-<footer>
+<footer role="contentinfo">
   <h3>Contactez-nous</h3>
   <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
   <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
   <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
   <p>
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="https://wa.me/22507070707"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/22507070707" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
   </p>
   <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
 </footer>
+
+<script>
+/* Menu toggle for mobile */
+(function(){
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('mainNav');
+
+  function setAria(open){
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('open');
+    const opened = nav.classList.contains('open');
+    setAria(opened);
+    toggle.innerHTML = opened ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+  });
+
+  // close when clicking a link (good UX) or outside
+  nav.addEventListener('click', (e) => {
+    if(e.target.tagName === 'A'){
+      nav.classList.remove('open');
+      setAria(false);
+      toggle.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if(!nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.contains('open')){
+      nav.classList.remove('open');
+      setAria(false);
+      toggle.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
