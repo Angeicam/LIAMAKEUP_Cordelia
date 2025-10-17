@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>LIAMAKEUP - Beauté & Formation</title>
 
-<!-- Font Awesome + Google Fonts -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --topbar-height: 44px;
-  --header-height: 64px;
-  --accent: #D4AF37;
-  --brand-bg: #5C4033;
-  --muted-bg: #f5f5dc;
-  --text: #333;
-  --btn-radius: 28px;
-  --touch-min: 44px;
+  --topbar-height:44px;
+  --header-height:64px;
+  --accent:#D4AF37;
+  --brand-bg:#5C4033;
+  --muted-bg:#f5f5dc; /* couleur de fond de la page (sera visible derrière l'image si espace) */
+  --text:#333;
+  --btn-radius:28px;
+  --touch-min:44px;
 }
 
-/* Reset & base */
+/* reset */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -31,24 +30,17 @@ body{
   line-height:1.5;
   padding-top: calc(var(--topbar-height) + var(--header-height));
   -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
 }
-
-/* Typography fluid */
-h1{font-size:clamp(1.5rem, 4vw, 2.8rem); line-height:1.05}
-h2{font-size:clamp(1.15rem, 2.8vw, 1.9rem)}
-p{font-size:clamp(.95rem, 2vw, 1rem)}
 
 /* Topbar */
 .topbar{
   position:fixed; top:0; left:0; right:0;
-  height:var(--topbar-height);
-  background:#2c1e18; color:#fff;
-  display:flex; align-items:center; justify-content:flex-end;
-  gap:14px; padding:0 4vw; z-index:110; font-size:.95rem; flex-wrap:wrap;
+  height:var(--topbar-height); background:#2c1e18; color:#fff;
+  display:flex; align-items:center; justify-content:flex-end; gap:12px;
+  padding:0 4vw; z-index:110; font-size:.95rem; flex-wrap:wrap;
 }
-.topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center;}
-.topbar .tb-text{ display:inline-block; white-space:nowrap;}
+.topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center; }
+.topbar .tb-text{ white-space:nowrap; }
 .topbar .tb-mini{ display:none; }
 
 /* Header */
@@ -56,132 +48,122 @@ header{
   position:fixed; top:var(--topbar-height); left:0; right:0;
   height:var(--header-height); background:var(--brand-bg); color:#fff;
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 4vw; z-index:109; box-shadow:0 4px 10px rgba(0,0,0,.25);
+  padding:0 4vw; z-index:109; box-shadow:0 4px 10px rgba(0,0,0,.2);
 }
 .logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
-.logo img{height:48px; width:auto; display:block}
+.logo img{height:48px; display:block}
 
-/* Navigation */
+/* Nav */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
-nav a{
-  color:#fff; text-decoration:none; font-weight:600;
-  padding:8px 10px; border-radius:8px; font-size:.95rem;
-  min-height:var(--touch-min); display:inline-flex; align-items:center; justify-content:center;
-}
-nav a:hover{color:var(--brand-bg); background:var(--accent)}
-nav a.active{background:var(--accent); color:var(--brand-bg); pointer-events:none}
+nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; min-height:var(--touch-min); display:inline-flex; align-items:center; justify-content:center; }
+nav a:hover{ color:var(--brand-bg); background:var(--accent) }
+nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:none; }
 
 /* Hamburger */
-.nav-toggle{
-  display:none; background:transparent; border:0; color:#fff; font-size:1.25rem;
-  padding:8px; border-radius:8px; align-items:center;
-}
+.nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-/* HERO: container using img for control over object-fit */
+/* HERO - image via <img> pour contrôle object-fit */
 .hero{
   position:relative;
   height: calc(100vh - var(--topbar-height) - var(--header-height));
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+  background: transparent;
 }
 
-/* hero-media holds the <img> */
+/* Conteneur de l'image : fond = couleur de la page (pas noir) */
 .hero-media{
-  position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center; background:#000;
+  position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center;
+  background: var(--muted-bg); /* <-- pas de noir derrière l'image */
 }
 .hero-media img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;      /* desktop: immersive */
+  width:100%; height:100%; display:block;
+  object-fit:cover;      /* desktop : cover (immersif) */
   object-position:center center;
 }
 
-/* overlay for readability */
+/* overlay pour lisibilité (desktop) */
 .hero::after{
   content:""; position:absolute; inset:0; z-index:1;
-  background:rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.45); /* assez sombre sur desktop */
   transition: background .18s ease;
 }
 
-/* hero text above */
-.hero-content{ position:relative; z-index:2; text-align:center; padding:0 4vw; max-width:900px; color:#fff }
-.hero .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:28px; background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; min-height:44px; }
-.hero .btn:hover{ transform:scale(1.03); }
+/* texte au-dessus */
+.hero-content{ position:relative; z-index:2; text-align:center; padding:0 4vw; max-width:900px; color:#fff; }
+.hero h1{ font-size:clamp(1.5rem,4vw,2.8rem); color:var(--accent); margin-bottom:8px; font-weight:800 }
+.hero p{ font-size:clamp(.95rem,2.2vw,1.1rem); margin-bottom:14px; font-weight:500 }
+.btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; min-height:44px; }
 
-/* Sections */
+/* sections basiques */
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 20px; font-weight:700; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
-
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:0 4vw 48px; }
 .service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
-.service-card img{ width:100%; height:200px; object-fit:cover; }
+.service-card img{ width:100%; height:200px; object-fit:cover }
 .service-content{ padding:16px; text-align:center; }
 .testimonials{ padding:36px 4vw; background:#fff; text-align:center; }
 .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
-/* Responsive adjustments */
+/* responsive */
 @media (max-width:900px){
   .logo img{ height:42px }
 }
 
-/* Mobile behavior: show whole image (contain) so the 3 personnes are visible */
+/* MOBILE : afficher TOUTE l'image (contain) et enlever l'overlay sombre */
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .topbar .tb-text{ display:inline-block; white-space:normal; font-size:13px; line-height:1; }
   .topbar .tb-mini{ display:inline-block; margin-right:6px; font-size:1rem; }
 
-  /* nav becomes off-canvas */
+  /* nav off-canvas */
   nav{ display:none; position:fixed; top:calc(var(--topbar-height) + var(--header-height)); right:0; background:#fff; color:#333; width:78%; max-width:340px; height:100vh; padding:20px; box-shadow:-6px 0 18px rgba(0,0,0,.12); flex-direction:column; gap:10px; z-index:120; overflow:auto; }
   nav.open{ display:flex }
   .nav-toggle{ display:inline-flex }
   nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
 
-  /* adjust hero: show full image (contain) so all 3 personnes are visible */
+  /* IMPORTANT : show full image and remove overlay darkness */
   .hero-media img{
-    object-fit:contain;
+    object-fit:contain;            /* <-- affiche toute l'image (les 3 personnes) */
     object-position:center center;
     max-height: calc(100vh - var(--topbar-height) - var(--header-height));
   }
-  .hero::after{ background:rgba(0,0,0,0.18); } /* lighter overlay on mobile */
+  .hero::after{ background: rgba(0,0,0,0); } /* overlay désactivé sur mobile (pour pas assombrir) */
   .hero{ align-items:center; padding:0 4vw; }
 }
 
-/* Very small phones */
+/* très petits écrans */
 @media (max-width:420px){
   :root{ --topbar-height:56px; --header-height:54px }
   .logo img{ height:36px }
   .service-card img{ height:150px }
 }
 
-/* clickable targets */
-a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.08)}
+/* touches */
+a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </style>
 </head>
 <body>
 
-<!-- Topbar -->
+<!-- topbar -->
 <div class="topbar" role="banner">
   <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
-    <i class="fas fa-phone tb-mini" aria-hidden="true"></i>
+    <i class="fas fa-phone" aria-hidden="true"></i>
     <span class="tb-text">+225 07 77 86 73 09</span>
   </a>
-
   <a href="mailto:contact@liamakeup.ci" aria-label="Envoyer un email">
-    <i class="fas fa-envelope tb-mini" aria-hidden="true"></i>
+    <i class="fas fa-envelope" aria-hidden="true"></i>
     <span class="tb-text">contact@liamakeup.ci</span>
   </a>
-
   <a href="#" aria-label="Localisation">
-    <i class="fas fa-map-marker-alt tb-mini" aria-hidden="true"></i>
+    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
     <span class="tb-text">Yamoussoukro, Côte d’Ivoire</span>
   </a>
 </div>
 
-<!-- Header / nav -->
+<!-- header -->
 <header role="navigation">
   <div class="logo" onclick="location.href='index.html'">
     <img src="logo_liamakeup_1.png" alt="LIAMAKEUP logo">
@@ -203,11 +185,11 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.08)}
   </div>
 </header>
 
-<!-- HERO: same image for desktop & mobile; behavior controlled by CSS -->
+<!-- HERO -->
 <section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-media" aria-hidden="true">
-    <!-- make sure liaison image 'lia_make_up_3.png' is present in the repo root -->
-    <img src="lia_make_up_3.png" alt="Photo LIAMAKEUP - équipe" />
+    <!-- même image pour desktop & mobile -->
+    <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP">
   </div>
 
   <div class="hero-content">
@@ -285,15 +267,11 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.08)}
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
-
-  // if nav or toggle missing, do nothing (graceful)
   if(!toggle || !nav) return;
 
-  function setAria(open){
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
+  function setAria(open){ toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); }
 
-  toggle.addEventListener('click', (e) => {
+  toggle.addEventListener('click', (e)=> {
     e.stopPropagation();
     nav.classList.toggle('open');
     const opened = nav.classList.contains('open');
@@ -301,30 +279,21 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.08)}
     toggle.innerHTML = opened ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
   });
 
-  // close when clicking a link inside nav
   nav.addEventListener('click', (e) => {
     if(e.target.tagName === 'A'){
-      nav.classList.remove('open');
-      setAria(false);
-      toggle.innerHTML = '<i class="fas fa-bars"></i>';
+      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars"></i>';
     }
   });
 
-  // close if clicked outside
   document.addEventListener('click', (e) => {
     if(!nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.contains('open')){
-      nav.classList.remove('open');
-      setAria(false);
-      toggle.innerHTML = '<i class="fas fa-bars"></i>';
+      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars"></i>';
     }
   });
 
-  // close on ESC
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape' && nav.classList.contains('open')){
-      nav.classList.remove('open');
-      setAria(false);
-      toggle.innerHTML = '<i class="fas fa-bars"></i>';
+      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars"></i>';
     }
   });
 })();
