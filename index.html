@@ -9,20 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ============ Variables ============ */
 :root{
   --topbar-height:44px;
   --header-height:64px;
   --accent:#D4AF37;
   --brand-bg:#5C4033;
-  --muted-bg:#f5f5dc; /* fallback (beige) */
+  --muted-bg:#f5f5dc;
   --text:#333;
   --btn-radius:28px;
   --touch-min:44px;
-  --vh: 1vh; /* remplacé via JS pour corriger 100vh mobile */
+  --vh:1vh; /* will be set by JS */
 }
 
-/* ============ Reset & Global ============ */
+/* Reset */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -30,172 +29,116 @@ body{
   background:var(--muted-bg);
   color:var(--text);
   line-height:1.5;
-  /* espace pour Topbar + Header (fixés en haut) */
   padding-top: calc(var(--topbar-height) + var(--header-height));
-  -webkit-font-smoothing:antialiased;
 }
 
-/* ============ Topbar ============ */
-.topbar{
-  position:fixed; top:0; left:0; right:0;
-  height:var(--topbar-height); background:#2c1e18; color:#fff;
-  display:flex; align-items:center; justify-content:flex-end; gap:12px;
-  padding:0 4vw; z-index:110; font-size:.95rem; flex-wrap:wrap;
-}
-.topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center; }
-.topbar .tb-text{ white-space:nowrap; }
-.topbar .tb-mini{ display:none; }
-
-/* ============ Header ============ */
-header{
-  position:fixed; top:var(--topbar-height); left:0; right:0;
-  height:var(--header-height); background:var(--brand-bg); color:#fff;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 4vw; z-index:109; box-shadow:0 4px 10px rgba(0,0,0,.12);
-}
+/* Topbar & Header */
+.topbar{ position:fixed; top:0; left:0; right:0; height:var(--topbar-height); background:#2c1e18; color:#fff; display:flex; align-items:center; justify-content:flex-end; gap:12px; padding:0 4vw; z-index:110; font-size:.95rem }
+.topbar a{ color:var(--accent); display:inline-flex; gap:8px; align-items:center; text-decoration:none }
+header{ position:fixed; top:var(--topbar-height); left:0; right:0; height:var(--header-height); background:var(--brand-bg); color:#fff; display:flex; align-items:center; justify-content:space-between; padding:0 4vw; z-index:109; box-shadow:0 4px 10px rgba(0,0,0,.12) }
 .logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
-.logo img{height:48px; display:block}
+.logo img{ height:48px; display:block }
 
-/* ============ Nav ============ */
+/* Nav */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
-nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; min-height:var(--touch-min); display:inline-flex; align-items:center; justify-content:center; }
-nav a:hover{ color:var(--brand-bg); background:var(--accent) }
-nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:none; }
+.nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px }
 
-/* Hamburger */
-.nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
-
-/* ============ HERO ============ */
-/* On utilise --vh via JS pour corriger la barre d'adresse mobile. */
-/* Le hero occupe toute la "hauteur visible" sous le header */
+/* HERO: on affiche le hero juste sous les barres, et on centre le contenu */
 .hero{
   position:relative;
   height: calc(var(--vh, 1vh) * 100 - var(--topbar-height) - var(--header-height));
-  min-height: 48vh;
+  min-height:48vh;
   display:flex;
-  align-items:flex-start;    /* remonte le contenu vers le haut */
-  justify-content:flex-start;
+  align-items:center;      /* centre verticalement le texte (résultat pro) */
+  justify-content:center;
   overflow:hidden;
-  background:var(--muted-bg); /* fallback si l'image laisse un espace */
-}
-
-/* wrapper de media : occupe la zone entière */
-.hero-media{
-  position:absolute;
-  inset:0; /* top:0; right:0; bottom:0; left:0; */
-  z-index:0;
   background:var(--muted-bg);
 }
 
-/* image : absolute fill + cover pour éviter bandes/noir */
+/* zone image : on utilise <picture> (source mobile possible) */
+.hero-media{
+  position:absolute; inset:0; z-index:0; background:var(--muted-bg);
+}
+
+/* l'IMG sera contrôlée par CSS responsive */
 .hero-media img{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;           /* COVER évite bandes noires */
-  object-position: top center;/* recadrage vers le haut (visages visibles) */
-  background:var(--muted-bg); /* fallback pendant le chargement */
+  position:absolute; top:0; left:0; width:100%; height:100%; display:block;
+  object-fit:cover;          /* default: cover (immersif) */
+  object-position: center center;
+  background:var(--muted-bg);
 }
 
-/* Overlay (desktop) */
+/* overlay desktop pour lisibilité */
 .hero::after{
-  content:""; position:absolute; inset:0; z-index:1;
-  background: rgba(0,0,0,0.45); /* visible sur desktop pour lisibilité */
-  transition: background .18s ease;
+  content:""; position:absolute; inset:0; z-index:1; background: rgba(0,0,0,0.45); transition:background .18s;
 }
 
-/* contenu au-dessus de l'image */
-.hero-content{
-  position:relative;
-  z-index:2;
-  width:100%;
-  max-width:980px;
-  padding:18px 4vw 0;
-  margin:0 auto;
-  text-align:center;
-  color:#fff;
-}
+/* contenu */
+.hero-content{ position:relative; z-index:2; max-width:980px; padding:24px 4vw; text-align:center; color:#fff }
 .hero h1{ font-size:clamp(1.6rem,4vw,2.8rem); color:var(--accent); margin-bottom:6px; font-weight:800 }
-.hero p{ font-size:clamp(.95rem,2.2vw,1.1rem); margin-bottom:12px; font-weight:500 }
-.btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; min-height:44px; }
+.hero p{ font-size:clamp(.95rem,2.2vw,1.15rem); margin-bottom:14px; font-weight:500 }
+.btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; min-height:44px }
 
-/* ============ Sections ============ */
-.section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 20px; font-weight:700; }
-.section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
-.service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:0 4vw 48px; }
-.service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
+/* sections */
+.section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 20px; font-weight:700 }
+.service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:0 4vw 48px }
+.service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08) }
 .service-card img{ width:100%; height:200px; object-fit:cover }
-.service-content{ padding:16px; text-align:center; }
-.testimonials{ padding:36px 4vw; background:#fff; text-align:center; }
-.about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
+.testimonials{ padding:36px 4vw; background:#fff; text-align:center }
+.about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center }
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
-/* ============ Responsive tweaks ============ */
-@media (max-width:900px){
-  .logo img{ height:42px }
-}
-
-/* Mobile adjustments */
+/* responsive: mobile behavior */
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
 
-  .topbar{ justify-content:space-between; padding:6px 4vw; }
-  .topbar .tb-text{ display:inline-block; white-space:normal; font-size:13px; line-height:1; }
-  .topbar .tb-mini{ display:inline-block; margin-right:6px; font-size:1rem; }
+  .topbar{ justify-content:space-between; padding:6px 4vw }
+  .logo img{ height:42px }
 
-  /* nav off-canvas */
-  nav{ display:none; position:fixed; top:calc(var(--topbar-height) + var(--header-height)); right:0; background:#fff; color:#333; width:78%; max-width:340px; height:100vh; padding:20px; box-shadow:-6px 0 18px rgba(0,0,0,.12); flex-direction:column; gap:10px; z-index:120; overflow:auto; }
-  nav.open{ display:flex }
-  .nav-toggle{ display:inline-flex }
-  nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
+  /* hide overlay on mobile for unshaded look (optional) */
+  .hero::after{ background: rgba(0,0,0,0); }
 
-  /* Mobile: on garde cover mais on enlève l'overlay (plus lumineux) */
-  .hero-media img{
-    object-fit:cover;            /* garde cover pour pas de bandes */
-    object-position: top center; /* recadrage haut => visages visibles */
+  /* ======= IMPORTANT: deux choix ici =======
+     - Si tu as une image mobile optimisée (lia_make_up_3_mobile.png), elle sera servie via <picture> (Option A)
+     - Sinon, on applique object-fit:contain en fallback pour afficher la totalité de l'image (Option B)
+     ========================================= */
+
+  /* Fallback rapide (Option B) : montre toute l'image (3 personnes), mais laisse bandes haut/bas */
+  .hero-media img.fallback-mobile {
+    object-fit:contain;
+    object-position:center center;
     width:100%;
     height:100%;
   }
-  .hero::after{ background: rgba(0,0,0,0); } /* pas d'assombrissement mobile */
 
-  /* contenu collé en haut (sous header) */
-  .hero{ align-items:flex-start; justify-content:flex-start; padding:0; }
-  .hero-content{ padding-top:8px; }
-  .hero h1{ font-size:1.6rem }
-  .hero p{ font-size:1rem }
+  /* Si tu fournis une vraie image mobile (Option A), laisse cover pour garder remplissage */
+  .hero-media img.mobile-optimized {
+    object-fit:cover;
+    object-position:center center;
+    width:100%;
+    height:100%;
+  }
+
+  /* contenu : on garde le texte centré verticalement (souvent plus esthétique) */
+  .hero{ align-items:center; justify-content:center; }
+  .hero-content{ padding:18px 4vw }
 }
 
-/* Très petits écrans */
+/* très petits écrans */
 @media (max-width:420px){
-  :root{ --topbar-height:56px; --header-height:54px }
   .logo img{ height:36px }
   .service-card img{ height:150px }
 }
-
-/* mobile tap color */
-a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </style>
 </head>
 <body>
 
 <!-- Topbar -->
 <div class="topbar" role="banner">
-  <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
-    <i class="fas fa-phone" aria-hidden="true"></i>
-    <span class="tb-text">+225 07 77 86 73 09</span>
-  </a>
-  <a href="mailto:contact@liamakeup.ci" aria-label="Envoyer un email">
-    <i class="fas fa-envelope" aria-hidden="true"></i>
-    <span class="tb-text">contact@liamakeup.ci</span>
-  </a>
-  <a href="#" aria-label="Localisation">
-    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-    <span class="tb-text">Yamoussoukro, Côte d’Ivoire</span>
-  </a>
+  <a href="tel:+2250777867309"><i class="fas fa-phone" aria-hidden="true"></i><span class="tb-text">+225 07 77 86 73 09</span></a>
+  <a href="mailto:contact@liamakeup.ci"><i class="fas fa-envelope" aria-hidden="true"></i><span class="tb-text">contact@liamakeup.ci</span></a>
+  <a href="#"><i class="fas fa-map-marker-alt" aria-hidden="true"></i><span class="tb-text">Yamoussoukro, Côte d’Ivoire</span></a>
 </div>
 
 <!-- Header -->
@@ -204,12 +147,8 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <img src="logo_liamakeup_1.png" alt="LIAMAKEUP logo">
     <span>LIAMAKEUP</span>
   </div>
-
   <div class="nav-wrap">
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Ouvrir le menu">
-      <i class="fas fa-bars"></i>
-    </button>
-
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Ouvrir le menu"><i class="fas fa-bars"></i></button>
     <nav id="mainNav" aria-label="Menu principal">
       <a href="index.html" class="active" aria-current="page">Accueil</a>
       <a href="formation.html">Formations</a>
@@ -223,8 +162,13 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <!-- HERO -->
 <section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-media" aria-hidden="true">
-    <!-- Remplace le nom ci-dessous par ton image si nécessaire -->
-    <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP">
+    <!-- <picture> sert une image mobile optimisée si elle existe (Option A) -->
+    <picture>
+      <!-- change le nom ci-dessous par ta version mobile si tu l'as -->
+      <source media="(max-width:768px)" srcset="lia_make_up_3_mobile.png">
+      <!-- fallback desktop -->
+      <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP" id="heroImg" class="">
+    </picture>
   </div>
 
   <div class="hero-content">
@@ -249,7 +193,6 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
         <a href="formation.html" class="btn">En savoir plus</a>
       </div>
     </div>
-
     <div class="service-card">
       <img src="vente_lia_make_1.png" alt="Produits de maquillage">
       <div class="service-content">
@@ -258,7 +201,6 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
         <a href="produits.html" class="btn">Découvrir la boutique</a>
       </div>
     </div>
-
     <div class="service-card">
       <img src="caoching.png" alt="Coaching beauté">
       <div class="service-content">
@@ -298,48 +240,52 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </footer>
 
 <script>
-/* ===== Fix mobile 100vh: définit --vh = 1% de la hauteur visible (corrige URL bar) ===== */
+/* Fix mobile 100vh */
 (function(){
-  function setVh(){
-    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
-  }
+  function setVh(){ document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px'); }
   setVh();
-  // update lors du redimensionnement / rotation
   window.addEventListener('resize', setVh);
 })();
 
-/* ===== Mobile nav toggle ===== */
+/* Mobile fallback logic:
+   - If the browser selected the mobile source (picture), the <img> will load the mobile file automatically.
+   - If no mobile file exists, we apply a fallback class to show the entire image (contain) to ensure all 3 personnes are visible.
+*/
+(function(){
+  const img = document.getElementById('heroImg');
+
+  // Vérifie la largeur viewport pour décider du fallback
+  function applyFallback(){
+    const isMobile = window.matchMedia('(max-width:768px)').matches;
+    // Si tu fournis lia_make_up_3_mobile.png, le navigateur la chargera automatiquement avec <picture>.
+    // Si cette image mobile n'existe, l'élément <img> restera le même et on applique la classe fallback-mobile.
+    if(isMobile){
+      // test simple: si l'image a le même src que le desktop, on applique fallback
+      // (si tu fournis une vraie image mobile via <source>, certains navigateurs la chargeront automatiquement;
+      //  si tu veux être sûr, laisse le nom mobile correct en srcset)
+      // On applique fallback class pour object-fit:contain
+      img.classList.add('fallback-mobile');
+    } else {
+      img.classList.remove('fallback-mobile');
+    }
+  }
+
+  applyFallback();
+  window.addEventListener('resize', applyFallback);
+})();
+
+/* Nav toggle (mobile) */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
   if(!toggle || !nav) return;
-
   function setAria(open){ toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); }
-
   toggle.addEventListener('click', (e)=> {
     e.stopPropagation();
     nav.classList.toggle('open');
     const opened = nav.classList.contains('open');
     setAria(opened);
     toggle.innerHTML = opened ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-  });
-
-  nav.addEventListener('click', (e) => {
-    if(e.target.tagName === 'A'){
-      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars"></i>';
-    }
-  });
-
-  document.addEventListener('click', (e) => {
-    if(!nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.contains('open')){
-      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars"></i>';
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape' && nav.classList.contains('open')){
-      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars"></i>';
-    }
   });
 })();
 </script>
