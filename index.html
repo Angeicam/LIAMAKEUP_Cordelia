@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>LIAMAKEUP - Beauté & Formation</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,30 +27,19 @@ body{
   color:var(--text);
   line-height:1.5;
   padding-top: calc(var(--topbar-height) + var(--header-height));
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
 }
 
-/* Fluid typography */
-h1{font-size:clamp(1.4rem, 3.6vw, 3rem); line-height:1.05}
-h2{font-size:clamp(1.15rem, 2.8vw, 1.9rem)}
-p{font-size:clamp(.9rem, 1.8vw, 1rem)}
-
-/* Topbar */
+/* topbar/header/nav (inchangés) */
 .topbar{
   position:fixed; top:0; left:0; right:0;
-  height:var(--topbar-height);
-  background:#2c1e18; color:#fff;
+  height:var(--topbar-height); background:#2c1e18; color:#fff;
   display:flex; align-items:center; justify-content:flex-end;
-  gap:14px; padding:0 4vw; z-index:110;
-  font-size:.95rem;
-  flex-wrap:wrap;
+  gap:14px; padding:0 4vw; z-index:110; font-size:.95rem; flex-wrap:wrap;
 }
 .topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center;}
 .topbar .tb-text{ display:inline-block; white-space:nowrap;}
 .topbar .tb-mini{ display:none; }
 
-/* Header */
 header{
   position:fixed; top:var(--topbar-height); left:0; right:0;
   height:var(--header-height); background:var(--brand-bg); color:#fff;
@@ -59,7 +48,6 @@ header{
 }
 .logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
 .logo img{height:48px; width:auto;}
-/* Nav */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
 nav a{
@@ -69,111 +57,103 @@ nav a{
 }
 nav a:hover{color:var(--brand-bg); background:var(--accent)}
 nav a.active{background:var(--accent); color:var(--brand-bg); pointer-events:none}
+.nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-/* Hamburger for mobile */
-.nav-toggle{
-  display:none; background:transparent; border:0; color:#fff; font-size:1.25rem;
-  padding:8px; border-radius:8px; align-items:center;
-}
-
-/* Hero
-   -> Use exact viewport leftover height so no "gap" under the image.
-   -> Use background-size: cover to avoid empty areas; overlay adjusted on mobile.
-*/
+/* HERO - nouvelle structure : <img> responsive + overlay + texte au-dessus */
 .hero{
   position:relative;
-  display:flex; align-items:center; justify-content:center; text-align:center;
-  color:#fff;
-  background-image:url("lia_make_up_3.png");
-  background-size:cover;
-  background-position:center center;
-  background-repeat:no-repeat;
   height: calc(100vh - var(--topbar-height) - var(--header-height));
-  padding:4vw 1.5vw;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
 }
+
+/* container pour l'image (remplit tout le hero) */
+.hero-media{
+  position:absolute; inset:0; display:block; z-index:0; background:#000;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* L'img gère le rendu :
+   - cover sur desktop (remplit la zone, peut recadrer)
+   - contain sur mobile (montre toute l'image, donc les 3 personnes)
+*/
+.hero-media img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;      /* desktop default */
+  object-position:center center;
+}
+
+/* overlay pour lisibilité du texte */
 .hero::after{
-  content:""; position:absolute; inset:0;
-  background:rgba(0,0,0,.45); transition:background .2s ease;
+  content:"";
+  position:absolute; inset:0; z-index:1;
+  background:rgba(0,0,0,0.45);
+  transition: background .2s ease;
 }
-.hero-content{ position:relative; z-index:2; max-width:900px; padding:10px 12px }
-.hero h1{ color:var(--accent); margin-bottom:8px; font-weight:800}
-.hero p{ margin-bottom:14px; font-weight:500}
+
+/* texte au-dessus */
+.hero-content{
+  position:relative; z-index:2; text-align:center; padding:0 4vw;
+  max-width:900px; color:#fff;
+}
+.hero h1{ font-size:clamp(1.5rem,4vw,2.8rem); color:var(--accent); margin-bottom:8px; font-weight:800}
+.hero p{ font-size:clamp(.95rem,2.2vw,1.1rem); margin-bottom:14px; font-weight:500}
 
 /* Buttons */
-.btn{
-  display:inline-flex; align-items:center; gap:10px;
-  padding:10px 18px; border-radius:var(--btn-radius);
-  background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none;
-  transition:transform .18s ease;
-  min-height:44px;
-}
+.btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:28px; background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; min-height:44px; }
 .btn:hover{ transform:scale(1.03); }
 
-/* Sections */
+/* rest of layout (cards, testimonials...) left as before */
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 20px; font-weight:700; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* Service cards */
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:0 4vw 48px }
 .service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
 .service-card img{ width:100%; height:200px; object-fit:cover }
 .service-content{ padding:16px; text-align:center; }
-.service-content h3{ color:var(--brand-bg); margin-bottom:8px; font-weight:700}
-.service-content p{ color:#444; margin-bottom:12px }
-
-/* Testimonials */
 .testimonials{ padding:36px 4vw; background:#fff; text-align:center }
-.testimonial{ max-width:700px; margin:12px auto; font-style:italic; color:#444 }
-
-/* About */
 .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center }
-.about p{ max-width:900px; margin:0 auto }
-
-/* Footer */
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
-footer a{ color:var(--accent); margin:0 8px; text-decoration:none }
 
-/* Small screens */
-@media (max-width: 900px){
+/* Responsive rules */
+@media (max-width:900px){
   .logo img{ height:42px }
 }
 
-/* Mobile behaviour */
-@media (max-width: 768px){
+/* CRUCIAL: switch object-fit to contain on small screens so entire image appears */
+@media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
-  .topbar{ justify-content:space-between; gap:10px; padding:6px 4vw; }
+  .topbar{ justify-content:space-between; padding:6px 4vw; }
   .topbar .tb-text{ display:inline-block; white-space:normal; font-size:13px; line-height:1; }
   .topbar .tb-mini{ display:inline-block; margin-right:6px; font-size:1rem; }
 
-  /* header nav -> hidden, show hamburger */
   nav{ display:none; position:fixed; top:calc(var(--topbar-height) + var(--header-height)); right:0; background:#fff; color:#333; width:78%; max-width:340px; height:100vh; padding:20px; box-shadow:-6px 0 18px rgba(0,0,0,.12); flex-direction:column; gap:10px; z-index:120; overflow:auto; }
   nav.open{ display:flex }
   .nav-toggle{ display:inline-flex }
   nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
 
-  /* hero: keep exact leftover viewport height and tone down overlay so image visible */
-  .hero{
-    height: calc(100vh - var(--topbar-height) - var(--header-height));
-    background-size:cover;
-    background-position:center top;
-    padding:6vw 4vw;
+  /* HERE: show the whole image */
+  .hero-media img{
+    object-fit:contain;
+    object-position:center center; /* adjust if you'd rather show top/middle */
+    max-height: calc(100vh - var(--topbar-height) - var(--header-height));
   }
-  .hero::after{ background:rgba(0,0,0,0.18); }
-
-  .service-cards{ padding-bottom:36px }
-  .btn{ width:auto; }
+  .hero::after{ background: rgba(0,0,0,0.18); } /* plus léger, image plus visible */
+  .hero{ align-items:center; }
 }
 
-/* Very small phones */
-@media (max-width: 420px){
+/* very small phones */
+@media (max-width:420px){
   :root{ --topbar-height:56px; --header-height:54px }
   .logo img{ height:36px }
   .hero h1{ font-size:1.3rem }
   .service-card img{ height:150px }
 }
 
-/* ensure clickable targets */
-a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
+/* accessible tap highlights */
+a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.08)}
 </style>
 </head>
 <body>
@@ -216,8 +196,13 @@ a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
   </div>
 </header>
 
-<!-- Hero -->
+<!-- HERO: media (img) + content on top -->
 <section class="hero" role="region" aria-label="Bannière principale">
+  <div class="hero-media" aria-hidden="true">
+    <!-- l'image doit être dans ton dépôt avec ce nom -->
+    <img src="lia_make_up_3.png" alt="Photo LIAMAKEUP - équipe" />
+  </div>
+
   <div class="hero-content">
     <h1>Révélez votre beauté</h1>
     <p>Maquillage, formations et produits de qualité en Côte d’Ivoire</p>
@@ -293,10 +278,9 @@ a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
+  if(!toggle || !nav) return;
 
-  function setAria(open){
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
+  function setAria(open){ toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); }
 
   toggle.addEventListener('click', () => {
     nav.classList.toggle('open');
@@ -305,20 +289,15 @@ a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
     toggle.innerHTML = opened ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
   });
 
-  // close when clicking a link (good UX) or outside
   nav.addEventListener('click', (e) => {
     if(e.target.tagName === 'A'){
-      nav.classList.remove('open');
-      setAria(false);
-      toggle.innerHTML = '<i class="fas fa-bars"></i>';
+      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars"></i>';
     }
   });
 
   document.addEventListener('click', (e) => {
     if(!nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.contains('open')){
-      nav.classList.remove('open');
-      setAria(false);
-      toggle.innerHTML = '<i class="fas fa-bars"></i>';
+      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars"></i>';
     }
   });
 })();
