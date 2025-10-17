@@ -44,6 +44,7 @@ p{font-size:clamp(.9rem, 1.8vw, 1rem)}
   display:flex; align-items:center; justify-content:flex-end;
   gap:14px; padding:0 4vw; z-index:110;
   font-size:.95rem;
+  flex-wrap:wrap;
 }
 .topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center;}
 .topbar .tb-text{ display:inline-block; white-space:nowrap;}
@@ -81,7 +82,7 @@ nav a.active{background:var(--accent); color:var(--brand-bg); pointer-events:non
   color:#fff; background-image:url("lia_make_up_3.png"); background-size:cover; background-position:center 40%;
   min-height:70vh; padding:4vw 1.5vw;
 }
-.hero::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.45) }
+.hero::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.45); transition:background .2s ease; }
 .hero-content{ position:relative; z-index:2; max-width:900px; padding:10px 12px }
 .hero h1{ color:var(--accent); margin-bottom:8px; font-weight:800}
 .hero p{ margin-bottom:14px; font-weight:500}
@@ -128,23 +129,29 @@ footer a{ color:var(--accent); margin:0 8px; text-decoration:none }
 
 /* Mobile behaviour */
 @media (max-width: 768px){
-  :root{ --topbar-height:48px; --header-height:56px }
-  .topbar{ justify-content:flex-start; gap:12px }
-  .topbar .tb-text{ display:none }
-  .topbar .tb-mini{ display:inline-block }
+  :root{ --topbar-height:56px; --header-height:56px } /* on augmente topbar si besoin */
+  .topbar{ justify-content:space-between; gap:10px; padding:6px 4vw; }
+  /* show both icon + small text (no hide) */
+  .topbar .tb-text{ display:inline-block; white-space:normal; font-size:13px; line-height:1; }
+  .topbar .tb-mini{ display:inline-block; margin-right:6px; font-size:1rem; }
+
   /* header nav -> hidden, show hamburger */
-  nav{ display:none; position:fixed; top:calc(var(--topbar-height) + var(--header-height)); right:0; background:#fff; color:#333; width:70%; max-width:320px; height:100vh; padding:20px; box-shadow:-6px 0 18px rgba(0,0,0,.12); flex-direction:column; gap:10px; z-index:120; overflow:auto; }
+  nav{ display:none; position:fixed; top:calc(var(--topbar-height) + var(--header-height)); right:0; background:#fff; color:#333; width:78%; max-width:340px; height:100vh; padding:20px; box-shadow:-6px 0 18px rgba(0,0,0,.12); flex-direction:column; gap:10px; z-index:120; overflow:auto; }
   nav.open{ display:flex }
   .nav-toggle{ display:inline-flex }
   nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
-  .hero{ padding:6vw 4vw; min-height:52vh }
+
+  /* hero: show whole image (contain) and reduce overlay for visibility */
+  .hero{ padding:6vw 4vw; min-height:52vh; background-size:contain; background-repeat:no-repeat; background-position:center top; }
+  .hero::after{ background:rgba(0,0,0,0.18); } /* less dark on mobile so image visible */
+
   .service-cards{ padding-bottom:36px }
   .btn{ width:auto; }
 }
 
 /* Very small phones */
 @media (max-width: 420px){
-  :root{ --topbar-height:52px; --header-height:54px }
+  :root{ --topbar-height:56px; --header-height:54px }
   .logo img{ height:36px }
   .hero h1{ font-size:1.3rem }
   .service-card img{ height:150px }
@@ -158,9 +165,18 @@ a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
 
 <!-- Topbar -->
 <div class="topbar" role="banner">
-  <a href="tel:+22507070707" aria-label="Appeler LIAMAKEUP"><i class="fas fa-phone tb-mini"></i><span class="tb-text"><i class="fas fa-phone"></i> +225 07 77 86 73 09</span></a>
-  <a href="mailto:contact@liamakeup.ci" aria-label="Envoyer un email"><i class="fas fa-envelope tb-mini"></i><span class="tb-text">contact@liamakeup.ci</span></a>
-  <a href="#" aria-label="Localisation"><i class="fas fa-map-marker-alt tb-mini"></i><span class="tb-text">Yamoussoukro, Côte d’Ivoire</span></a>
+  <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
+    <i class="fas fa-phone tb-mini" aria-hidden="true"></i>
+    <span class="tb-text">+225 07 77 86 73 09</span>
+  </a>
+  <a href="mailto:contact@liamakeup.ci" aria-label="Envoyer un email">
+    <i class="fas fa-envelope tb-mini" aria-hidden="true"></i>
+    <span class="tb-text">contact@liamakeup.ci</span>
+  </a>
+  <a href="#" aria-label="Localisation">
+    <i class="fas fa-map-marker-alt tb-mini" aria-hidden="true"></i>
+    <span class="tb-text">Yamoussoukro, Côte d’Ivoire</span>
+  </a>
 </div>
 
 <!-- Header -->
@@ -192,7 +208,7 @@ a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
     <p>Maquillage, formations et produits de qualité en Côte d’Ivoire</p>
     <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
       <a href="#services" class="btn">Nos Services</a>
-      <a href="https://wa.me/22507070707" class="btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Commander</a>
+      <a href="https://wa.me/2250777867309" class="btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Commander</a>
     </div>
   </div>
 </section>
@@ -252,7 +268,7 @@ a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.08); }
   <p>
     <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
     <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-    <a href="https://wa.me/22507070707" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://wa.me/2250777867309" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
   </p>
   <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
 </footer>
