@@ -9,20 +9,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* ============ Variables ============ */
 :root{
   --topbar-height:44px;
   --header-height:64px;
   --accent:#D4AF37;
   --brand-bg:#5C4033;
-  --muted-bg:#f5f5dc; /* couleur de fond de la page (fallback) */
+  --muted-bg:#f5f5dc; /* fallback (beige) */
   --text:#333;
   --btn-radius:28px;
   --touch-min:44px;
-  /* --vh sera défini par JS pour corriger les 100vh mobiles */
-  --vh: 1vh;
+  --vh: 1vh; /* remplacé via JS pour corriger 100vh mobile */
 }
 
-/* reset */
+/* ============ Reset & Global ============ */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -30,11 +30,12 @@ body{
   background:var(--muted-bg);
   color:var(--text);
   line-height:1.5;
+  /* espace pour Topbar + Header (fixés en haut) */
   padding-top: calc(var(--topbar-height) + var(--header-height));
   -webkit-font-smoothing:antialiased;
 }
 
-/* Topbar */
+/* ============ Topbar ============ */
 .topbar{
   position:fixed; top:0; left:0; right:0;
   height:var(--topbar-height); background:#2c1e18; color:#fff;
@@ -45,17 +46,17 @@ body{
 .topbar .tb-text{ white-space:nowrap; }
 .topbar .tb-mini{ display:none; }
 
-/* Header */
+/* ============ Header ============ */
 header{
   position:fixed; top:var(--topbar-height); left:0; right:0;
   height:var(--header-height); background:var(--brand-bg); color:#fff;
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 4vw; z-index:109; box-shadow:0 4px 10px rgba(0,0,0,.2);
+  padding:0 4vw; z-index:109; box-shadow:0 4px 10px rgba(0,0,0,.12);
 }
 .logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
 .logo img{height:48px; display:block}
 
-/* Nav */
+/* ============ Nav ============ */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
 nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; min-height:var(--touch-min); display:inline-flex; align-items:center; justify-content:center; }
@@ -65,42 +66,64 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 /* Hamburger */
 .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-/* HERO - using <img> but force full-cover behavior */
+/* ============ HERO ============ */
+/* On utilise --vh via JS pour corriger la barre d'adresse mobile. */
+/* Le hero occupe toute la "hauteur visible" sous le header */
 .hero{
   position:relative;
-  /* use --vh (JS sets it) to avoid mobile 100vh issues */
   height: calc(var(--vh, 1vh) * 100 - var(--topbar-height) - var(--header-height));
-  display:flex; align-items:center; justify-content:center; overflow:hidden;
-  background: transparent;
+  min-height: 48vh;
+  display:flex;
+  align-items:flex-start;    /* remonte le contenu vers le haut */
+  justify-content:flex-start;
+  overflow:hidden;
+  background:var(--muted-bg); /* fallback si l'image laisse un espace */
 }
 
-/* Conteneur de l'image : fallback couleur (pas noir) */
+/* wrapper de media : occupe la zone entière */
 .hero-media{
-  position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center;
-  background: var(--muted-bg);
-}
-.hero-media img{
-  width:100%; height:100%; display:block;
-  object-fit:cover;           /* desktop: immersive cover */
-  object-position:center center;
-  /* ensure no black gap if image loading delayed */
-  background: var(--muted-bg);
+  position:absolute;
+  inset:0; /* top:0; right:0; bottom:0; left:0; */
+  z-index:0;
+  background:var(--muted-bg);
 }
 
-/* overlay pour lisibilité (desktop) */
+/* image : absolute fill + cover pour éviter bandes/noir */
+.hero-media img{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;           /* COVER évite bandes noires */
+  object-position: top center;/* recadrage vers le haut (visages visibles) */
+  background:var(--muted-bg); /* fallback pendant le chargement */
+}
+
+/* Overlay (desktop) */
 .hero::after{
   content:""; position:absolute; inset:0; z-index:1;
-  background: rgba(0,0,0,0.45); /* assez sombre sur desktop */
+  background: rgba(0,0,0,0.45); /* visible sur desktop pour lisibilité */
   transition: background .18s ease;
 }
 
-/* texte au-dessus */
-.hero-content{ position:relative; z-index:2; text-align:center; padding:0 4vw; max-width:900px; color:#fff; }
-.hero h1{ font-size:clamp(1.5rem,4vw,2.8rem); color:var(--accent); margin-bottom:8px; font-weight:800 }
-.hero p{ font-size:clamp(.95rem,2.2vw,1.1rem); margin-bottom:14px; font-weight:500 }
+/* contenu au-dessus de l'image */
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:980px;
+  padding:18px 4vw 0;
+  margin:0 auto;
+  text-align:center;
+  color:#fff;
+}
+.hero h1{ font-size:clamp(1.6rem,4vw,2.8rem); color:var(--accent); margin-bottom:6px; font-weight:800 }
+.hero p{ font-size:clamp(.95rem,2.2vw,1.1rem); margin-bottom:12px; font-weight:500 }
 .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; min-height:44px; }
 
-/* sections basiques */
+/* ============ Sections ============ */
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 20px; font-weight:700; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:0 4vw 48px; }
@@ -111,14 +134,15 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
-/* responsive */
+/* ============ Responsive tweaks ============ */
 @media (max-width:900px){
   .logo img{ height:42px }
 }
 
-/* MOBILE : afficher image en cover, enlever overlay sombre, et remonter le contenu */
+/* Mobile adjustments */
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
+
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .topbar .tb-text{ display:inline-block; white-space:normal; font-size:13px; line-height:1; }
   .topbar .tb-mini{ display:inline-block; margin-right:6px; font-size:1rem; }
@@ -129,41 +153,36 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .nav-toggle{ display:inline-flex }
   nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
 
-  /* IMPORTANT : mobile -> cover et recadrage vers le haut (visages visibles) */
+  /* Mobile: on garde cover mais on enlève l'overlay (plus lumineux) */
   .hero-media img{
-    object-fit:cover;            /* <-- cover évite les barres / fonds visibles */
-    object-position: top center; /* recadrer le haut de l'image (ajuste si nécessaire) */
-    height:100%;
+    object-fit:cover;            /* garde cover pour pas de bandes */
+    object-position: top center; /* recadrage haut => visages visibles */
     width:100%;
-    max-height:none;             /* enlever la contrainte max-height pour éviter lettreboxing */
+    height:100%;
   }
+  .hero::after{ background: rgba(0,0,0,0); } /* pas d'assombrissement mobile */
 
-  /* overlay désactivé sur mobile (pour pas assombrir) */
-  .hero::after{ background: rgba(0,0,0,0); }
-
-  /* remonter le contenu vers le haut (sous le header) */
+  /* contenu collé en haut (sous header) */
   .hero{ align-items:flex-start; justify-content:flex-start; padding:0; }
-  .hero-content{ padding-top:10px; text-align:center; }
-
-  /* moins d'espace vertical pour être plus "pro" */
+  .hero-content{ padding-top:8px; }
   .hero h1{ font-size:1.6rem }
   .hero p{ font-size:1rem }
 }
 
-/* très petits écrans */
+/* Très petits écrans */
 @media (max-width:420px){
   :root{ --topbar-height:56px; --header-height:54px }
   .logo img{ height:36px }
   .service-card img{ height:150px }
 }
 
-/* touches */
+/* mobile tap color */
 a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </style>
 </head>
 <body>
 
-<!-- topbar -->
+<!-- Topbar -->
 <div class="topbar" role="banner">
   <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
     <i class="fas fa-phone" aria-hidden="true"></i>
@@ -179,7 +198,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </a>
 </div>
 
-<!-- header -->
+<!-- Header -->
 <header role="navigation">
   <div class="logo" onclick="location.href='index.html'">
     <img src="logo_liamakeup_1.png" alt="LIAMAKEUP logo">
@@ -204,7 +223,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <!-- HERO -->
 <section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-media" aria-hidden="true">
-    <!-- même image pour desktop & mobile -->
+    <!-- Remplace le nom ci-dessous par ton image si nécessaire -->
     <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP">
   </div>
 
@@ -279,16 +298,17 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </footer>
 
 <script>
-/* Mobile 100vh fix: set --vh to 1% of the actual viewport height */
+/* ===== Fix mobile 100vh: définit --vh = 1% de la hauteur visible (corrige URL bar) ===== */
 (function(){
   function setVh(){
     document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
   }
   setVh();
+  // update lors du redimensionnement / rotation
   window.addEventListener('resize', setVh);
 })();
 
-/* Mobile nav toggle */
+/* ===== Mobile nav toggle ===== */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
