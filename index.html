@@ -14,10 +14,12 @@
   --header-height:64px;
   --accent:#D4AF37;
   --brand-bg:#5C4033;
-  --muted-bg:#f5f5dc; /* couleur de fond de la page (sera visible derrière l'image si espace) */
+  --muted-bg:#f5f5dc; /* couleur de fond de la page (fallback) */
   --text:#333;
   --btn-radius:28px;
   --touch-min:44px;
+  /* --vh sera défini par JS pour corriger les 100vh mobiles */
+  --vh: 1vh;
 }
 
 /* reset */
@@ -63,23 +65,26 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 /* Hamburger */
 .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-/* HERO - image via <img> pour contrôle object-fit */
+/* HERO - using <img> but force full-cover behavior */
 .hero{
   position:relative;
-  height: calc(100vh - var(--topbar-height) - var(--header-height));
+  /* use --vh (JS sets it) to avoid mobile 100vh issues */
+  height: calc(var(--vh, 1vh) * 100 - var(--topbar-height) - var(--header-height));
   display:flex; align-items:center; justify-content:center; overflow:hidden;
   background: transparent;
 }
 
-/* Conteneur de l'image : fond = couleur de la page (pas noir) */
+/* Conteneur de l'image : fallback couleur (pas noir) */
 .hero-media{
   position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center;
-  background: var(--muted-bg); /* <-- pas de noir derrière l'image */
+  background: var(--muted-bg);
 }
 .hero-media img{
   width:100%; height:100%; display:block;
-  object-fit:cover;      /* desktop : cover (immersif) */
+  object-fit:cover;           /* desktop: immersive cover */
   object-position:center center;
+  /* ensure no black gap if image loading delayed */
+  background: var(--muted-bg);
 }
 
 /* overlay pour lisibilité (desktop) */
@@ -111,7 +116,7 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .logo img{ height:42px }
 }
 
-/* MOBILE : afficher TOUTE l'image (contain) et enlever l'overlay sombre */
+/* MOBILE : afficher image en cover, enlever overlay sombre, et remonter le contenu */
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
@@ -124,14 +129,25 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .nav-toggle{ display:inline-flex }
   nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
 
-  /* IMPORTANT : show full image and remove overlay darkness */
+  /* IMPORTANT : mobile -> cover et recadrage vers le haut (visages visibles) */
   .hero-media img{
-    object-fit:contain;            /* <-- affiche toute l'image (les 3 personnes) */
-    object-position:center center;
-    max-height: calc(100vh - var(--topbar-height) - var(--header-height));
+    object-fit:cover;            /* <-- cover évite les barres / fonds visibles */
+    object-position: top center; /* recadrer le haut de l'image (ajuste si nécessaire) */
+    height:100%;
+    width:100%;
+    max-height:none;             /* enlever la contrainte max-height pour éviter lettreboxing */
   }
-  .hero::after{ background: rgba(0,0,0,0); } /* overlay désactivé sur mobile (pour pas assombrir) */
-  .hero{ align-items:center; padding:0 4vw; }
+
+  /* overlay désactivé sur mobile (pour pas assombrir) */
+  .hero::after{ background: rgba(0,0,0,0); }
+
+  /* remonter le contenu vers le haut (sous le header) */
+  .hero{ align-items:flex-start; justify-content:flex-start; padding:0; }
+  .hero-content{ padding-top:10px; text-align:center; }
+
+  /* moins d'espace vertical pour être plus "pro" */
+  .hero h1{ font-size:1.6rem }
+  .hero p{ font-size:1rem }
 }
 
 /* très petits écrans */
@@ -263,6 +279,15 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </footer>
 
 <script>
+/* Mobile 100vh fix: set --vh to 1% of the actual viewport height */
+(function(){
+  function setVh(){
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+  }
+  setVh();
+  window.addEventListener('resize', setVh);
+})();
+
 /* Mobile nav toggle */
 (function(){
   const toggle = document.getElementById('navToggle');
