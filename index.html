@@ -6,7 +6,7 @@
 <title>LIAMAKEUP - Beauté & Formation</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" relstylesheet>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -14,7 +14,7 @@
   --header-height:64px;
   --accent:#D4AF37;
   --brand-bg:#5C4033;
-  --muted-bg:#f5f5dc; /* couleur de fond (fallback) */
+  --muted-bg:#f5f5dc; /* couleur de fond (bands) */
   --text:#333;
   --btn-radius:28px;
   --touch-min:44px;
@@ -64,31 +64,31 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 /* Hamburger */
 .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-/* HERO - image via <img> pour contrôle object-fit
-   Utilise --vh pour corriger les 100vh sur mobile */
+/* HERO - on utilise --vh pour corriger 100vh mobile */
 .hero{
   position:relative;
   height: calc(var(--vh, 1vh) * 100 - var(--topbar-height) - var(--header-height));
+  min-height:48vh;
   display:flex; align-items:center; justify-content:center; overflow:hidden;
   background: transparent;
 }
 
-/* Conteneur de l'image : fond = couleur de la page (pas noir) */
+/* Conteneur de l'image : fond = couleur de la page (sera visible si bands) */
 .hero-media{
   position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center;
-  background: var(--muted-bg);
+  background: var(--muted-bg); /* fallback pour bands */
 }
 .hero-media img{
   width:100%; height:100%; display:block;
-  object-fit:cover;           /* COVER remplit l'espace (évite bandes) */
-  object-position: top center;/* ancré en haut pour montrer les têtes sur mobile */
+  object-fit:cover;           /* default desktop: cover */
+  object-position: top center;
   background: var(--muted-bg);
 }
 
-/* overlay pour lisibilité (desktop) - maintenant plus léger pour ne pas assombrir trop l'image */
+/* overlay pour lisibilité (desktop) - léger pour que l'image reste claire */
 .hero::after{
   content:""; position:absolute; inset:0; z-index:1;
-  background: rgba(0,0,0,0.22); /* <-- moins sombre que 0.45 précédemment */
+  background: rgba(0,0,0,0.22);
   transition: background .18s ease;
 }
 
@@ -114,7 +114,7 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .logo img{ height:42px }
 }
 
-/* MOBILE : on évite les bandes en forçant cover et top anchor; réduit overlay */
+/* ===== MOBILE : afficher l'image entière (contain) pour voir les 3 personnes ===== */
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
@@ -127,14 +127,21 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .nav-toggle{ display:inline-flex }
   nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
 
-  /* MOBILE: cover + top center pour éviter vides (et garder visages visibles) */
+  /* ========== CHANGE APPLIQUÉ ICI ==========
+     On passe à 'contain' pour afficher l'image entière (toutes les personnes)
+     Cela crée éventuellement des bandes haut/bas (couleur --muted-bg)
+  =========================================*/
   .hero-media img{
-    object-fit:cover;            /* cover évite bandes/espaces */
-    object-position: top center; /* montre le haut de l'image (visages) */
-    max-height: calc(var(--vh, 1vh) * 100 - var(--topbar-height) - var(--header-height));
+    object-fit:contain;           /* montre l'image en entier sur mobile */
+    object-position:center center;
+    width:100%;
+    height:100%;
   }
-  .hero::after{ background: rgba(0,0,0,0.0); } /* overlay désactivé sur mobile pour luminosité */
+
+  /* overlay très léger sur mobile (garde luminosité) */
+  .hero::after{ background: rgba(0,0,0,0.02); }
   .hero{ align-items:center; padding:0 4vw; }
+  .hero-content{ padding-top:6px; }
 }
 
 /* très petits écrans */
@@ -192,7 +199,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-media" aria-hidden="true">
     <!-- même image pour desktop & mobile -->
-    <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP">
+    <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP" id="heroImg">
   </div>
 
   <div class="hero-content">
@@ -266,7 +273,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </footer>
 
 <script>
-/* Mobile 100vh fix: set --vh to 1% of the actual viewport height */
+/* Fix mobile 100vh: set --vh to 1% of the actual viewport height */
 (function(){
   function setVh(){
     document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
