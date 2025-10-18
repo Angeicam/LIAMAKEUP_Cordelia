@@ -6,7 +6,7 @@
 <title>LIAMAKEUP - Beauté & Formation</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" relstylesheet>
 
 <style>
 :root{
@@ -14,10 +14,11 @@
   --header-height:64px;
   --accent:#D4AF37;
   --brand-bg:#5C4033;
-  --muted-bg:#f5f5dc; /* couleur de fond de la page (sera visible derrière l'image si espace) */
+  --muted-bg:#f5f5dc; /* couleur de fond (fallback) */
   --text:#333;
   --btn-radius:28px;
   --touch-min:44px;
+  --vh:1vh; /* mis par JS pour corriger 100vh mobile */
 }
 
 /* reset */
@@ -63,10 +64,11 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 /* Hamburger */
 .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-/* HERO - image via <img> pour contrôle object-fit */
+/* HERO - image via <img> pour contrôle object-fit
+   Utilise --vh pour corriger les 100vh sur mobile */
 .hero{
   position:relative;
-  height: calc(100vh - var(--topbar-height) - var(--header-height));
+  height: calc(var(--vh, 1vh) * 100 - var(--topbar-height) - var(--header-height));
   display:flex; align-items:center; justify-content:center; overflow:hidden;
   background: transparent;
 }
@@ -74,18 +76,19 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 /* Conteneur de l'image : fond = couleur de la page (pas noir) */
 .hero-media{
   position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center;
-  background: var(--muted-bg); /* <-- pas de noir derrière l'image */
+  background: var(--muted-bg);
 }
 .hero-media img{
   width:100%; height:100%; display:block;
-  object-fit:cover;      /* desktop : cover (immersif) */
-  object-position:center center;
+  object-fit:cover;           /* COVER remplit l'espace (évite bandes) */
+  object-position: top center;/* ancré en haut pour montrer les têtes sur mobile */
+  background: var(--muted-bg);
 }
 
-/* overlay pour lisibilité (desktop) */
+/* overlay pour lisibilité (desktop) - maintenant plus léger pour ne pas assombrir trop l'image */
 .hero::after{
   content:""; position:absolute; inset:0; z-index:1;
-  background: rgba(0,0,0,0.45); /* assez sombre sur desktop */
+  background: rgba(0,0,0,0.22); /* <-- moins sombre que 0.45 précédemment */
   transition: background .18s ease;
 }
 
@@ -111,7 +114,7 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .logo img{ height:42px }
 }
 
-/* MOBILE : afficher TOUTE l'image (contain) et enlever l'overlay sombre */
+/* MOBILE : on évite les bandes en forçant cover et top anchor; réduit overlay */
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
@@ -124,13 +127,13 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .nav-toggle{ display:inline-flex }
   nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
 
-  /* IMPORTANT : show full image and remove overlay darkness */
+  /* MOBILE: cover + top center pour éviter vides (et garder visages visibles) */
   .hero-media img{
-    object-fit:contain;            /* <-- affiche toute l'image (les 3 personnes) */
-    object-position:center center;
-    max-height: calc(100vh - var(--topbar-height) - var(--header-height));
+    object-fit:cover;            /* cover évite bandes/espaces */
+    object-position: top center; /* montre le haut de l'image (visages) */
+    max-height: calc(var(--vh, 1vh) * 100 - var(--topbar-height) - var(--header-height));
   }
-  .hero::after{ background: rgba(0,0,0,0); } /* overlay désactivé sur mobile (pour pas assombrir) */
+  .hero::after{ background: rgba(0,0,0,0.0); } /* overlay désactivé sur mobile pour luminosité */
   .hero{ align-items:center; padding:0 4vw; }
 }
 
@@ -263,7 +266,16 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </footer>
 
 <script>
-/* Mobile nav toggle */
+/* Mobile 100vh fix: set --vh to 1% of the actual viewport height */
+(function(){
+  function setVh(){
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+  }
+  setVh();
+  window.addEventListener('resize', setVh);
+})();
+
+/* Mobile nav toggle (inchangé) */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
