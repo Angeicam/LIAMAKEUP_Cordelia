@@ -17,11 +17,10 @@
   --muted-bg:#f5f5dc;
   --text:#333;
   --btn-radius:28px;
-  --touch-min:44px;
-  --vh:1vh; /* mis par JS pour corriger 100vh mobile */
+  --vh:1vh; /* mis par JS */
 }
 
-/* Reset */
+/* reset */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -55,7 +54,7 @@ header{
 /* Nav */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
-nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; min-height:var(--touch-min); display:inline-flex; align-items:center; justify-content:center; }
+nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; }
 nav a:hover{ color:var(--brand-bg); background:var(--accent) }
 nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:none; }
 .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
@@ -68,33 +67,34 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
   background: transparent;
 }
 
-/* hero-media holds the <picture> */
+/* hero-media container with an <img> so JS/CSS can affect it */
 .hero-media{
-  position:absolute; inset:0; z-index:0; display:block;
-  background: var(--muted-bg); /* fallback background color if image has gaps */
+  position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center;
+  background: var(--muted-bg); /* fallback for potential bands */
 }
-
-/* The img inside picture fills the container */
 .hero-media img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;       /* desktop: cover immersive */
-  object-position:center center;
+  width:100%; height:100%; display:block;
+  object-fit:cover;           /* desktop: cover immersive */
+  object-position: center center;
+  transform: translateY(0); /* default, will be changed on mobile */
+  transition: transform .28s ease;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* overlay for desktop readability */
+/* overlay for readability (desktop) */
 .hero::after{
   content:""; position:absolute; inset:0; z-index:1;
   background: rgba(0,0,0,0.22);
   transition: background .18s ease;
 }
 
-/* hero content */
+/* hero text */
 .hero-content{ position:relative; z-index:2; text-align:center; padding:0 4vw; max-width:900px; color:#fff; }
-.hero h1{ font-size:clamp(1.6rem,4vw,2.8rem); color:var(--accent); margin-bottom:8px; font-weight:800 }
-.hero p{ font-size:clamp(.95rem,2.2vw,1.15rem); margin-bottom:14px; font-weight:500 }
-.btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
+.hero h1{ font-size:clamp(1.5rem,4vw,2.8rem); color:var(--accent); margin-bottom:8px; font-weight:800 }
+.hero p{ font-size:clamp(.95rem,2.2vw,1.1rem); margin-bottom:14px; font-weight:500 }
+.btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; min-height:44px; }
 
 /* sections */
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 20px; font-weight:700; }
@@ -107,46 +107,57 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
-/* Responsive */
+/* responsive */
 @media (max-width:900px){ .logo img{ height:42px } }
 
-/* MOBILE specifics:
-   - mobile image should be a vertical crop (recommended 1080x1920 or 900x1600)
-   - the <picture> will serve that mobile file automatically
-   - overlay reduced for brightness
-*/
+/* MOBILE: translateY "nudge" to better show faces without converting image */
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
-  .hero{ height: calc(var(--vh,1vh) * 75 - var(--topbar-height) - var(--header-height)); min-height:55vh; }
+  .hero{
+    height: calc(var(--vh,1vh) * 75 - var(--topbar-height) - var(--header-height));
+    min-height:55vh;
+    overflow:hidden;
+  }
 
-  /* when mobile image is provided, it will be covered without cutting important area */
-  .hero-media img{ object-fit:cover; object-position:center center; }
+  /* default mobile nudge (you can tweak the -10% value below) */
+  .hero-media img{
+    object-fit:cover;            /* keep cover to avoid bands */
+    object-position: center center;
+    transform: translateY(-10%); /* <-- default nudge on mobile */
+  }
 
-  .hero::after{ background: rgba(0,0,0,0.02); } /* very light overlay on mobile */
+  /* soften on very small phones */
+  @media (max-width:420px){
+    .hero-media img{ transform: translateY(-6%); }
+  }
+
+  .hero::after{ background: rgba(0,0,0,0.02); } /* very light overlay */
   .hero{ padding:0 4vw; }
+  .hero-content{ padding-top:6px; }
 }
 
-/* very small screens */
-@media (max-width:420px){
-  :root{ --topbar-height:56px; --header-height:54px }
-  .logo img{ height:36px }
-  .service-card img{ height:150px }
+/* respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce){
+  .hero-media img{ transition:none !important; transform:none !important; }
 }
 
-/* touch highlight disable */
+/* touches */
 a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </style>
 </head>
 <body>
 
-<!-- Visually-hidden alt for decorative background -->
-<span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap;">Bannière LIAMAKEUP — trois femmes maquillées</span>
-
 <!-- topbar -->
 <div class="topbar" role="banner">
-  <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP"><i class="fas fa-phone" aria-hidden="true"></i><span style="margin-left:8px">+225 07 77 86 73 09</span></a>
-  <a href="mailto:contact@liamakeup.ci" style="margin-left:12px" aria-label="Envoyer un email"><i class="fas fa-envelope"></i><span style="margin-left:8px">contact@liamakeup.ci</span></a>
+  <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
+    <i class="fas fa-phone" aria-hidden="true"></i>
+    <span class="tb-text">+225 07 77 86 73 09</span>
+  </a>
+  <a href="mailto:contact@liamakeup.ci" aria-label="Envoyer un email" style="margin-left:8px">
+    <i class="fas fa-envelope" aria-hidden="true"></i>
+    <span class="tb-text">contact@liamakeup.ci</span>
+  </a>
 </div>
 
 <!-- header -->
@@ -157,7 +168,10 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </div>
 
   <div class="nav-wrap">
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Ouvrir le menu"><i class="fas fa-bars"></i></button>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Ouvrir le menu">
+      <i class="fas fa-bars"></i>
+    </button>
+
     <nav id="mainNav" aria-label="Menu principal">
       <a href="index.html" class="active" aria-current="page">Accueil</a>
       <a href="formation.html">Formations</a>
@@ -168,31 +182,11 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </div>
 </header>
 
-<!-- HERO
-  IMPORTANT :
-  - Fournis ces deux fichiers (noms exacts en exemple ci-dessous) dans le même dossier que cette page :
-    * lia_make_up_3_mobile.webp  (mobile crop, vertical, ex. 1080×1920)
-    * lia_make_up_3_desktop.webp (desktop wide, ex. 1920×900)
-  - Si tu n'as pas de webp, fournis .jpg avec les mêmes noms.
--->
+<!-- HERO -->
 <section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-media" aria-hidden="true">
-    <picture>
-      <!-- Mobile (vertical crop) -->
-      <source media="(max-width:768px)" type="image/webp"
-        srcset="lia_make_up_3_mobile.webp 800w, lia_make_up_3_mobile@2x.webp 1600w">
-      <source media="(max-width:768px)"
-        srcset="lia_make_up_3_mobile.jpg 800w, lia_make_up_3_mobile@2x.jpg 1600w">
-
-      <!-- Desktop hi-res -->
-      <source media="(min-width:769px)" type="image/webp"
-        srcset="lia_make_up_3_desktop.webp 1920w, lia_make_up_3_desktop@2x.webp 3840w">
-      <source media="(min-width:769px)"
-        srcset="lia_make_up_3_desktop.jpg 1920w, lia_make_up_3_desktop@2x.jpg 3840w">
-
-      <!-- Fallback image (used by browsers that don't support <picture>) -->
-      <img src="lia_make_up_3_desktop.jpg" alt="Équipe LIAMAKEUP" style="width:100%;height:100%;object-fit:cover;object-position:center center;">
-    </picture>
+    <!-- keep your existing file name (no conversion required) -->
+    <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP" id="heroImg">
   </div>
 
   <div class="hero-content">
@@ -266,7 +260,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </footer>
 
 <script>
-/* 1) Fix mobile 100vh (avoid bars creating gaps) */
+/* Fix mobile 100vh: set --vh to 1% of the actual viewport height */
 (function(){
   function setVh(){
     document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
@@ -275,12 +269,40 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   window.addEventListener('resize', setVh);
 })();
 
-/* 2) Mobile nav toggle */
+/* Auto-adjust nudge based on image vs container ratio (mobile only).
+   This adjusts translateY to -6 / -10 / -12% depending on ratio.
+   Optional: you can remove this if you prefer the static -10% in CSS.
+*/
+(function(){
+  function adjustHeroNudge(){
+    if(!window.matchMedia('(max-width:768px)').matches) return;
+    const img = document.getElementById('heroImg');
+    const hero = document.querySelector('.hero');
+    if(!img || !hero) return;
+    // wait if image not loaded
+    if(!img.complete){
+      img.addEventListener('load', adjustHeroNudge, {once:true});
+      return;
+    }
+    const imgRatio = img.naturalHeight / img.naturalWidth;
+    const heroRatio = hero.clientHeight / hero.clientWidth;
+    let nudge = -10; // default %
+    if(imgRatio > heroRatio * 1.1) nudge = -6;   // image taller than hero -> less nudge
+    else if(imgRatio < heroRatio * 0.9) nudge = -12; // image wider -> more nudge
+    img.style.transform = 'translateY(' + nudge + '%)';
+  }
+  window.addEventListener('load', adjustHeroNudge);
+  window.addEventListener('resize', function(){ setTimeout(adjustHeroNudge,120); });
+})();
+
+/* Mobile nav toggle (unchanged) */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
   if(!toggle || !nav) return;
+
   function setAria(open){ toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+
   toggle.addEventListener('click', (e)=> {
     e.stopPropagation();
     nav.classList.toggle('open');
@@ -288,11 +310,13 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     setAria(opened);
     toggle.innerHTML = opened ? '<i class=\"fas fa-times\"></i>' : '<i class=\"fas fa-bars\"></i>';
   });
+
   nav.addEventListener('click', (e) => {
     if(e.target.tagName === 'A'){
       nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class=\"fas fa-bars\"></i>';
     }
   });
+
   document.addEventListener('click', (e) => {
     if(!nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.contains('open')){
       nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class=\"fas fa-bars\"></i>';
