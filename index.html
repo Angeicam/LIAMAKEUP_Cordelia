@@ -18,7 +18,7 @@
   --text:#333;
   --btn-radius:28px;
   --vh:1vh; /* mis par JS */
-  --mobile-hero-vh:44; /* Hauteur du hero sur mobile (légèrement réduite) */
+  --mobile-hero-vh:40; /* Hauteur du hero sur mobile (réduite pour effet) */
 }
 
 /* reset */
@@ -122,12 +122,13 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
 /* MOBILE: show hamburger, hide desktop nav, ajustements pour pousser le TEXTE DU HERO plus bas uniquement */
 @media (max-width:768px){
-  :root{ --topbar-height:56px; --header-height:56px; --mobile-hero-vh:44 }
+  :root{ --topbar-height:56px; --header-height:56px; --mobile-hero-vh:40 }
 
   .topbar{ justify-content:space-between; padding:6px 4vw; }
-  .nav-toggle{ display:inline-flex; }
-  nav{ display:none; }
+  .nav-toggle{ display:inline-flex; }            /* show hamburger on mobile */
+  nav{ display:none; }                            /* hide desktop nav on mobile (we use off-canvas) */
 
+  /* off-canvas nav (when .open is added) */
   nav.open{
     display:flex;
     position:fixed;
@@ -147,19 +148,20 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   }
   nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600; }
 
+  /* compact hero to accentuate downward text position */
   .hero{
     height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height));
-    min-height:32vh;
+    min-height:30vh;
     align-items:flex-start;
     justify-content:center;
     padding-top:8px;
   }
 
-  /* ======= DESCENDRE ENCORE PLUS BAS LE TEXTE DU HERO (SEULEMENT LE TEXTE) ======= */
+  /* ======= DESCENDRE TRÈS BAS LE TEXTE DU HERO (mobile) ======= */
   .hero-content{
     padding-top:6px;
-    transform: translateY(65%);        /* <-- très bas sur mobile */
-    -webkit-transform: translateY(65%);
+    transform: translateY(80%);        /* <-- très bas */
+    -webkit-transform: translateY(80%);
   }
 
   .hero-media img{
@@ -180,8 +182,8 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .logo img{ height:36px }
   .service-card img{ height:150px }
 
-  /* ajustement pour éviter débordement sur très petits écrans */
-  .hero-content{ transform: translateY(52%); -webkit-transform: translateY(52%); }
+  /* un peu moins sur très petits écrans pour éviter débordement */
+  .hero-content{ transform: translateY(65%); -webkit-transform: translateY(65%); }
 }
 
 /* respect reduced motion */
