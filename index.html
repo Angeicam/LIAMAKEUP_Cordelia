@@ -17,7 +17,8 @@
   --muted-bg:#f5f5dc;
   --text:#333;
   --btn-radius:28px;
-  --vh:1vh; /* mis à jour par JS */
+  --touch-min:44px;
+  --vh:1vh; /* mis par JS pour corriger 100vh mobile */
 }
 
 /* Reset */
@@ -32,80 +33,98 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* Topbar / Header (inchangés visuellement) */
-.topbar{ position:fixed; top:0; left:0; right:0; height:var(--topbar-height); background:#2c1e18; color:#fff; display:flex; align-items:center; justify-content:flex-end; gap:12px; padding:0 4vw; z-index:120; font-size:.95rem }
+/* Topbar */
+.topbar{
+  position:fixed; top:0; left:0; right:0;
+  height:var(--topbar-height); background:#2c1e18; color:#fff;
+  display:flex; align-items:center; justify-content:flex-end; gap:12px;
+  padding:0 4vw; z-index:120; font-size:.95rem;
+}
 .topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center }
-header{ position:fixed; top:var(--topbar-height); left:0; right:0; height:var(--header-height); background:var(--brand-bg); color:#fff; display:flex; align-items:center; justify-content:space-between; padding:0 4vw; z-index:119; box-shadow:0 4px 10px rgba(0,0,0,.12) }
+
+/* Header */
+header{
+  position:fixed; top:var(--topbar-height); left:0; right:0;
+  height:var(--header-height); background:var(--brand-bg); color:#fff;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 4vw; z-index:119; box-shadow:0 4px 10px rgba(0,0,0,.12);
+}
 .logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
 .logo img{height:48px; display:block}
 
 /* Nav */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
-.nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px }
+nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; min-height:var(--touch-min); display:inline-flex; align-items:center; justify-content:center; }
+nav a:hover{ color:var(--brand-bg); background:var(--accent) }
+nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:none; }
+.nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-/* HERO: responsive via <picture> (voir HTML) */
+/* HERO */
 .hero{
   position:relative;
   height: calc(var(--vh,1vh) * 100 - var(--topbar-height) - var(--header-height));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  background:var(--muted-bg);
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+  background: transparent;
 }
 
-/* picture/img fill rules */
-.hero-media{ position:absolute; inset:0; z-index:0; display:block; }
+/* hero-media holds the <picture> */
+.hero-media{
+  position:absolute; inset:0; z-index:0; display:block;
+  background: var(--muted-bg); /* fallback background color if image has gaps */
+}
+
+/* The img inside picture fills the container */
 .hero-media img{
   width:100%;
   height:100%;
   display:block;
-  object-fit:cover;           /* desktop: cover immersive */
-  object-position: center center;
-  -o-object-fit:cover;
+  object-fit:cover;       /* desktop: cover immersive */
+  object-position:center center;
 }
 
-/* overlay (desktop) - léger pour pas assombrir trop */
+/* overlay for desktop readability */
 .hero::after{
   content:""; position:absolute; inset:0; z-index:1;
   background: rgba(0,0,0,0.22);
   transition: background .18s ease;
 }
 
-/* texte */
-.hero-content{ position:relative; z-index:2; text-align:center; padding:0 4vw; max-width:980px; color:#fff; }
+/* hero content */
+.hero-content{ position:relative; z-index:2; text-align:center; padding:0 4vw; max-width:900px; color:#fff; }
 .hero h1{ font-size:clamp(1.6rem,4vw,2.8rem); color:var(--accent); margin-bottom:8px; font-weight:800 }
 .hero p{ font-size:clamp(.95rem,2.2vw,1.15rem); margin-bottom:14px; font-weight:500 }
 .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
 
-/* sections (inchangés) */
+/* sections */
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 20px; font-weight:700; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:0 4vw 48px; }
 .service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
 .service-card img{ width:100%; height:200px; object-fit:cover }
-.testimonials{ padding:36px 4vw; background:#fff; text-align:center }
-.about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center }
+.service-content{ padding:16px; text-align:center; }
+.testimonials{ padding:36px 4vw; background:#fff; text-align:center; }
+.about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
-/* responsive tweaks */
+/* Responsive */
 @media (max-width:900px){ .logo img{ height:42px } }
 
-/* MOBILE: use mobile-specific image (recadrée) served by <picture> - remove overlay for brightness */
+/* MOBILE specifics:
+   - mobile image should be a vertical crop (recommended 1080x1920 or 900x1600)
+   - the <picture> will serve that mobile file automatically
+   - overlay reduced for brightness
+*/
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
-  .hero{ align-items:center; padding:0 4vw; /* height left to --vh */ }
+  .hero{ height: calc(var(--vh,1vh) * 75 - var(--topbar-height) - var(--header-height)); min-height:55vh; }
 
-  /* on mobile on veut l'image mobile (recadrée) ; si elle est verticale, cover la remplira sans couper les têtes */
-  .hero-media img{
-    object-fit:cover;            /* cover pour remplir - mais mobile image doit être recadrée verticalement */
-    object-position: center center;
-  }
+  /* when mobile image is provided, it will be covered without cutting important area */
+  .hero-media img{ object-fit:cover; object-position:center center; }
 
-  /* overlay quasiment nul sur mobile */
-  .hero::after{ background: rgba(0,0,0,0.02); }
+  .hero::after{ background: rgba(0,0,0,0.02); } /* very light overlay on mobile */
+  .hero{ padding:0 4vw; }
 }
 
 /* very small screens */
@@ -115,18 +134,19 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .service-card img{ height:150px }
 }
 
-/* tap highlight */
+/* touch highlight disable */
 a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </style>
 </head>
 <body>
 
-<!-- accessible alt for decorative image -->
+<!-- Visually-hidden alt for decorative background -->
 <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap;">Bannière LIAMAKEUP — trois femmes maquillées</span>
 
 <!-- topbar -->
 <div class="topbar" role="banner">
   <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP"><i class="fas fa-phone" aria-hidden="true"></i><span style="margin-left:8px">+225 07 77 86 73 09</span></a>
+  <a href="mailto:contact@liamakeup.ci" style="margin-left:12px" aria-label="Envoyer un email"><i class="fas fa-envelope"></i><span style="margin-left:8px">contact@liamakeup.ci</span></a>
 </div>
 
 <!-- header -->
@@ -148,73 +168,105 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </div>
 </header>
 
-<!-- HERO with <picture> - pro: serves mobile crop automatically -->
+<!-- HERO
+  IMPORTANT :
+  - Fournis ces deux fichiers (noms exacts en exemple ci-dessous) dans le même dossier que cette page :
+    * lia_make_up_3_mobile.webp  (mobile crop, vertical, ex. 1080×1920)
+    * lia_make_up_3_desktop.webp (desktop wide, ex. 1920×900)
+  - Si tu n'as pas de webp, fournis .jpg avec les mêmes noms.
+-->
 <section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-media" aria-hidden="true">
     <picture>
-      <!-- mobile recadrée (serve if viewport <= 768px) -->
+      <!-- Mobile (vertical crop) -->
       <source media="(max-width:768px)" type="image/webp"
-        srcset="
-          lia_make_up_3_mobile.webp 800w,
-          lia_make_up_3_mobile@2x.webp 1600w
-        ">
+        srcset="lia_make_up_3_mobile.webp 800w, lia_make_up_3_mobile@2x.webp 1600w">
       <source media="(max-width:768px)"
-        srcset="
-          lia_make_up_3_mobile.jpg 800w,
-          lia_make_up_3_mobile@2x.jpg 1600w
-        ">
-      <!-- desktop hi-res -->
+        srcset="lia_make_up_3_mobile.jpg 800w, lia_make_up_3_mobile@2x.jpg 1600w">
+
+      <!-- Desktop hi-res -->
       <source media="(min-width:769px)" type="image/webp"
-        srcset="
-          lia_make_up_3_desktop.webp 1920w,
-          lia_make_up_3_desktop@2x.webp 3840w
-        ">
+        srcset="lia_make_up_3_desktop.webp 1920w, lia_make_up_3_desktop@2x.webp 3840w">
       <source media="(min-width:769px)"
-        srcset="
-          lia_make_up_3_desktop.jpg 1920w,
-          lia_make_up_3_desktop@2x.jpg 3840w
-        ">
-      <!-- fallback -->
-      <img src="lia_make_up_3_desktop.jpg" alt="Équipe LIAMAKEUP" class="hero-img" style="width:100%;height:100%;object-fit:cover;object-position:center center;">
+        srcset="lia_make_up_3_desktop.jpg 1920w, lia_make_up_3_desktop@2x.jpg 3840w">
+
+      <!-- Fallback image (used by browsers that don't support <picture>) -->
+      <img src="lia_make_up_3_desktop.jpg" alt="Équipe LIAMAKEUP" style="width:100%;height:100%;object-fit:cover;object-position:center center;">
     </picture>
   </div>
 
   <div class="hero-content">
     <h1>Révélez votre beauté</h1>
     <p>Maquillage, formations et produits de qualité en Côte d’Ivoire</p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
       <a href="#services" class="btn">Nos Services</a>
       <a href="https://wa.me/2250777867309" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Commander</a>
     </div>
   </div>
 </section>
 
-<!-- Services / rest of page (unchanged) -->
+<!-- Services -->
 <section id="services" class="services" aria-labelledby="servicesTitle">
   <h2 id="servicesTitle" class="section-title">Nos Services</h2>
   <div class="service-cards">
     <div class="service-card">
       <img src="lia_formation.png" alt="Formation maquillage">
-      <div class="service-content"><h3>Formations</h3><p><strong>Devenez maquilleuse professionnelle</strong> grâce à nos cours certifiés.</p><a href="formation.html" class="btn">En savoir plus</a></div>
+      <div class="service-content">
+        <h3>Formations</h3>
+        <p><strong>Devenez maquilleuse professionnelle</strong> grâce à nos cours certifiés adaptés aux tendances africaines et internationales.</p>
+        <a href="formation.html" class="btn">En savoir plus</a>
+      </div>
     </div>
+
     <div class="service-card">
       <img src="vente_lia_make_1.png" alt="Produits de maquillage">
-      <div class="service-content"><h3>Vente de Produits</h3><p><strong>Produits authentiques et haut de gamme.</strong></p><a href="produits.html" class="btn">Découvrir</a></div>
+      <div class="service-content">
+        <h3>Vente de Produits</h3>
+        <p><strong>Produits authentiques et haut de gamme :</strong> rouges à lèvres, palettes, pinceaux et plus encore.</p>
+        <a href="produits.html" class="btn">Découvrir la boutique</a>
+      </div>
     </div>
+
     <div class="service-card">
       <img src="caoching.png" alt="Coaching beauté">
-      <div class="service-content"><h3>Coaching Beauté</h3><p><strong>Apprenez à sublimer votre visage</strong> au quotidien.</p><a href="contact.html" class="btn">Réserver</a></div>
+      <div class="service-content">
+        <h3>Coaching Beauté</h3>
+        <p><strong>Apprenez à sublimer votre visage</strong> au quotidien grâce à nos séances personnalisées.</p>
+        <a href="contact.html" class="btn">Réserver une séance</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Testimonials / About / Footer (same as before) -->
-<section class="testimonials" aria-label="Témoignages"><h2 class="section-title">Ce que disent nos clientes</h2><div class="testimonial">« Excellent ! » – Aïssata</div></section>
-<section class="about" aria-labelledby="aboutTitle"><h2 id="aboutTitle">Pourquoi choisir LIAMAKEUP ?</h2><p>Expertise, authenticité et passion.</p></section>
-<footer role="contentinfo"><p>&copy; 2025 LIAMAKEUP</p></footer>
+<!-- Testimonials -->
+<section class="testimonials" aria-label="Témoignages">
+  <h2 class="section-title">Ce que disent nos clientes</h2>
+  <div class="testimonial">« Grâce à LIAMAKEUP, j’ai appris à me maquiller pour mon mariage traditionnel. Un service exceptionnel ! » – Aïssata, Abidjan</div>
+  <div class="testimonial">« Les produits sont authentiques et tiennent toute la journée. Je recommande à 100%. » – Clarisse, Bouaké</div>
+</section>
+
+<!-- About -->
+<section class="about" aria-labelledby="aboutTitle">
+  <h2 id="aboutTitle">Pourquoi choisir LIAMAKEUP ?</h2>
+  <p>Parce que nous croyons que chaque femme ivoirienne mérite de briller. Nous allions expertise, authenticité et passion pour vous offrir des formations de qualité et des produits de maquillage haut de gamme. Avec LIAMAKEUP, la beauté n’a pas de frontières.</p>
+</section>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <h3>Contactez-nous</h3>
+  <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
+  <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
+  <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
+  <p>
+    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/2250777867309" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  </p>
+  <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+</footer>
 
 <script>
-/* Fix mobile 100vh: set --vh = 1% of viewport height to avoid phone address bar issues */
+/* 1) Fix mobile 100vh (avoid bars creating gaps) */
 (function(){
   function setVh(){
     document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
@@ -222,6 +274,32 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   setVh();
   window.addEventListener('resize', setVh);
 })();
+
+/* 2) Mobile nav toggle */
+(function(){
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('mainNav');
+  if(!toggle || !nav) return;
+  function setAria(open){ toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  toggle.addEventListener('click', (e)=> {
+    e.stopPropagation();
+    nav.classList.toggle('open');
+    const opened = nav.classList.contains('open');
+    setAria(opened);
+    toggle.innerHTML = opened ? '<i class=\"fas fa-times\"></i>' : '<i class=\"fas fa-bars\"></i>';
+  });
+  nav.addEventListener('click', (e) => {
+    if(e.target.tagName === 'A'){
+      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class=\"fas fa-bars\"></i>';
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if(!nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.contains('open')){
+      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class=\"fas fa-bars\"></i>';
+    }
+  });
+})();
 </script>
+
 </body>
 </html>
