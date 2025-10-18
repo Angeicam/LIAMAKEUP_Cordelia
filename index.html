@@ -18,7 +18,7 @@
   --text:#333;
   --btn-radius:28px;
   --vh:1vh; /* mis par JS */
-  --mobile-hero-vh:50; /* Hauteur du hero sur mobile (encore réduite) */
+  --mobile-hero-vh:48; /* Hauteur du hero sur mobile (réduit) */
 }
 
 /* reset */
@@ -89,7 +89,7 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
   width:100%; height:100%; display:block;
   object-fit:cover;           /* cover keeps no bands and fills area */
   object-position:center center;
-  transform:none;             /* NO translateY — image not moved */
+  transform:none;
 }
 
 /* overlay for readability (desktop) */
@@ -120,9 +120,9 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .logo img{ height:42px }
 }
 
-/* MOBILE: show hamburger, hide desktop nav, reduce hero height (no movement) */
+/* MOBILE: show hamburger, hide desktop nav, reduce hero height and move content up */
 @media (max-width:768px){
-  :root{ --topbar-height:56px; --header-height:56px }
+  :root{ --topbar-height:56px; --header-height:56px; --mobile-hero-vh:48 }
 
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .nav-toggle{ display:inline-flex; }            /* show hamburger on mobile */
@@ -148,19 +148,27 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   }
   nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600; }
 
-  /* reduce hero height on mobile so image appears smaller without moving content */
+  /* reduce hero height on mobile so image appears smaller without moving other layout */
   .hero{
     height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height));
-    min-height:40vh; /* encore plus petit sur mobile */
-    align-items:center;
+    min-height:38vh; /* un peu plus petit */
+    align-items:flex-start; /* on aligne en début pour mieux maîtriser le placement */
     justify-content:center;
+    padding-top:8px;
+  }
+
+  /* move hero content up so titres + boutons remontent */
+  .hero-content{
+    padding-top:6px;
+    transform: translateY(-14%);
+    -webkit-transform: translateY(-14%);
   }
 
   /* ensure image stays centered and not translated */
   .hero-media img{
     object-fit:cover;
     object-position:center center;
-    transform:none; /* make sure no translate is applied */
+    transform:none;
     width:100%;
     height:100%;
   }
@@ -168,7 +176,6 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   /* lighter overlay on mobile */
   .hero::after{ background: rgba(0,0,0,0.02); }
   .hero{ padding:0 4vw; }
-  .hero-content{ padding-top:6px; }
 }
 
 /* very small screens tweaks */
@@ -176,11 +183,14 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   :root{ --topbar-height:56px; --header-height:54px }
   .logo img{ height:36px }
   .service-card img{ height:150px }
+  /* slightly reduce translate on very small screens so text doesn't overflow */
+  .hero-content{ transform: translateY(-10%); -webkit-transform: translateY(-10%); }
 }
 
 /* respect reduced motion */
 @media (prefers-reduced-motion: reduce){
   .hero-media img{ transition:none !important; transform:none !important; }
+  .hero-content{ transform:none !important; -webkit-transform:none !important; }
 }
 
 /* touches */
@@ -195,9 +205,11 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <i class="fas fa-phone" aria-hidden="true"></i>
     <span class="tb-text">+225 07 77 86 73 09</span>
   </a>
-  <a href="mailto:contact@liamakeup.ci" aria-label="Envoyer un email" style="margin-left:12px">
-    <i class="fas fa-envelope" aria-hidden="true"></i>
-    <span class="tb-text">contact@liamakeup.ci</span>
+
+  <!-- Remplacement : icône lieu + Yamoussoukro (à la place de l'email) -->
+  <a href="#contact" aria-label="Localisation de LIAMAKEUP">
+    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+    <span class="tb-text">Yamoussoukro</span>
   </a>
 </div>
 
@@ -287,7 +299,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </section>
 
 <!-- Footer -->
-<footer role="contentinfo">
+<footer role="contentinfo" id="contact">
   <h3>Contactez-nous</h3>
   <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
   <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
