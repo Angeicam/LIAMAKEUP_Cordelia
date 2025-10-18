@@ -18,7 +18,7 @@
   --text:#333;
   --btn-radius:28px;
   --touch-min:44px;
-  --vh:1vh; /* mis par JS pour corriger 100vh mobile */
+  --vh: 1vh; /* mis par JS */
 }
 
 /* reset */
@@ -64,31 +64,30 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 /* Hamburger */
 .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-/* HERO - on utilise --vh pour corriger 100vh mobile */
+/* HERO - image via <img> pour contrôle object-fit
+   Utilise --vh pour corriger 100vh sur mobile */
 .hero{
   position:relative;
-  height: calc(var(--vh, 1vh) * 100 - var(--topbar-height) - var(--header-height));
-  min-height:48vh;
+  height: calc(100vh - var(--topbar-height) - var(--header-height));
   display:flex; align-items:center; justify-content:center; overflow:hidden;
   background: transparent;
 }
 
-/* Conteneur de l'image : fond = couleur de la page (sera visible si bands) */
+/* Conteneur de l'image : fond = couleur de la page (pas noir) */
 .hero-media{
   position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center;
-  background: var(--muted-bg); /* fallback pour bands */
+  background: var(--muted-bg); /* <-- pas de noir derrière l'image */
 }
 .hero-media img{
   width:100%; height:100%; display:block;
-  object-fit:cover;           /* default desktop: cover */
-  object-position: top center;
-  background: var(--muted-bg);
+  object-fit:cover;      /* desktop : cover (immersif) */
+  object-position:center center;
 }
 
-/* overlay pour lisibilité (desktop) - léger pour que l'image reste claire */
+/* overlay pour lisibilité (desktop) */
 .hero::after{
   content:""; position:absolute; inset:0; z-index:1;
-  background: rgba(0,0,0,0.22);
+  background: rgba(0,0,0,0.22); /* plus léger pour garder l'image claire */
   transition: background .18s ease;
 }
 
@@ -114,7 +113,7 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .logo img{ height:42px }
 }
 
-/* ===== MOBILE : afficher l'image entière (contain) pour voir les 3 personnes ===== */
+/* MOBILE : show full image using contain and reduce hero height to limit bands */
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
@@ -127,21 +126,26 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .nav-toggle{ display:inline-flex }
   nav a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600 }
 
-  /* ========== CHANGE APPLIQUÉ ICI ==========
-     On passe à 'contain' pour afficher l'image entière (toutes les personnes)
-     Cela crée éventuellement des bandes haut/bas (couleur --muted-bg)
-  =========================================*/
+  /* reduce hero height on mobile to limit bands */
+  .hero{
+    height: calc(var(--vh,1vh) * 62 - var(--topbar-height) - var(--header-height));
+    min-height:40vh;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* show the whole image on mobile */
   .hero-media img{
-    object-fit:contain;           /* montre l'image en entier sur mobile */
+    object-fit:contain;            /* affiche toute l'image (les 3 personnes) */
     object-position:center center;
     width:100%;
     height:100%;
+    max-height: calc(var(--vh,1vh) * 62 - var(--topbar-height) - var(--header-height));
   }
 
-  /* overlay très léger sur mobile (garde luminosité) */
+  /* overlay très léger pour garder luminosité */
   .hero::after{ background: rgba(0,0,0,0.02); }
-  .hero{ align-items:center; padding:0 4vw; }
-  .hero-content{ padding-top:6px; }
+  .hero{ padding:0 4vw; }
 }
 
 /* très petits écrans */
@@ -282,7 +286,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   window.addEventListener('resize', setVh);
 })();
 
-/* Mobile nav toggle (inchangé) */
+/* Mobile nav toggle */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
