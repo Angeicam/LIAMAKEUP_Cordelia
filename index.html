@@ -12,13 +12,13 @@
 :root{
   --topbar-height:44px;
   --header-height:64px;
-  --accent:#D4AF37;      /* doré */
-  --brand-bg:#5C4033;    /* brun marque */
+  --accent:#D4AF37;
+  --brand-bg:#5C4033;
   --muted-bg:#f5f5dc;
   --text:#333;
   --btn-radius:28px;
   --vh:1vh;
-  --hero-mobile-y:35%; /* position mobile du hero (en %) - réglable */
+  --hero-mobile-y:50%; /* mobile: position du texte (augmenter = descendre; réduire = remonter) */
 }
 
 /* reset */
@@ -72,24 +72,16 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
   justify-content:center;
 }
 
-/* Mobile nav overlay + panel */
-#navOverlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.06); /* discret */
-  z-index:145;
-  transition:opacity .22s ease;
-}
+/* Mobile panel: no overlay, simple slide panel */
 nav.open{
   display:flex !important;
   position:fixed;
-  top:0;
+  top:calc(var(--topbar-height) + var(--header-height));
   right:0;
   height:100vh;
   width:84%;
   max-width:360px;
-  padding:calc(var(--topbar-height) + var(--header-height)) 18px 20px 18px;
+  padding:18px;
   background:#fff;
   color:#333;
   box-shadow:-8px 0 24px rgba(0,0,0,.12);
@@ -98,6 +90,7 @@ nav.open{
   z-index:146;
   overflow:auto;
 }
+nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600; }
 
 /* hero */
 .hero{
@@ -118,7 +111,7 @@ nav.open{
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* services intro: titles améliorés, icônes compactes 3D-like */
+/* SINGLE text block (icon + single paragraph) */
 .services-intro{
   max-width:1000px;
   margin:0 auto;
@@ -126,51 +119,30 @@ nav.open{
   text-align:left;
   color:#333;
 }
-.services-intro .theme{
-  margin-bottom:14px;
-}
-.services-intro h4{
-  margin:0 0 8px;
-  color:var(--brand-bg);
-  font-size:1.02rem;
-  font-weight:700;
+.services-intro .single{
   display:flex;
-  align-items:center;
-  gap:10px;
+  gap:12px;
+  align-items:flex-start;
 }
-.services-intro h4 .icon-3d{
+.services-intro .single .icon-produits{
   display:inline-grid;
   place-items:center;
-  width:40px; height:40px; border-radius:10px;
-  background:linear-gradient(180deg, rgba(212,175,55,0.18), rgba(212,175,55,0.06));
-  color:var(--brand-bg);
-  font-size:1.15rem;
-  box-shadow: 0 6px 14px rgba(92,64,51,0.12), inset 0 2px 4px rgba(255,255,255,0.12);
-  transform: perspective(60px) rotateX(6deg) translateY(-2px);
-}
-/* accentuer spécifiquement l'icône Produits */
-.services-intro h4 .icon-produits{
+  width:44px; height:44px; border-radius:10px;
   background: linear-gradient(180deg, #FFD77A, #D4AF37);
   color:#3a2418;
+  font-size:1.2rem;
   box-shadow: 0 10px 20px rgba(92,64,51,0.18), 0 1px 0 rgba(255,255,255,0.35) inset;
   transform: perspective(80px) rotateX(8deg) translateY(-3px);
-  border:1px solid rgba(0,0,0,0.06);
-  font-size:1.18rem;
+  flex-shrink:0;
 }
-
-/* small shadow under headings for "pop" */
-.services-intro h4{ text-shadow: 0 1px 0 rgba(255,255,255,0.06); }
-
-/* short descriptions */
-.services-intro p{
-  margin:0;
-  color:#444;
+.services-intro .single .text{
   font-size:.98rem;
-  line-height:1.45;
-  max-width:78ch;
+  color:#444;
+  line-height:1.5;
 }
+.services-intro .single .text b{ color:var(--brand-bg); }
 
-/* service cards (images) */
+/* service cards */
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:8px 4vw 48px; max-width:1200px; margin:0 auto; }
 .service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
 .service-card img{ width:100%; height:200px; object-fit:cover }
@@ -187,9 +159,7 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   :root{ --topbar-height:56px; --header-height:56px; --mobile-hero-vh:44 }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .nav-toggle{ display:inline-flex; }
-  nav{ display:none; } /* nav.open will show */
-
-  /* REMONTER un peu le texte du hero sur mobile : utilise la variable --hero-mobile-y */
+  nav{ display:none; }
   .hero{
     height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height));
     min-height:30vh;
@@ -197,9 +167,9 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
     justify-content:center;
     padding-top:6px;
   }
+  /* use the variable to move hero content down (increase to descend) */
   .hero-content{ padding-top:6px; transform: translateY(var(--hero-mobile-y)); -webkit-transform: translateY(var(--hero-mobile-y)); }
   .hero::after{ background: rgba(0,0,0,0.12); }
-
   .services-intro{ padding:10px 4vw 16px; }
   .service-cards{ padding:8px 4vw 32px; }
 }
@@ -207,8 +177,7 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   :root{ --topbar-height:56px; --header-height:54px }
   .logo img{ height:36px }
   .service-card img{ height:150px }
-  /* remonter encore si nécessaire */
-  .hero-content{ transform: translateY(calc(var(--hero-mobile-y) - 6%)); -webkit-transform: translateY(calc(var(--hero-mobile-y) - 6%)); }
+  .hero-content{ transform: translateY(calc(var(--hero-mobile-y) + 2%)); -webkit-transform: translateY(calc(var(--hero-mobile-y) + 2%)); }
 }
 
 /* accessibility focus */
@@ -255,9 +224,6 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </div>
 </header>
 
-<!-- subtle overlay for mobile nav -->
-<div id="navOverlay" aria-hidden="true"></div>
-
 <!-- HERO -->
 <section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-media" aria-hidden="true">
@@ -278,21 +244,14 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <section id="services" class="services" aria-labelledby="servicesTitle">
   <h2 id="servicesTitle" class="section-title">Nos Services</h2>
 
-  <!-- Reduced text with improved titles + inline 3D-like icons -->
+  <!-- Single text block with the 3 points combined; icon "produits" kept -->
   <div class="services-intro">
-    <div class="theme">
-      <h4><span class="icon-3d"><i class="fas fa-paint-brush" aria-hidden="true"></i></span> Formation professionnelle</h4>
-      <p>Programme certifié, ateliers pratiques et accompagnement pour démarrer votre activité.</p>
-    </div>
-
-    <div class="theme">
-      <h4><span class="icon-3d icon-produits"><i class="fas fa-box-open" aria-hidden="true"></i></span> Produits professionnels</h4>
-      <p>Marques contrôlées, formulations adaptées aux carnations locales et suivi qualité.</p>
-    </div>
-
-    <div class="theme">
-      <h4><span class="icon-3d"><i class="fas fa-user-tie" aria-hidden="true"></i></span> Coaching personnalisé</h4>
-      <p>Sessions individuelles : techniques avancées, image et gestion clientèle pour booster votre visibilité.</p>
+    <div class="single" role="article" aria-label="Description synthétique des services">
+      <div class="icon-produits" aria-hidden="true"><i class="fas fa-box-open"></i></div>
+      <div class="text">
+        <b>Formation professionnelle, Produits & Coaching :</b>
+        Programme certifié et ateliers pratiques pour démarrer votre activité. Marques contrôlées et formulations adaptées aux carnations locales avec suivi qualité. Coaching personnalisé pour techniques avancées, image et gestion clientèle afin d’accroître votre visibilité.
+      </div>
     </div>
   </div>
 
@@ -363,44 +322,45 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   window.addEventListener('resize', setVh);
 })();
 
-/* Mobile nav toggle + overlay */
+/* Mobile nav toggle - simple behavior (like initial) */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
-  const overlay = document.getElementById('navOverlay');
-  if(!toggle || !nav || !overlay) return;
+  if(!toggle || !nav) return;
 
-  function openNav(){
+  function openUI(){
     nav.classList.add('open');
-    overlay.style.display = 'block';
-    overlay.style.opacity = '1';
-    document.body.style.overflow = 'hidden';
     toggle.setAttribute('aria-expanded','true');
     toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
-    overlay.setAttribute('aria-hidden','false');
   }
-  function closeNav(){
+  function closeUI(){
     nav.classList.remove('open');
-    overlay.style.opacity = '0';
-    setTimeout(()=> overlay.style.display = 'none', 220);
-    document.body.style.overflow = '';
     toggle.setAttribute('aria-expanded','false');
     toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>';
-    overlay.setAttribute('aria-hidden','true');
   }
 
-  toggle.addEventListener('click', (e)=> {
+  toggle.addEventListener('click', (e) => {
     e.stopPropagation();
-    if(nav.classList.contains('open')) closeNav(); else openNav();
+    if(nav.classList.contains('open')) closeUI(); else openUI();
   });
 
-  overlay.addEventListener('click', closeNav);
+  // close when clicking a link inside nav
   nav.addEventListener('click', (e) => {
-    if(e.target.tagName === 'A') closeNav();
+    if(e.target.tagName === 'A'){
+      closeUI();
+    }
   });
 
+  // close if clicking outside nav or toggle
+  document.addEventListener('click', (e) => {
+    if(nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)){
+      closeUI();
+    }
+  });
+
+  // close on Escape
   document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape' && nav.classList.contains('open')) closeNav();
+    if(e.key === 'Escape' && nav.classList.contains('open')) closeUI();
   });
 })();
 </script>
