@@ -117,6 +117,28 @@
       font-weight:700;
       box-shadow: none;
     }
+    @media (max-width:768px) {
+  nav.open {
+    padding: 12px;
+  }
+  nav.open a {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    margin: 6px 0;
+    border-radius: 10px;
+    text-align: left;
+  }
+  nav.open a.active {
+    background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
+    color: var(--brand-bg);
+    border-left: none;
+    padding-left: 16px;
+    box-shadow: 0 6px 18px rgba(92,64,51,0.08);
+    font-weight: 800;
+  }
+}
 
     /* HERO - structure à 3 calques:
        .hero-bg   -> background-size:cover pour remplir tout
