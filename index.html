@@ -118,7 +118,11 @@
       box-shadow: none;
     }
 
-    /* HERO - un seul calque d'image en fond (pas deux) */
+    /* HERO - structure à 3 calques:
+       .hero-bg   -> background-size:cover pour remplir tout
+       .hero-media picture img -> object-fit:contain centré pour voir la personne entière
+       .hero-content -> texte et boutons (au-dessus)
+    */
     .hero{
       position:relative;
       height: calc(var(--vh,1vh) * 100 - var(--topbar-height) - var(--header-height));
@@ -129,25 +133,37 @@
       background: transparent;
     }
 
-    /*
-      IMPORTANT:
-      - Desktop: image desktop (16:9). background-size: cover (ou contain si tu veux voir toute l'image sur desktop).
-      - Mobile: on utilise LA version mobile préparée 1080x1920 (mobile_wallpaper_all_visible_1080x1920.jpg)
-        qui contient déjà l'image centrée + bandes assorties ; on met background-size: cover pour remplir l'écran.
-    */
+    /* calque de fond (cover) - toujours présent, il remplit l'écran */
     .hero-bg{
       position:absolute;
       inset:0;
       z-index:0;
       background-position: center center;
-      background-size: cover; /* desktop: cover (change si tu veux contain) */
+      background-size: cover;
       background-repeat:no-repeat;
       transform-origin:center;
-      background-image: url('16_9_desktop_1920x1080.jpg'); /* <-- replace by ton desktop image */
-      background-color: #81461a; /* fallback */
     }
 
-    /* overlay et lisibilité */
+    /* calque qui affiche l'image complète (devant le background) */
+    .hero-media{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none; /* l'image ne bloque pas les interactions */
+    }
+    .hero-media picture img{
+      display:block;
+      max-width:100%;
+      max-height:100%;
+      width:auto;
+      height:100%;
+      object-fit:contain; /* montre toute l'image sans crop */
+    }
+
+    /* légère superposition / teinte */
     .hero-overlay{
       position:absolute;
       inset:0;
@@ -161,7 +177,7 @@
     .hero p{ font-size:clamp(.95rem,2.2vw,1.05rem); margin-bottom:12px; font-weight:500 }
     .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
 
-    /* Services et le reste (inchangés) */
+    /* Services */
     .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
     .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
@@ -204,14 +220,6 @@
         padding-top:0;
       }
 
-      /* Tablette : portrait optimisé (image entière si tu veux) */
-      .hero-bg{
-        background-image: url('4_5_instaportrait_1080x1350.jpg');
-        background-size: cover; /* tu peux mettre contain si tu préfères voir toute l'image */
-        background-position: center top;
-        background-repeat: no-repeat;
-      }
-
       .hero-overlay{ background: rgba(0,0,0,0.18); }
 
       .hero-content{
@@ -224,15 +232,7 @@
       .testimonials .container{ padding:0 4px; gap:10px; }
     }
 
-    @media (max-width:480px){
-      /* SMARTPHONE: on charge la version mobile préparée contenant l'image entière */
-      .hero-bg{
-        background-image: url('mobile_wallpaper_all_visible_1080x1920.jpg'); /* <-- fichier mobile préparé */
-        background-size: cover;       /* fill the phone screen, the image already contains padding so persons aren't cut */
-        background-position: center center; /* ajuste si tu veux recadrer légèrement */
-        background-repeat: no-repeat;
-      }
-
+    @media (max-width:420px){
       :root{ --topbar-height:56px; --header-height:54px }
       .logo img{ height:36px }
       .service-card img{ height:150px }
@@ -282,10 +282,22 @@
 
   <!-- HERO -->
   <section class="hero" role="region" aria-label="Bannière principale">
-    <!-- UNIQUE calque de fond (remplacé par media queries selon l'écran) -->
-    <div class="hero-bg" aria-hidden="true"></div>
+    <!-- 1) calque fond - remplira toujours le hero (cover) -->
+    <div class="hero-bg" aria-hidden="true" style="background-image:url('lia_make_up_3.png');"></div>
 
-    <!-- overlay pour lisibilité -->
+    <!-- 2) calque média contenant <picture> centré selon l'écran -->
+    <div class="hero-media" aria-hidden="true">
+      <picture>
+        <!-- Smartphone -->
+        <source media="(max-width:480px)" srcset="lia_mobile_9_16.png">
+        <!-- Tablette / écran moyen -->
+        <source media="(max-width:900px)" srcset="lia_portrait_4_5.png">
+        <!-- Desktop -->
+        <img src="lia_desktop_16_9.png" alt="Équipe LIAMAKEUP">
+      </picture>
+    </div>
+
+    <!-- 3) overlay sombre pour lisibilité -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
     <div class="hero-content">
@@ -298,7 +310,81 @@
     </div>
   </section>
 
-  <!-- (le reste du contenu inchangé) -->
+  <!-- Services -->
+  <section id="services" class="services" aria-labelledby="servicesTitle">
+    <h2 id="servicesTitle" class="section-title">Nos Services</h2>
+
+    <div class="services-intro">
+      <div class="single" role="article" aria-label="Description synthétique des services">
+        <div class="text">
+          <b>Formation professionnelle, Produits & Coaching :</b> Programme certifié et ateliers pratiques pour démarrer votre activité. Marques contrôlées et formulations adaptées aux carnations locales. Coaching personnalisé en techniques avancées, image et gestion clientèle.
+        </div>
+      </div>
+    </div>
+
+    <div class="service-cards">
+      <div class="service-card">
+        <img src="lia_formation.png" alt="Formation maquillage">
+        <div class="service-content">
+          <h3>Formations</h3>
+          <p><strong>Devenez maquilleuse professionnelle</strong> grâce à nos cours certifiés adaptés aux tendances africaines et internationales.</p>
+          <a href="formation.html" class="btn">En savoir plus</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <img src="vente_lia_make_1.png" alt="Produits de maquillage">
+        <div class="service-content">
+          <h3>Vente de Produits</h3>
+          <p><strong>Produits authentiques et haut de gamme :</strong> rouges à lèvres, palettes, pinceaux et plus encore.</p>
+          <a href="produits.html" class="btn">Découvrir la boutique</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <img src="caoching.png" alt="Coaching beauté">
+        <div class="service-content">
+          <h3>Coaching Beauté</h3>
+          <p><strong>Apprenez à sublimer votre visage</strong> au quotidien grâce à nos séances personnalisées.</p>
+          <a href="contact.html" class="btn">Réserver une séance</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" aria-label="Témoignages">
+    <h2 class="section-title">Ce que disent nos clientes</h2>
+    <div class="container">
+      <div class="testimonial"> « Grâce à LIAMAKEUP, j’ai appris à me maquiller pour mon mariage traditionnel. Un service exceptionnel ! »
+        <span class="author">– Aïssata, Abidjan</span>
+      </div>
+      <div class="testimonial"> « Les produits sont authentiques et tiennent toute la journée. Je recommande à 100%. »
+        <span class="author">– Clarisse, Bouaké</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle"><i class="fas fa-award" aria-hidden="true"></i> Pourquoi choisir LIAMAKEUP ?</h2>
+    <p>Parce que nous croyons que chaque femme ivoirienne mérite de briller. Nous allions expertise, authenticité et passion pour vous offrir des formations de qualité et des produits de maquillage haut de gamme. Avec LIAMAKEUP, la beauté n’a pas de frontières.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <h3>Contactez-nous</h3>
+    <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
+    <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
+    <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
+    <p class="site-social" aria-label="Réseaux sociaux">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/2250777867309" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+    </p>
+    <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+  </footer>
 
   <script>
     /* Fix mobile 100vh */
