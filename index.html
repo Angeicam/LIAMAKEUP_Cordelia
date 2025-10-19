@@ -121,22 +121,32 @@
   nav.open {
     padding: 12px;
   }
+
   nav.open a {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    padding: 12px 16px;
+    padding: 14px 16px;
     margin: 6px 0;
     border-radius: 10px;
-    text-align: left;
+    text-align: center; /* ✅ texte centré */
+    font-weight: 600;
+    transition: all .2s ease;
   }
+
+  /* ✅ Lien actif avec couleur plus visible + léger effet brillant */
   nav.open a.active {
-    background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
+    background: linear-gradient(135deg, rgba(212,175,55,0.95), rgba(240,210,100,0.85));
     color: var(--brand-bg);
     border-left: none;
-    padding-left: 16px;
-    box-shadow: 0 6px 18px rgba(92,64,51,0.08);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4);
     font-weight: 800;
+    letter-spacing: 0.3px;
+  }
+
+  /* Optionnel : effet léger au survol pour les autres liens */
+  nav.open a:hover:not(.active) {
+    background: rgba(212,175,55,0.1);
   }
 }
 
