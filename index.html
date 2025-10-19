@@ -18,7 +18,7 @@
   --text:#333;
   --btn-radius:28px;
   --vh:1vh;
-  --hero-mobile-y:50%; /* valeur par défaut (desktop intact) */
+  --hero-mobile-y:50%; /* valeur par défaut */
 }
 
 /* reset */
@@ -55,9 +55,14 @@ header{
 /* Desktop nav */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
-nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; }
+nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; transition:all .18s ease; }
 nav a:hover{ color:var(--brand-bg); background:var(--accent) }
-nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:none; }
+nav a.active{
+  background:var(--accent);
+  color:var(--brand-bg);
+  pointer-events:none;
+  box-shadow: 0 6px 14px rgba(92,64,51,0.12);
+}
 
 /* Hamburger */
 .nav-toggle{
@@ -90,7 +95,17 @@ nav.open{
   z-index:146;
   overflow:auto;
 }
-nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600; }
+nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 12px; text-align:left; font-weight:700; display:flex; align-items:center; gap:8px; }
+
+/* Mobile: active link styling (pro, visible) */
+nav.open a.active{
+  background: linear-gradient(90deg, rgba(212,175,55,0.12), rgba(212,175,55,0.06));
+  color:var(--brand-bg);
+  box-shadow: 0 8px 18px rgba(92,64,51,0.08);
+  border-left:4px solid var(--accent);
+  padding-left:10px;
+  pointer-events:none;
+}
 
 /* hero */
 .hero{
@@ -120,7 +135,6 @@ nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 
   color:#333;
 }
 .services-intro .single{
-  /* icône supprimée : on passe à un bloc simple */
   display:block;
 }
 .services-intro .single .text{
@@ -136,9 +150,27 @@ nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 
 .service-card img{ width:100%; height:200px; object-fit:cover }
 .service-content{ padding:16px; text-align:center; }
 
-/* footer/other */
-.testimonials{ padding:36px 4vw; background:#fff; text-align:center; }
+/* Testimonials - clear separation and readable cards */
+.testimonials{ padding:36px 4vw; background:transparent; text-align:center; }
+.testimonials .container{ max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:14px; align-items:stretch; }
+.testimonials .testimonial{
+  background:#fff;
+  padding:18px;
+  border-radius:12px;
+  text-align:left;
+  color:#333;
+  box-shadow:0 10px 26px rgba(0,0,0,0.06);
+  border-left:6px solid var(--accent);
+  font-style:italic;
+}
+.testimonials .testimonial .author{ display:block; margin-top:8px; font-weight:700; font-style:normal; color:var(--brand-bg) }
+
+/* about (avec icône) */
 .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
+.about h2{ display:inline-flex; align-items:center; gap:10px; justify-content:center; font-size:1.25rem; }
+.about h2 i{ color:var(--accent); font-size:1.25rem; display:inline-block; transform:translateY(2px); }
+
+/* footer/other */
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
 /* responsive tweaks */
@@ -147,8 +179,8 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   :root{
     --topbar-height:56px;
     --header-height:56px;
-    /* OVERRIDE mobile : remonter le hero content à 35% (plus petit = plus haut) */
-    --hero-mobile-y:35%;
+    /* mobile : descend un peu par rapport à avant (réglé à 40%) */
+    --hero-mobile-y:40%;
     --mobile-hero-vh:44;
   }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
@@ -166,6 +198,9 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .hero::after{ background: rgba(0,0,0,0.12); }
   .services-intro{ padding:10px 4vw 16px; }
   .service-cards{ padding:8px 4vw 32px; }
+
+  /* make testimonials stack nicely on mobile */
+  .testimonials .container{ padding:0 4px; gap:10px; }
 }
 @media (max-width:420px){
   :root{ --topbar-height:56px; --header-height:54px }
@@ -209,6 +244,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     </button>
 
     <nav id="mainNav" aria-label="Menu principal">
+      <!-- garde la classe "active" sur la page courante (ici Accueil) -->
       <a href="index.html" class="active" aria-current="page">Accueil</a>
       <a href="formation.html">Formations</a>
       <a href="produits.html">Produits</a>
@@ -281,13 +317,22 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <!-- Testimonials -->
 <section class="testimonials" aria-label="Témoignages">
   <h2 class="section-title">Ce que disent nos clientes</h2>
-  <div class="testimonial">« Grâce à LIAMAKEUP, j’ai appris à me maquiller pour mon mariage traditionnel. Un service exceptionnel ! » – Aïssata, Abidjan</div>
-  <div class="testimonial">« Les produits sont authentiques et tiennent toute la journée. Je recommande à 100%. » – Clarisse, Bouaké</div>
+  <div class="container">
+    <div class="testimonial">
+      « Grâce à LIAMAKEUP, j’ai appris à me maquiller pour mon mariage traditionnel. Un service exceptionnel ! »
+      <span class="author">– Aïssata, Abidjan</span>
+    </div>
+
+    <div class="testimonial">
+      « Les produits sont authentiques et tiennent toute la journée. Je recommande à 100%. »
+      <span class="author">– Clarisse, Bouaké</span>
+    </div>
+  </div>
 </section>
 
 <!-- About -->
 <section class="about" aria-labelledby="aboutTitle">
-  <h2 id="aboutTitle">Pourquoi choisir LIAMAKEUP ?</h2>
+  <h2 id="aboutTitle"><i class="fas fa-award" aria-hidden="true"></i> Pourquoi choisir LIAMAKEUP ?</h2>
   <p>Parce que nous croyons que chaque femme ivoirienne mérite de briller. Nous allions expertise, authenticité et passion pour vous offrir des formations de qualité et des produits de maquillage haut de gamme. Avec LIAMAKEUP, la beauté n’a pas de frontières.</p>
 </section>
 
@@ -337,7 +382,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     if(nav.classList.contains('open')) closeUI(); else openUI();
   });
 
-  // close when clicking a link inside nav
+  // close when clicking a link inside nav (keeps behavior "like au début")
   nav.addEventListener('click', (e) => {
     if(e.target.tagName === 'A'){
       closeUI();
