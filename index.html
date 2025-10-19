@@ -28,7 +28,7 @@ body{
   font-family:'Poppins',sans-serif;
   background:var(--muted-bg);
   color:var(--text);
-  line-height:1.5;
+  line-height:1.6;
   padding-top: calc(var(--topbar-height) + var(--header-height));
   -webkit-font-smoothing:antialiased;
 }
@@ -91,18 +91,30 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* Introduction text (texte seul, sans icônes) */
+/* Plain text intro (sans cartes) */
 .services-intro{
-  max-width:1000px; margin:0 auto; padding:8px 4vw 20px; text-align:left; color:#333;
-  display:grid; gap:14px;
+  max-width:1000px;
+  margin:0 auto;
+  padding:12px 4vw 20px;
+  text-align:left;
+  color:#333;
+  display:block;
+  gap:12px;
 }
-.services-intro .block{
-  background:#fff; padding:16px; border-radius:10px; box-shadow:0 6px 14px rgba(0,0,0,.04);
+.services-intro h4{
+  margin:0 0 8px;
+  color:var(--brand-bg);
+  font-size:1.05rem;
+  font-weight:700;
 }
-.services-intro h4{ margin:0 0 8px; color:var(--brand-bg); font-size:1.02rem; }
-.services-intro p{ margin:0; color:#444; font-size:.98rem; line-height:1.45; }
+.services-intro p{
+  margin:0 0 16px;
+  color:#444;
+  font-size:0.98rem;
+  line-height:1.6;
+}
 
-/* service cards */
+/* service cards (images) */
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:8px 4vw 48px; max-width:1200px; margin:0 auto; }
 .service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
 .service-card img{ width:100%; height:200px; object-fit:cover }
@@ -125,7 +137,7 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .hero{ height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height)); min-height:32vh; align-items:flex-start; justify-content:center; padding-top:8px; }
   .hero-content{ padding-top:6px; transform: translateY(75%); -webkit-transform: translateY(75%); }
   .hero::after{ background: rgba(0,0,0,0.02); }
-  .services-intro{ padding:8px 4vw 16px; }
+  .services-intro{ padding:10px 4vw 16px; }
   .service-cards{ padding:8px 4vw 32px; }
 }
 @media (max-width:420px){
@@ -196,24 +208,24 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <section id="services" class="services" aria-labelledby="servicesTitle">
   <h2 id="servicesTitle" class="section-title">Nos Services</h2>
 
-  <!-- Texte pro (sans icônes) -->
+  <!-- Texte simple (titres + paragraphes) -->
   <div class="services-intro" aria-hidden="false">
-    <div class="block">
+    <div>
       <h4>Formation maquillage</h4>
       <p>Devenez maquilleuse professionnelle grâce à nos cours certifiés et ateliers pratiques. Nos programmes allient théorie et pratique intensive : techniques de teint, correction colorimétrique, maquillage événementiel et bridal, ainsi que des modules spécifiques adaptés aux peaux et aux styles africains. À la fin de la formation, vous recevrez un accompagnement pour construire votre portfolio et démarrer votre activité en confiance.</p>
     </div>
 
-    <div class="block">
+    <div>
       <h4>Produits de qualité</h4>
       <p>Nous sélectionnons des marques fiables et contrôlées, avec des formulations adaptées aux peaux locales et des critères stricts de sécurité. Chaque produit est choisi pour sa tenue, sa compatibilité avec différentes carnations et son innocuité. Nous proposons également un suivi qualité et des recommandations d’utilisation pour garantir des résultats professionnels et durables.</p>
     </div>
 
-    <div class="block">
+    <div>
       <h4>Coaching & suivi</h4>
       <p>Accompagnement individuel pour développer votre signature beauté : conseils d’image, techniques avancées, gestion clientèle et stratégie commerciale. Nos sessions de coaching incluent des retours personnalisés, des exercices pratiques en situation réelle et un plan d’évolution pour que vous puissiez fidéliser vos clients et gagner en visibilité professionnelle.</p>
     </div>
   </div>
-  <!-- fin texte pro -->
+  <!-- fin texte simple -->
 
   <div class="service-cards">
     <div class="service-card">
