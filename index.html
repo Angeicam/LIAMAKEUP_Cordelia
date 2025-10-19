@@ -16,7 +16,7 @@
       --text:#333;
       --btn-radius:28px;
       --vh:1vh;
-      --hero-mobile-y:65%; /* valeur mobile (déplacé vers le bas comme demandé) */
+      --hero-mobile-y:65%;
     }
 
     /* reset */
@@ -80,7 +80,7 @@
     /* Hamburger */
     .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; align-items:center; justify-content:center; }
 
-    /* Mobile panel: no overlay, simple slide panel */
+    /* Mobile panel */
     nav.open{
       display:flex !important;
       position:fixed;
@@ -109,7 +109,6 @@
       align-items:center;
       gap:8px;
     }
-    /* Mobile open: visible but discret active style */
     nav.open a.active{
       background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
       color:var(--brand-bg);
@@ -119,9 +118,10 @@
       box-shadow: none;
     }
 
-    /* hero */
+    /* HERO */
     .hero{
       position:relative;
+      /* par défaut desktop : hauteur calculée à partir de la variable --vh (fix mobile 100vh via JS) */
       height: calc(var(--vh,1vh) * 100 - var(--topbar-height) - var(--header-height));
       display:flex;
       align-items:center;
@@ -130,30 +130,25 @@
       background: transparent;
     }
 
-    /* --- NEW: hero-media as background-image (clean control) --- */
+    /* Conteneur média : contient une <img> pour pouvoir switcher cover/contain selon breakpoint */
     .hero-media{
       position:absolute;
       inset:0;
       z-index:0;
-      display:block;
-      background: var(--muted-bg) no-repeat center/cover;
-      /* fallback background-position, can be overridden inline or below */
-      background-position: center 30%;
-      background-size: cover;
-      background-repeat: no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: var(--muted-bg);
       overflow:hidden;
     }
-    /* visually-hidden text for accessibility */
-    .sr-only{
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
+    /* Image : desktop = cover (remplit), mobile = contain (affiche la personne entière) */
+    .hero-media img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;         /* desktop: crop to cover */
+      object-position:center center;
+      max-width:none;
     }
 
     .hero::after{ content:""; position:absolute; inset:0; z-index:1; background: rgba(0,0,0,0.18); }
@@ -167,51 +162,63 @@
     .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
     .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-    /* SINGLE text block + petit ajout (texte réduit) */
     .services-intro{ max-width:1000px; margin:0 auto; padding:12px 4vw 20px; text-align:left; color:#333; }
     .services-intro .single{ display:block; }
     .services-intro .single .text{ font-size:.98rem; color:#444; line-height:1.5; }
     .services-intro .single .text b{ color:var(--brand-bg); }
 
-    /* service cards */
     .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:8px 4vw 48px; max-width:1200px; margin:0 auto; }
     .service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
     .service-card img{ width:100%; height:200px; object-fit:cover }
     .service-content{ padding:16px; text-align:center; }
 
-    /* Testimonials - clear separation and readable cards */
     .testimonials{ padding:36px 4vw; background:transparent; text-align:center; }
     .testimonials .container{ max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:14px; align-items:stretch; }
     .testimonials .testimonial{ background:#fff; padding:18px; border-radius:12px; text-align:left; color:#333; box-shadow:0 10px 26px rgba(0,0,0,0.06); border-left:6px solid var(--accent); font-style:italic; }
     .testimonials .testimonial .author{ display:block; margin-top:8px; font-weight:700; font-style:normal; color:var(--brand-bg) }
 
-    /* about (avec icône) */
     .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
     .about h2{ display:inline-flex; align-items:center; gap:10px; justify-content:center; font-size:1.25rem; }
     .about h2 i{ color:var(--accent); font-size:1.25rem; display:inline-block; transform:translateY(2px); }
 
-    /* footer/other */
     footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
     footer i{ vertical-align:middle }
 
     /* small screens responsive */
     @media (max-width:900px){ .logo img{ height:42px } }
+
+    /* === MOBILE BEHAVIOR ===
+       On mobile we:
+       - make hero use the full available viewport height (minus topbars)
+       - switch the image to object-fit:contain so the entire person is visible
+       - center the image horizontally
+    */
     @media (max-width:768px){
-      :root{ --topbar-height:56px; --header-height:56px; --mobile-hero-vh:44; }
+      :root{ --topbar-height:56px; --header-height:56px; }
+
       .topbar{ justify-content:space-between; padding:6px 4vw; }
       .nav-toggle{ display:inline-flex; }
       nav{ display:none; }
 
-      /* Adapt hero height on mobile */
+      /* hero = full remaining viewport height (pratique pour mobile portrait) */
       .hero{
-        height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height));
-        min-height:30vh;
-        align-items:flex-start;
+        height: calc(var(--vh,1vh) * 100 - var(--topbar-height) - var(--header-height));
+        min-height: calc(100vh - var(--topbar-height) - var(--header-height));
+        align-items:center; /* center vertically so full person is centered */
         justify-content:center;
-        padding-top:6px;
+        padding-top:0;
       }
 
-      /* déplace le contenu du hero vers le bas */
+      /* Important: on mobile we force the <img> to contain so the whole person is visible */
+      .hero-media img{
+        object-fit:contain;   /* show entire image (no crop) */
+        width:auto;           /* let width scale according to aspect ratio */
+        max-width:100%;
+        height:100%;          /* fill hero height; image will scale to fit height */
+        display:block;
+      }
+
+      /* move hero content down (if you still want the overlay content shifted) */
       .hero-content{
         padding-top:6px;
         transform: translateY(var(--hero-mobile-y));
@@ -222,10 +229,8 @@
       .services-intro{ padding:10px 4vw 16px; }
       .service-cards{ padding:8px 4vw 32px; }
       .testimonials .container{ padding:0 4px; gap:10px; }
-
-      /* Sur mobile on peut relever la position visible du background */
-      .hero-media{ background-position: center 28%; }
     }
+
     @media (max-width:420px){
       :root{ --topbar-height:56px; --header-height:54px }
       .logo img{ height:36px }
@@ -234,14 +239,11 @@
         transform: translateY(calc(var(--hero-mobile-y) + 2%));
         -webkit-transform: translateY(calc(var(--hero-mobile-y) + 2%));
       }
-      /* un petit ajustement final sur les très petits écrans */
-      .hero-media{ background-position: center 26%; }
     }
 
     /* accessibility focus */
     .show-focus-outline :focus { outline: 3px solid rgba(212,175,55,0.25); outline-offset:3px; }
 
-    /* touches */
     a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </style>
 </head>
@@ -269,7 +271,6 @@
         <i class="fas fa-bars" aria-hidden="true"></i>
       </button>
       <nav id="mainNav" aria-label="Menu principal">
-        <!-- <-- IMPORTANT : Contact pointe maintenant vers contact.html -->
         <a href="index.html" class="active" aria-current="page">Accueil</a>
         <a href="formation.html">Formations</a>
         <a href="produits.html">Produits</a>
@@ -281,12 +282,10 @@
 
   <!-- HERO -->
   <section class="hero" role="region" aria-label="Bannière principale">
-    <!-- background-image est appliquée ici. change l'URL ci-dessous si besoin -->
-    <div class="hero-media" aria-hidden="false" role="img" aria-label="Équipe LIAMAKEUP"
-         style="background-image:url('lia_make_up_3.png');"></div>
-
-    <!-- accessible fallback text (visually hidden) pour les lecteurs d'écran -->
-    <span class="sr-only">Photo de l'équipe LIAMAKEUP</span>
+    <div class="hero-media" aria-hidden="true">
+      <!-- On utilise <img> pour pouvoir switcher object-fit:cover (desktop) / contain (mobile) -->
+      <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP" id="heroImg">
+    </div>
 
     <div class="hero-content">
       <h1>Révélez votre beauté</h1>
@@ -384,7 +383,7 @@
       window.addEventListener('resize', setVh);
     })();
 
-    /* Mobile nav toggle - simple behavior */
+    /* Mobile nav toggle */
     (function(){
       const toggle = document.getElementById('navToggle');
       const nav = document.getElementById('mainNav');
@@ -392,15 +391,12 @@
       function openUI(){ nav.classList.add('open'); toggle.setAttribute('aria-expanded','true'); toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>'; }
       function closeUI(){ nav.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>'; }
       toggle.addEventListener('click', (e) => { e.stopPropagation(); if(nav.classList.contains('open')) closeUI(); else openUI(); });
-      // close when clicking a link inside nav
       nav.addEventListener('click', (e) => { const a = e.target.closest && e.target.closest('a'); if(a){ closeUI(); } });
-      // close if clicking outside nav or toggle
       document.addEventListener('click', (e) => { if(nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)){ closeUI(); } });
-      // close on Escape
       document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && nav.classList.contains('open')) closeUI(); });
     })();
 
-    /* Helper amélioré : priorité au hash (si présent), sinon par fichier */
+    /* Active link helper */
     (function(){
       const links = document.querySelectorAll('#mainNav a');
       function updateActive(){
@@ -410,10 +406,8 @@
         links.forEach(a=>{
           const href = a.getAttribute('href');
           if(!href) return;
-          // Si on a un hash dans l'URL, on ne marque QUE le lien qui correspond au hash
           if(hasHash && href === hash){ setActive(a); return; }
           if(hasHash){ clearActive(a); return; }
-          // Pas de hash → marquage par nom de fichier (ignorer les liens ancre '#...')
           if(href.startsWith('#')){ clearActive(a); return; }
           const hName = href.split('/').pop() || 'index.html';
           if(hName === path){ setActive(a); } else { clearActive(a); }
@@ -421,9 +415,7 @@
       }
       function setActive(el){ el.classList.add('active'); el.setAttribute('aria-current','page'); }
       function clearActive(el){ el.classList.remove('active'); el.removeAttribute('aria-current'); }
-      // initial
       updateActive();
-      // mettre à jour si le hash change ou navigation
       window.addEventListener('hashchange', updateActive);
       window.addEventListener('popstate', updateActive);
     })();
