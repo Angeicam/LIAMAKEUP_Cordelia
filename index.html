@@ -18,7 +18,7 @@
   --text:#333;
   --btn-radius:28px;
   --vh:1vh;
-  --hero-mobile-y:50%; /* mobile: position du texte (augmenter = descendre; réduire = remonter) */
+  --hero-mobile-y:50%; /* valeur par défaut (desktop intact) */
 }
 
 /* reset */
@@ -111,7 +111,7 @@ nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* SINGLE text block (icon + single paragraph) */
+/* SINGLE text block (icon removed) */
 .services-intro{
   max-width:1000px;
   margin:0 auto;
@@ -120,20 +120,8 @@ nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 
   color:#333;
 }
 .services-intro .single{
-  display:flex;
-  gap:12px;
-  align-items:flex-start;
-}
-.services-intro .single .icon-produits{
-  display:inline-grid;
-  place-items:center;
-  width:44px; height:44px; border-radius:10px;
-  background: linear-gradient(180deg, #FFD77A, #D4AF37);
-  color:#3a2418;
-  font-size:1.2rem;
-  box-shadow: 0 10px 20px rgba(92,64,51,0.18), 0 1px 0 rgba(255,255,255,0.35) inset;
-  transform: perspective(80px) rotateX(8deg) translateY(-3px);
-  flex-shrink:0;
+  /* icône supprimée : on passe à un bloc simple */
+  display:block;
 }
 .services-intro .single .text{
   font-size:.98rem;
@@ -156,7 +144,13 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 /* responsive tweaks */
 @media (max-width:900px){ .logo img{ height:42px } }
 @media (max-width:768px){
-  :root{ --topbar-height:56px; --header-height:56px; --mobile-hero-vh:44 }
+  :root{
+    --topbar-height:56px;
+    --header-height:56px;
+    /* OVERRIDE mobile : remonter le hero content à 35% (plus petit = plus haut) */
+    --hero-mobile-y:35%;
+    --mobile-hero-vh:44;
+  }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .nav-toggle{ display:inline-flex; }
   nav{ display:none; }
@@ -244,10 +238,9 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <section id="services" class="services" aria-labelledby="servicesTitle">
   <h2 id="servicesTitle" class="section-title">Nos Services</h2>
 
-  <!-- Single text block with the 3 points combined; icon "produits" kept -->
+  <!-- Single text block : icône ENLEVÉE -->
   <div class="services-intro">
     <div class="single" role="article" aria-label="Description synthétique des services">
-      <div class="icon-produits" aria-hidden="true"><i class="fas fa-box-open"></i></div>
       <div class="text">
         <b>Formation professionnelle, Produits & Coaching :</b>
         Programme certifié et ateliers pratiques pour démarrer votre activité. Marques contrôlées et formulations adaptées aux carnations locales avec suivi qualité. Coaching personnalisé pour techniques avancées, image et gestion clientèle afin d’accroître votre visibilité.
