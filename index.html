@@ -98,16 +98,7 @@ nav.open{
 }
 nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 12px; text-align:left; font-weight:700; display:flex; align-items:center; gap:8px; }
 
-/* Mobile: active link styling — plus visible/pro */
-nav.open a.active{
-  background: linear-gradient(90deg, rgba(212,175,55,0.16), rgba(212,175,55,0.06));
-  color:var(--brand-bg);
-  box-shadow: 0 12px 30px rgba(92,64,51,0.08);
-  border-left:6px solid var(--accent);
-  padding-left:10px;
-  font-weight:800;
-  transform:translateX(-2px);
-}
+/* NOTE: removed special mobile-only "super-marking" for .open active links to restore "comme avant" */
 
 /* hero */
 .hero{
@@ -128,7 +119,7 @@ nav.open a.active{
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* SINGLE text block (icon removed) */
+/* SINGLE text block + petit ajout */
 .services-intro{
   max-width:1000px;
   margin:0 auto;
@@ -191,8 +182,8 @@ footer i{ vertical-align:middle }
     --topbar-height:56px;
     --header-height:56px;
     --mobile-hero-vh:44;
-    /* -> DESCEND fortement le hero sur mobile (60%) */
-    --hero-mobile-y:60%;
+    /* -> DESCEND encore un peu le hero sur mobile (65%) */
+    --hero-mobile-y:65%;
   }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .nav-toggle{ display:inline-flex; }
@@ -285,12 +276,12 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <section id="services" class="services" aria-labelledby="servicesTitle">
   <h2 id="servicesTitle" class="section-title">Nos Services</h2>
 
-  <!-- Single text block : icône ENLEVÉE -->
+  <!-- Single text block : icône ENLEVÉE + ajout d'une petite phrase -->
   <div class="services-intro">
     <div class="single" role="article" aria-label="Description synthétique des services">
       <div class="text">
         <b>Formation professionnelle, Produits & Coaching :</b>
-        Programme certifié et ateliers pratiques pour démarrer votre activité. Marques contrôlées et formulations adaptées aux carnations locales avec suivi qualité. Coaching personnalisé pour techniques avancées, image et gestion clientèle afin d’accroître votre visibilité.
+        Programme certifié et ateliers pratiques pour démarrer votre activité. Marques contrôlées et formulations adaptées aux carnations locales avec suivi qualité. Coaching personnalisé pour techniques avancées, image et gestion clientèle afin d’accroître votre visibilité. Sessions flexibles, tarifs adaptés et support post-formation pour vous aider à lancer votre activité.
       </div>
     </div>
   </div>
@@ -396,7 +387,9 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 
   // close when clicking a link inside nav (keeps behavior "like au début")
   nav.addEventListener('click', (e) => {
-    if(e.target.tagName === 'A'){
+    // allow clicks on inner elements of a link to count as link click
+    const a = e.target.closest && e.target.closest('a');
+    if(a){
       closeUI();
     }
   });
