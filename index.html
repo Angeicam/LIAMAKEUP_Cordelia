@@ -12,13 +12,16 @@
 :root{
   --topbar-height:44px;
   --header-height:64px;
-  --accent:#D4AF37;
-  --brand-bg:#5C4033;
-  --muted-bg:#f5f5dc;
+  --accent:#D4AF37;      /* doré */
+  --brand-bg:#5C4033;    /* brun marque */
+  --muted-bg:#f5f5dc;    /* beige léger */
   --text:#333;
   --btn-radius:28px;
   --vh:1vh;
-  --hero-mobile-y:50%; /* valeur par défaut */
+  --hero-mobile-y:50%;   /* MOBILE: plus grand = descend plus (réglé à 50%) */
+  --card-radius:14px;
+  --gap:16px;
+  --social-size:40px;
 }
 
 /* reset */
@@ -55,7 +58,7 @@ header{
 /* Desktop nav */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
-nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; transition:all .18s ease; }
+nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; transition:all .18s ease; gap:8px; }
 nav a:hover{ color:var(--brand-bg); background:var(--accent) }
 nav a.active{
   background:var(--accent);
@@ -64,13 +67,13 @@ nav a.active{
   box-shadow: 0 6px 14px rgba(92,64,51,0.12);
 }
 
-/* Hamburger */
+/* Hamburger (mobile) */
 .nav-toggle{
   display:none;
   background:transparent;
   border:0;
   color:#fff;
-  font-size:1.25rem;
+  font-size:1.2rem;
   padding:8px;
   border-radius:8px;
   align-items:center;
@@ -134,14 +137,8 @@ nav.open a.active{
   text-align:left;
   color:#333;
 }
-.services-intro .single{
-  display:block;
-}
-.services-intro .single .text{
-  font-size:.98rem;
-  color:#444;
-  line-height:1.5;
-}
+.services-intro .single{ display:block; }
+.services-intro .single .text{ font-size:.98rem; color:#444; line-height:1.5; }
 .services-intro .single .text b{ color:var(--brand-bg); }
 
 /* service cards */
@@ -165,27 +162,94 @@ nav.open a.active{
 }
 .testimonials .testimonial .author{ display:block; margin-top:8px; font-weight:700; font-style:normal; color:var(--brand-bg) }
 
-/* about (avec icône) */
-.about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
-.about h2{ display:inline-flex; align-items:center; gap:10px; justify-content:center; font-size:1.25rem; }
-.about h2 i{ color:var(--accent); font-size:1.25rem; display:inline-block; transform:translateY(2px); }
+/* ABOUT: carte avec icône à gauche */
+.about-wrap{ max-width:1100px; margin:28px auto; padding:0 4vw; }
+.about-card{
+  background:#fff;
+  border-radius:var(--card-radius);
+  padding:20px;
+  display:flex;
+  gap:18px;
+  align-items:center;
+  box-shadow:0 12px 30px rgba(0,0,0,0.06);
+}
+.about-icon{
+  flex:0 0 76px;
+  height:76px;
+  border-radius:18px;
+  display:inline-grid;
+  place-items:center;
+  background: linear-gradient(180deg, #FFF2D6, #FFE1A8);
+  box-shadow: 0 8px 20px rgba(92,64,51,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.about-icon i{ font-size:28px; color:var(--brand-bg); transform:translateY(2px); }
+.about-content h2{ margin:0 0 6px 0; color:var(--brand-bg); font-size:1.15rem; }
+.about-content p{ margin:0; color:#444; line-height:1.6; }
 
-/* footer/other */
-footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
+/* Contact block (réorganisé, grille responsive) */
+.contact-block{ max-width:1100px; margin:28px auto 12px; padding:18px 4vw; }
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--gap);
+}
+.contact-item{
+  background:#fff;
+  border-radius:12px;
+  padding:14px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.05);
+}
+.contact-bubble{
+  width:52px; height:52px; border-radius:12px;
+  display:grid; place-items:center;
+  background: linear-gradient(180deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
+  color:var(--brand-bg);
+  font-size:20px;
+}
+.contact-item .meta{ font-weight:700; color:var(--brand-bg) }
+.contact-item .sub{ font-size:.95rem; color:#555; margin-top:3px; }
 
-/* responsive tweaks */
+/* Footer bottom */
+.site-footer{
+  background:#2c1e18; color:#fff; text-align:center; padding:18px 4vw; margin-top:12px;
+}
+.site-footer .social a{
+  color:rgba(255,255,255,0.9);
+  margin:0 8px;
+  font-size:1.05rem;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:var(--social-size);
+  height:var(--social-size);
+  border-radius:10px;
+  transition:all .15s ease;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.04);
+}
+.site-footer .social a:hover{ color:var(--brand-bg); background: rgba(255,255,255,0.06); transform:translateY(-3px); }
+.site-footer .social a .fa-tiktok { font-size:1.05rem; }
+
+/* small screens responsive */
+@media (max-width:1024px){
+  .about-card{ padding:18px; gap:14px; }
+  .about-icon{ width:64px; height:64px; border-radius:14px }
+}
 @media (max-width:900px){ .logo img{ height:42px } }
 @media (max-width:768px){
   :root{
     --topbar-height:56px;
     --header-height:56px;
-    /* mobile : descend un peu par rapport à avant (réglé à 40%) */
-    --hero-mobile-y:40%;
     --mobile-hero-vh:44;
   }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .nav-toggle{ display:inline-flex; }
   nav{ display:none; }
+
+  /* hero mobile: utilise la variable --hero-mobile-y définie en :root (50%) */
   .hero{
     height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height));
     min-height:30vh;
@@ -193,14 +257,23 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
     justify-content:center;
     padding-top:6px;
   }
-  /* use the variable to move hero content down (increase to descend) */
   .hero-content{ padding-top:6px; transform: translateY(var(--hero-mobile-y)); -webkit-transform: translateY(var(--hero-mobile-y)); }
   .hero::after{ background: rgba(0,0,0,0.12); }
+
+  /* services / cards */
   .services-intro{ padding:10px 4vw 16px; }
   .service-cards{ padding:8px 4vw 32px; }
 
-  /* make testimonials stack nicely on mobile */
+  /* testimonials -> spacing */
   .testimonials .container{ padding:0 4px; gap:10px; }
+
+  /* ABOUT: stack vertically on small screens */
+  .about-card{ flex-direction:column; align-items:flex-start; gap:12px; padding:16px; }
+  .about-icon{ width:56px; height:56px; border-radius:12px; }
+  .about-content h2{ font-size:1.05rem; }
+
+  /* CONTACT grid -> one column */
+  .contact-grid{ grid-template-columns:1fr; }
 }
 @media (max-width:420px){
   :root{ --topbar-height:56px; --header-height:54px }
@@ -209,7 +282,7 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   .hero-content{ transform: translateY(calc(var(--hero-mobile-y) + 2%)); -webkit-transform: translateY(calc(var(--hero-mobile-y) + 2%)); }
 }
 
-/* accessibility focus */
+/* focus */
 .show-focus-outline :focus { outline: 3px solid rgba(212,175,55,0.25); outline-offset:3px; }
 
 /* touches */
@@ -244,12 +317,12 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     </button>
 
     <nav id="mainNav" aria-label="Menu principal">
-      <!-- garde la classe "active" sur la page courante (ici Accueil) -->
-      <a href="index.html" class="active" aria-current="page">Accueil</a>
-      <a href="formation.html">Formations</a>
-      <a href="produits.html">Produits</a>
-      <a href="propos.html">À propos</a>
-      <a href="#contact">Contact</a>
+      <!-- Pour que la page active soit indiquée, garde la classe "active" sur le lien courant -->
+      <a href="index.html" class="active" aria-current="page"><i class="fas fa-home" aria-hidden="true"></i>&nbsp;Accueil</a>
+      <a href="formation.html"><i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>&nbsp;Formations</a>
+      <a href="produits.html"><i class="fas fa-box-open" aria-hidden="true"></i>&nbsp;Produits</a>
+      <a href="propos.html"><i class="fas fa-info-circle" aria-hidden="true"></i>&nbsp;À propos</a>
+      <a href="#contact"><i class="fas fa-phone-alt" aria-hidden="true"></i>&nbsp;Contact</a>
     </nav>
   </div>
 </header>
@@ -330,24 +403,71 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </div>
 </section>
 
-<!-- About -->
-<section class="about" aria-labelledby="aboutTitle">
-  <h2 id="aboutTitle"><i class="fas fa-award" aria-hidden="true"></i> Pourquoi choisir LIAMAKEUP ?</h2>
-  <p>Parce que nous croyons que chaque femme ivoirienne mérite de briller. Nous allions expertise, authenticité et passion pour vous offrir des formations de qualité et des produits de maquillage haut de gamme. Avec LIAMAKEUP, la beauté n’a pas de frontières.</p>
+<!-- About (nouvelle disposition pro) -->
+<section class="about-wrap" aria-labelledby="aboutTitle">
+  <div class="about-card" role="region" aria-label="Pourquoi choisir LIAMAKEUP">
+    <div class="about-icon" aria-hidden="true">
+      <i class="fas fa-award" title="Qualité & reconnaissance"></i>
+    </div>
+    <div class="about-content">
+      <h2 id="aboutTitle">Pourquoi choisir LIAMAKEUP ?</h2>
+      <p>Parce que nous croyons que chaque femme ivoirienne mérite de briller. Nous allions expertise, authenticité et passion pour vous offrir des formations de qualité et des produits de maquillage haut de gamme. Avec LIAMAKEUP, la beauté n’a pas de frontières.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact block -->
+<section class="contact-block" id="contact" aria-labelledby="contactTitle">
+  <h2 id="contactTitle" class="section-title">Contactez-nous</h2>
+
+  <div class="contact-grid" role="list">
+    <div class="contact-item" role="listitem" aria-label="Téléphone">
+      <div class="contact-bubble"><i class="fas fa-phone-alt" aria-hidden="true"></i></div>
+      <div>
+        <div class="meta">+225 07 77 86 73 09</div>
+        <div class="sub">Appel / WhatsApp</div>
+      </div>
+    </div>
+
+    <div class="contact-item" role="listitem" aria-label="Email">
+      <div class="contact-bubble"><i class="fas fa-envelope" aria-hidden="true"></i></div>
+      <div>
+        <div class="meta">contact@liamakeup.ci</div>
+        <div class="sub">Réponse sous 24h</div>
+      </div>
+    </div>
+
+    <div class="contact-item" role="listitem" aria-label="Adresse">
+      <div class="contact-bubble"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></div>
+      <div>
+        <div class="meta">Yamoussoukro, Côte d’Ivoire</div>
+        <div class="sub">Rendez-vous sur demande</div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Footer -->
-<footer role="contentinfo" id="contact">
-  <h3>Contactez-nous</h3>
-  <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
-  <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
-  <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
-  <p>
-    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-    <a href="https://wa.me/2250777867309" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-  </p>
-  <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+<footer class="site-footer" role="contentinfo" aria-label="Pied de page">
+  <div style="max-width:1100px;margin:0 auto;padding:0 4vw;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;gap:12px;align-items:center;">
+        <img src="logo_liamakeup_1.png" alt="LIAMAKEUP" style="height:38px;display:block">
+        <div style="font-weight:600;">LIAMAKEUP</div>
+      </div>
+
+      <div class="social" aria-hidden="false" style="display:flex;gap:8px;align-items:center;">
+        <a href="#" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/2250777867309" aria-label="WhatsApp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" aria-label="TikTok" title="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;font-size:.95rem;color:rgba(255,255,255,0.85);">
+      &copy; 2025 LIAMAKEUP - Tous droits réservés
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -399,6 +519,24 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   // close on Escape
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape' && nav.classList.contains('open')) closeUI();
+  });
+})();
+
+/* Small helper: set .active link based on current URL (works for filename links) */
+(function(){
+  const links = document.querySelectorAll('#mainNav a');
+  const path = location.pathname.split('/').pop() || 'index.html';
+  links.forEach(a=>{
+    const href = a.getAttribute('href');
+    if(!href) return;
+    const hName = href.split('/').pop();
+    if(hName === path) {
+      a.classList.add('active');
+      a.setAttribute('aria-current','page');
+    } else {
+      a.classList.remove('active');
+      a.removeAttribute('aria-current');
+    }
   });
 })();
 </script>
