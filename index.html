@@ -15,10 +15,8 @@
       --muted-bg:#f5f5dc;
       --text:#333;
       --btn-radius:28px;
-      --vh:1vh;
+      --vh:1vh;              /* will be updated by JS to fix mobile 100vh */
       --hero-mobile-y:65%;
-      /* valeur par défaut (desktop) */
-      --bg-vertical-scale: 100%; /* hauteur = 100% du conteneur (pas d'étirement) */
     }
 
     /* reset */
@@ -36,9 +34,7 @@
     /* Topbar */
     .topbar{
       position:fixed;
-      top:0;
-      left:0;
-      right:0;
+      top:0; left:0; right:0;
       height:var(--topbar-height);
       background:#2c1e18;
       color:#fff;
@@ -57,8 +53,7 @@
     header{
       position:fixed;
       top:var(--topbar-height);
-      left:0;
-      right:0;
+      left:0; right:0;
       height:var(--header-height);
       background:var(--brand-bg);
       color:#fff;
@@ -82,7 +77,7 @@
     /* Hamburger */
     .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; align-items:center; justify-content:center; }
 
-    /* Mobile panel */
+    /* Mobile panel: slide panel */
     nav.open{
       display:flex !important;
       position:fixed;
@@ -100,30 +95,17 @@
       z-index:146;
       overflow:auto;
     }
-    nav.open a{
-      color:#333;
-      background:transparent;
-      border-radius:8px;
-      padding:12px 12px;
-      text-align:left;
-      font-weight:700;
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-    nav.open a.active{
-      background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
-      color:var(--brand-bg);
-      border-left:4px solid rgba(212,175,55,0.95);
-      padding-left:10px;
-      font-weight:700;
-      box-shadow: none;
-    }
+    nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 12px; text-align:left; font-weight:700; display:flex; align-items:center; gap:8px; }
+    nav.open a.active{ background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06)); color:var(--brand-bg); border-left:4px solid rgba(212,175,55,0.95); padding-left:10px; font-weight:700; box-shadow: none; }
 
-    /* HERO avec background-image (on contrôle width = 100% & height = variable) */
+    /* HERO - two layers technique:
+       .hero-bg: background-size:cover to fill the area (no deformation)
+       .hero-media img: object-fit:contain to show the full person without crop
+    */
     .hero{
       position:relative;
-      height: calc(var(--vh,1vh) * 100 - var(--topbar-height) - var(--header-height));
+      height: calc(var(--vh) * 100 - var(--topbar-height) - var(--header-height));
+      min-height:30vh;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -131,40 +113,50 @@
       background: transparent;
     }
 
-    /* hero-media est la couche de fond */
-    .hero-media{
+    /* background layer that always fills (cover) */
+    .hero-bg{
       position:absolute;
       inset:0;
       z-index:0;
-      background-image: url('lia_make_up_3.png'); /* change l'URL si besoin */
+      background-image:url('lia_make_up_3.png');
+      background-position:center center;
       background-repeat:no-repeat;
-      background-position: center top; /* on peut ajuster top/center/bottom selon image */
-      /* width 100% + hauteur contrôlée par variable — c'est l'astuce pour "allonger" */
-      background-size: 100% var(--bg-vertical-scale);
-      will-change: background-size, transform;
+      background-size:cover; /* fills without deforming */
     }
 
-    /* Overlay pour lisibilité du texte */
-    .hero::after{
-      content:"";
+    /* front layer to show entire person without crop */
+    .hero-media{
       position:absolute;
       inset:0;
-      z-index:1;
-      background: rgba(0,0,0,0.18);
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       pointer-events:none;
     }
+    .hero-media img{
+      display:block;
+      /* height equals the visible hero height (preserve ratio: width:auto) */
+      height: calc(var(--vh) * 100 - var(--topbar-height) - var(--header-height));
+      max-height:100%;
+      width:auto;
+      max-width:100%;
+      object-fit:contain; /* no crop, no deformation */
+    }
 
-    .hero-content{ position:relative; z-index:2; text-align:center; padding:0 4vw; max-width:900px; color:#fff; transition:transform .24s ease; }
+    /* overlay for text readability (between bg and content) */
+    .hero-overlay{ position:absolute; inset:0; z-index:1; background: rgba(0,0,0,0.18); pointer-events:none; }
+
+    .hero-content{ position:relative; z-index:3; text-align:center; padding:0 4vw; max-width:900px; color:#fff; transition:transform .24s ease; }
     .hero h1{ font-size:clamp(1.6rem,4vw,2.6rem); color:var(--accent); margin-bottom:6px; font-weight:800 }
     .hero p{ font-size:clamp(.95rem,2.2vw,1.05rem); margin-bottom:12px; font-weight:500 }
     .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
 
-    /* Services */
+    /* Services section */
     .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
     .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
     .services-intro{ max-width:1000px; margin:0 auto; padding:12px 4vw 20px; text-align:left; color:#333; }
-    .services-intro .single{ display:block; }
     .services-intro .single .text{ font-size:.98rem; color:#444; line-height:1.5; }
     .services-intro .single .text b{ color:var(--brand-bg); }
 
@@ -185,48 +177,43 @@
     footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
     footer i{ vertical-align:middle }
 
-    /* small screens responsive */
+    /* Responsive */
     @media (max-width:900px){ .logo img{ height:42px } }
 
-    /* === MOBILE ADJUSTMENTS ===
-       On mobile on change la variable --bg-vertical-scale pour "allonger" verticalement
-       tout en gardant width à 100% (donc la photo garde la même largeur mais est étirée en hauteur).
-       Ajuste la valeur de --bg-vertical-scale pour obtenir l'allongement souhaité.
-    */
     @media (max-width:768px){
-      :root{
-        --topbar-height:56px;
-        --header-height:56px;
-        --bg-vertical-scale: 140%; /* <-- ici on allonge verticalement (ajuste 120%/140%/160%) */
-      }
-
+      :root{ --topbar-height:56px; --header-height:56px; }
       .topbar{ justify-content:space-between; padding:6px 4vw; }
       .nav-toggle{ display:inline-flex; }
       nav{ display:none; }
 
       .hero{
-        height: calc(var(--vh,1vh) * 100 - var(--topbar-height) - var(--header-height));
+        height: calc(var(--vh) * 100 - var(--topbar-height) - var(--header-height));
         min-height: calc(100vh - var(--topbar-height) - var(--header-height));
         align-items:center;
         justify-content:center;
-        padding-top:0;
       }
 
-      /* si le positionnement doit être plus haut/bas, on ajuste background-position */
-      .hero-media{ /* nothing here: same as hero-media default */ }
+      /* Ensure the front image exactly fills the visible vertical area (no crop, ratio kept) */
+      .hero-media img{
+        height: calc(var(--vh) * 100 - var(--topbar-height) - var(--header-height));
+        width:auto;
+        max-width:100%;
+        object-fit:contain;
+      }
 
       .hero-content{
+        padding-top:6px;
         transform: translateY(var(--hero-mobile-y));
         -webkit-transform: translateY(var(--hero-mobile-y));
       }
 
-      .hero::after{ background: rgba(0,0,0,0.12); }
+      .hero-overlay{ background: rgba(0,0,0,0.12); }
+
       .services-intro{ padding:10px 4vw 16px; }
       .service-cards{ padding:8px 4vw 32px; }
       .testimonials .container{ padding:0 4px; gap:10px; }
     }
 
-    /* très petits écrans */
     @media (max-width:420px){
       :root{ --topbar-height:56px; --header-height:54px }
       .logo img{ height:36px }
@@ -239,7 +226,6 @@
 
     /* accessibility focus */
     .show-focus-outline :focus { outline: 3px solid rgba(212,175,55,0.25); outline-offset:3px; }
-
     a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </style>
 </head>
@@ -278,7 +264,17 @@
 
   <!-- HERO -->
   <section class="hero" role="region" aria-label="Bannière principale">
-    <div class="hero-media" aria-hidden="true"></div>
+    <!-- background layer (cover) -> fills the hero area -->
+    <div class="hero-bg" aria-hidden="true" style="background-image:url('lia_make_up_3.png');"></div>
+
+    <!-- front image (contain) -> shows the full person without cropping -->
+    <div class="hero-media" aria-hidden="true">
+      <img src="lia_make_up_3.png" alt="Équipe LIAMAKEUP" id="heroImg">
+    </div>
+
+    <!-- overlay for contrast -->
+    <div class="hero-overlay" aria-hidden="true"></div>
+
     <div class="hero-content">
       <h1>Révélez votre beauté</h1>
       <p>Maquillage, formations et produits de qualité</p>
@@ -369,13 +365,14 @@
     /* Fix mobile 100vh */
     (function(){
       function setVh(){
+        // set --vh to 1% of the viewport height in pixels
         document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
       }
       setVh();
       window.addEventListener('resize', setVh);
     })();
 
-    /* Mobile nav toggle */
+    /* Mobile nav toggle - simple behavior */
     (function(){
       const toggle = document.getElementById('navToggle');
       const nav = document.getElementById('mainNav');
@@ -383,12 +380,15 @@
       function openUI(){ nav.classList.add('open'); toggle.setAttribute('aria-expanded','true'); toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>'; }
       function closeUI(){ nav.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>'; }
       toggle.addEventListener('click', (e) => { e.stopPropagation(); if(nav.classList.contains('open')) closeUI(); else openUI(); });
+      // close when clicking a link inside nav
       nav.addEventListener('click', (e) => { const a = e.target.closest && e.target.closest('a'); if(a){ closeUI(); } });
+      // close if clicking outside nav or toggle
       document.addEventListener('click', (e) => { if(nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)){ closeUI(); } });
+      // close on Escape
       document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && nav.classList.contains('open')) closeUI(); });
     })();
 
-    /* Active link helper */
+    /* Helper: active link based on path or hash */
     (function(){
       const links = document.querySelectorAll('#mainNav a');
       function updateActive(){
