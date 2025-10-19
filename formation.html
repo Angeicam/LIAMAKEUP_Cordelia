@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LIAMAKEUP - Formations</title>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --topbar-height:44px;
@@ -16,62 +18,45 @@
   --text:#333;
   --btn-radius:28px;
   --vh:1vh;
+  --hero-mobile-y:65%;
 }
 
 /* reset */
-* {margin:0; padding:0; box-sizing:border-box;}
-html { scroll-behavior: smooth; }
-body {
-  font-family:'Poppins', sans-serif;
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
   background:var(--muted-bg);
   color:var(--text);
   line-height:1.6;
   padding-top: calc(var(--topbar-height) + var(--header-height));
+  -webkit-font-smoothing:antialiased;
 }
 
-/* Topbar (fixed) */
-.topbar {
-  background:#2c1e18;
-  color:#fff;
-  font-size:14px;
-  padding:8px 5vw;
-  display:flex;
-  justify-content:flex-end;
-  gap:20px;
-  position:fixed;
-  top:0;
-  left:0; right:0;
-  height:var(--topbar-height);
-  z-index:140;
+/* Topbar (same as index) */
+.topbar{
+  position:fixed; top:0; left:0; right:0;
+  height:var(--topbar-height); background:#2c1e18; color:#fff;
+  display:flex; align-items:center; justify-content:flex-end; gap:12px;
+  padding:0 4vw; z-index:140; font-size:.95rem;
 }
-.topbar a {color:var(--accent); text-decoration:none; transition:0.3s; display:inline-flex; gap:8px; align-items:center}
-.topbar a:hover {color:#b8962e; text-decoration:underline;}
+.topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center }
 
-/* Header (fixed under topbar) */
-header {
-  background:var(--brand-bg);
-  color:#fff;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 5vw;
-  box-shadow:0 4px 10px rgba(0,0,0,0.15);
-  position:fixed;
-  top:var(--topbar-height);
-  left:0; right:0;
-  height:var(--header-height);
-  z-index:141;
+/* Header (same as index) */
+header{
+  position:fixed; top:var(--topbar-height); left:0; right:0;
+  height:var(--header-height); background:var(--brand-bg); color:#fff;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 4vw; z-index:141; box-shadow:0 4px 10px rgba(0,0,0,.12);
 }
+.logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
+.logo img{height:48px; display:block}
 
-/* Logo */
-.logo {font-size:20px; font-weight:700; color:var(--accent); cursor:pointer; display:flex; align-items:center; gap:10px;}
-.logo img {height:42px; display:block;}
-
-/* Desktop nav */
+/* Nav / desktop */
 .nav-wrap{display:flex; align-items:center; gap:12px}
-nav{display:flex; gap:12px; align-items:center}
+nav{display:flex; gap:8px; align-items:center}
 nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; transition:all .18s ease; }
-nav a:hover{ color:var(--brand-bg); background:var(--accent); }
+nav a:hover{ color:var(--brand-bg); background:var(--accent) }
 nav a.active{
   background:var(--accent);
   color:var(--brand-bg);
@@ -79,7 +64,7 @@ nav a.active{
   box-shadow: 0 6px 14px rgba(92,64,51,0.12);
 }
 
-/* Hamburger (mobile) */
+/* Hamburger */
 .nav-toggle{
   display:none;
   background:transparent;
@@ -92,7 +77,7 @@ nav a.active{
   justify-content:center;
 }
 
-/* Mobile panel: no overlay, simple slide panel from right */
+/* Mobile panel: no overlay, slide from right */
 nav.open{
   display:flex !important;
   position:fixed;
@@ -112,7 +97,7 @@ nav.open{
 }
 nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 12px; text-align:left; font-weight:700; display:flex; align-items:center; gap:8px; }
 
-/* Mobile open: visible but discreet active style */
+/* mobile active style (discret) */
 nav.open a.active{
   background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
   color:var(--brand-bg);
@@ -135,18 +120,17 @@ nav.open a.active{
   justify-content:center;
   text-align:center;
   color:#fff;
-  margin-top:0;
 }
 .hero::after {content:""; position:absolute; inset:0; background:rgba(0,0,0,0.4);}
 .hero-content {position:relative; z-index:1; max-width:800px;}
 .hero-content h1 {font-size:clamp(2rem,4vw,48px); color:var(--accent); margin-bottom:12px; font-weight:700;}
 .hero-content p {font-size:clamp(1rem,2.2vw,20px); margin-bottom:12px; font-weight:500;}
 
-/* Section Titles */
+/* Section title */
 .section-title {text-align:center; font-size:clamp(1.25rem,3vw,32px); color:var(--brand-bg); margin:48px 0 24px; font-weight:600;}
 .section-title::after {content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px;}
 
-/* Cards */
+/* Products grid and cards (kept as before) */
 .products {display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:25px; padding:0 5vw 60px;}
 .product-card {
   background:#fff;
@@ -170,7 +154,7 @@ nav.open a.active{
 .modal {
   display:none;
   position:fixed;
-  z-index:1000; /* au-dessus de nav.open (146) */
+  z-index:1000; /* au-dessus de nav.open */
   left:0; top:0; right:0; bottom:0;
   background:rgba(0,0,0,0.6);
   align-items:center;
@@ -178,8 +162,6 @@ nav.open a.active{
   padding:20px;
 }
 .modal.show { display:flex; }
-
-/* Modal content fixed and centered with clear visibility */
 .modal-content{
   position:relative;
   width:100%;
@@ -188,21 +170,12 @@ nav.open a.active{
   overflow:hidden;
   box-shadow:0 12px 40px rgba(0,0,0,0.5);
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
-  /* fallback look if background image not loaded */
   color:#fff;
   z-index:1001;
 }
-
-/* If you use background image for modal, keep it subtle and ensure text is on top */
-.modal-content .bg {
-  position:absolute; inset:0; background-image:url('Maquillage_12.png'); background-size:cover; background-position:center; filter:brightness(.45); z-index:0;
-}
+.modal-content .bg { position:absolute; inset:0; background-image:url('Maquillage_12.png'); background-size:cover; background-position:center; filter:brightness(.45); z-index:0; }
 .modal-content>*{position:relative; z-index:1; padding:18px 22px;}
-
-/* Close */
 .close{position:absolute;top:10px;right:14px;font-size:26px;cursor:pointer;color:#fff; z-index:1002;}
-
-/* Header/body rows */
 .modal-header h2{color:var(--accent);margin-bottom:6px;font-size:20px;text-transform:uppercase;}
 .modal-body{padding:6px 0 0;font-size:15px;text-align:left;}
 .modal-row{display:flex;justify-content:space-between;margin:6px 0;font-size:15px;}
@@ -223,23 +196,17 @@ footer h3 {color:var(--accent);margin-bottom:10px;font-weight:700;}
 footer p {margin:5px 0;}
 footer a {color:var(--accent);margin:0 8px;text-decoration:none;}
 
-/* Responsive */
-@media (max-width:900px){
-  .logo img{height:38px}
-  .hero {height:42vh;}
-  .product-card {padding:18px;}
-}
+/* responsive */
+@media (max-width:900px){ .logo img{height:42px} .hero{height:42vh} .product-card{padding:18px} }
 @media (max-width:768px){
   .nav-toggle{ display:inline-flex; }
   nav{ display:none; }
-  /* panel will show via nav.open */
   .products{ padding:0 4vw 48px; }
   .section-title{ margin-top:28px; }
+  /* move hero content on mobile using variable (if needed) */
+  .hero-content{ transform: translateY(var(--hero-mobile-y)); -webkit-transform: translateY(var(--hero-mobile-y)); }
 }
-@media (max-width:420px){
-  .hero-content h1{ font-size:clamp(1.4rem,6vw,28px); }
-  .hero { background-position:center 30%; }
-}
+@media (max-width:420px){ .hero-content h1{ font-size:clamp(1.4rem,6vw,28px); } .hero { background-position:center 30%; } }
 
 /* accessibility focus */
 .show-focus-outline :focus { outline: 3px solid rgba(212,175,55,0.25); outline-offset:3px; }
@@ -248,15 +215,25 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </head>
 <body>
 
-<!-- Topbar -->
-<div class="topbar">
-  <a href="tel:+2250777867309"><i class="fas fa-phone" aria-hidden="true"></i> <span>+225 07 77 86 73 09</span></a>
-  <a href="#"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> <span>Yamoussoukro</span></a>
+<!-- topbar (identique) -->
+<div class="topbar" role="banner">
+  <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
+    <i class="fas fa-phone" aria-hidden="true"></i>
+    <span class="tb-text">+225 07 77 86 73 09</span>
+  </a>
+
+  <a href="mailto:contact@liamakeup.ci" aria-label="Email LIAMAKEUP">
+    <i class="fas fa-envelope" aria-hidden="true"></i>
+    <span class="tb-text">contact@liamakeup.ci</span>
+  </a>
 </div>
 
-<!-- Header -->
-<header>
-  <div class="logo" onclick="location.href='index.html'"><img src="logo_liamakeup_1.png" alt="LIAMAKEUP Logo">LIAMAKEUP</div>
+<!-- header (copié de l'index) -->
+<header role="navigation">
+  <div class="logo" onclick="location.href='index.html'">
+    <img src="logo_liamakeup_1.png" alt="LIAMAKEUP logo">
+    <span>LIAMAKEUP</span>
+  </div>
 
   <div class="nav-wrap">
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Ouvrir le menu">
@@ -265,7 +242,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 
     <nav id="mainNav" aria-label="Menu principal">
       <a href="index.html">Accueil</a>
-      <a href="formation.html" class="active">Formations</a>
+      <a href="formation.html" class="active" aria-current="page">Formations</a>
       <a href="produits.html">Produits</a>
       <a href="propos.html">À propos</a>
       <a href="contact.html">Contact</a>
@@ -416,6 +393,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
 </footer>
 
+<!-- scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 /* Fix mobile 100vh */
@@ -427,7 +405,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   window.addEventListener('resize', setVh);
 })();
 
-/* Mobile nav toggle - same behavior as homepage */
+/* Mobile nav toggle - same behavior as index */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
@@ -470,7 +448,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   });
 })();
 
-/* Active link helper (priorité au hash sinon par fichier) */
+/* Active link helper (priority to hash, else by filename) */
 (function(){
   const links = document.querySelectorAll('#mainNav a');
 
@@ -514,8 +492,6 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     modal.classList.add('show');
     modal.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
-    // move focus to modal for accessibility
-    modal.querySelector('.modal-content').focus?.();
   }
   function closeModal() {
     modal.classList.remove('show');
@@ -525,7 +501,6 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 
   cards.forEach(card=>{
     card.addEventListener('click', (e)=>{
-      // populate modal fields
       document.getElementById('modal-title').textContent = card.dataset.title || '';
       document.getElementById('modal-dates').textContent = card.dataset.dates || '';
       document.getElementById('modal-location').textContent = card.dataset.location || '';
@@ -542,12 +517,10 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
       // download (clone modal content and create pdf)
       btnDownload.onclick = function(){
         const modalContent = document.querySelector('.modal-content').cloneNode(true);
-        // remove the close button and bg in cloned node for clean pdf
         const closeBtn = modalContent.querySelector('.close'); if(closeBtn) closeBtn.remove();
         const bg = modalContent.querySelector('.bg'); if(bg) bg.remove();
         const header = modalContent.querySelector('.modal-header h2');
         if(header) header.textContent = "Avis de préinscription - " + header.textContent;
-        // use html2pdf
         html2pdf().set({
           margin: 10,
           filename: (header ? header.textContent.trim() : 'fiche') + '.pdf',
@@ -574,5 +547,6 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   });
 })();
 </script>
+
 </body>
 </html>
