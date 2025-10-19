@@ -118,23 +118,32 @@
       box-shadow: none;
     }
    @media (max-width:768px) {
-  /* Lien actif avec encadrement pro */
+  /* Lien actif pleine largeur + effet pro */
   nav.open a.active {
+    display: block;
+    width: 100%; /* ✅ prend toute la largeur */
+    box-sizing: border-box;
     background: linear-gradient(135deg, rgba(212,175,55,0.95), rgba(240,210,100,0.85));
     color: var(--brand-bg);
-    border: 2px solid rgba(212,175,55,1); /* ✅ contour doré net */
-    border-radius: 12px;                  /* coins légèrement arrondis */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.3);
+    border: 2px solid rgba(212,175,55,1); /* contour doré net */
+    border-radius: 14px; /* coins plus arrondis */
+    padding: 18px 20px;   /* ✅ bande plus large */
     font-weight: 800;
-    letter-spacing: 0.3px;
-    text-align: center;                   /* texte centré */
-    padding: 14px 16px;
-    transition: all 0.2s ease;
+    text-align: center;    /* texte centré */
+    letter-spacing: 0.4px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.3);
+    transition: all 0.25s ease;
   }
 
-  /* Optionnel : effet hover léger sur les autres liens */
+  /* Légère animation au survol pour donner effet “pro” */
+  nav.open a.active:hover {
+    background: linear-gradient(135deg, rgba(212,175,55,1), rgba(245,220,120,0.9));
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2), inset 0 2px 6px rgba(255,255,255,0.35);
+  }
+
+  /* Autres liens restent stylés */
   nav.open a:hover:not(.active) {
-    background: rgba(212,175,55,0.1);
+    background: rgba(212,175,55,0.12);
   }
 }
 
