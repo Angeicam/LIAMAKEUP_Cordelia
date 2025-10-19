@@ -18,7 +18,7 @@
   --text:#333;
   --btn-radius:28px;
   --vh:1vh;
-  --hero-mobile-y:65%; /* tu avais demandé descendre davantage */
+  --hero-mobile-y:65%; /* reste la valeur que tu avais demandée */
 }
 
 /* reset */
@@ -98,7 +98,15 @@ nav.open{
 }
 nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 12px; text-align:left; font-weight:700; display:flex; align-items:center; gap:8px; }
 
-/* NOTE: mobile active styling left simple (comme avant) */
+/* REMIS : active link styling WHEN PANEL OPEN — visible mais discret */
+nav.open a.active{
+  background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
+  color:var(--brand-bg);
+  border-left:4px solid rgba(212,175,55,0.95);
+  padding-left:10px;
+  font-weight:700;
+  box-shadow: none;
+}
 
 /* hero */
 .hero{
@@ -119,7 +127,7 @@ nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* SINGLE text block + petit ajout */
+/* SINGLE text block + texte réduit */
 .services-intro{
   max-width:1000px;
   margin:0 auto;
@@ -135,6 +143,7 @@ nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 
   color:#444;
   line-height:1.5;
 }
+/* texte raccourci et plus direct */
 .services-intro .single .text b{ color:var(--brand-bg); }
 
 /* service cards */
@@ -167,7 +176,15 @@ nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 footer i{ vertical-align:middle }
 
-/* small screens responsive */
+/* style des icônes sociales / footer pour desktop (plus visibles) */
+@media (min-width:769px){
+  .site-social a{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; background:rgba(212,175,55,0.12); color:var(--accent); margin:0 6px; text-decoration:none; transition:transform .14s ease; }
+  .site-social a:hover{ transform:translateY(-3px); background:rgba(212,175,55,0.18); }
+  /* colorise les icônes inline (footer & about) */
+  footer .fab, .about h2 i, .topbar a i { color:var(--accent); }
+}
+
+/* responsive tweaks */
 @media (max-width:900px){ .logo img{ height:42px } }
 @media (max-width:768px){
   :root{
@@ -266,12 +283,12 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <section id="services" class="services" aria-labelledby="servicesTitle">
   <h2 id="servicesTitle" class="section-title">Nos Services</h2>
 
-  <!-- Single text block : icône ENLEVÉE + ajout d'une petite phrase -->
+  <!-- Single text block : icône ENLEVÉE + texte réduit -->
   <div class="services-intro">
     <div class="single" role="article" aria-label="Description synthétique des services">
       <div class="text">
         <b>Formation professionnelle, Produits & Coaching :</b>
-        Programme certifié et ateliers pratiques pour démarrer votre activité. Marques contrôlées et formulations adaptées aux carnations locales avec suivi qualité. Coaching personnalisé pour techniques avancées, image et gestion clientèle afin d’accroître votre visibilité. Sessions flexibles, tarifs adaptés et support post-formation pour vous aider à lancer votre activité.
+        Programme certifié et ateliers pratiques pour démarrer votre activité. Marques contrôlées et formulations adaptées aux carnations locales. Coaching personnalisé en techniques avancées, image et gestion clientèle.
       </div>
     </div>
   </div>
@@ -298,7 +315,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <div class="service-card">
       <img src="caoching.png" alt="Coaching beauté">
       <div class="service-content">
-        <h3>Coaching Beauté</h3>
+        <h33>Coaching Beauté</h33>
         <p><strong>Apprenez à sublimer votre visage</strong> au quotidien grâce à nos séances personnalisées.</p>
         <a href="contact.html" class="btn">Réserver une séance</a>
       </div>
