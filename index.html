@@ -117,34 +117,22 @@
       font-weight:700;
       box-shadow: none;
     }
-    @media (max-width:768px) {
-  nav.open {
-    padding: 12px;
-  }
-
-  nav.open a {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 14px 16px;
-    margin: 6px 0;
-    border-radius: 10px;
-    text-align: center; /* ✅ texte centré */
-    font-weight: 600;
-    transition: all .2s ease;
-  }
-
-  /* ✅ Lien actif avec couleur plus visible + léger effet brillant */
+   @media (max-width:768px) {
+  /* Lien actif avec encadrement pro */
   nav.open a.active {
     background: linear-gradient(135deg, rgba(212,175,55,0.95), rgba(240,210,100,0.85));
     color: var(--brand-bg);
-    border-left: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4);
+    border: 2px solid rgba(212,175,55,1); /* ✅ contour doré net */
+    border-radius: 12px;                  /* coins légèrement arrondis */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.3);
     font-weight: 800;
     letter-spacing: 0.3px;
+    text-align: center;                   /* texte centré */
+    padding: 14px 16px;
+    transition: all 0.2s ease;
   }
 
-  /* Optionnel : effet léger au survol pour les autres liens */
+  /* Optionnel : effet hover léger sur les autres liens */
   nav.open a:hover:not(.active) {
     background: rgba(212,175,55,0.1);
   }
