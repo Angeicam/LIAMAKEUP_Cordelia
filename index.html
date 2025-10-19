@@ -18,7 +18,7 @@
   --text:#333;
   --btn-radius:28px;
   --vh:1vh;
-  --hero-mobile-y:65%; /* reste la valeur que tu avais demandée */
+  --hero-mobile-y:65%; /* valeur mobile (déplacé vers le bas comme demandé) */
 }
 
 /* reset */
@@ -98,7 +98,7 @@ nav.open{
 }
 nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 12px; text-align:left; font-weight:700; display:flex; align-items:center; gap:8px; }
 
-/* REMIS : active link styling WHEN PANEL OPEN — visible mais discret */
+/* Mobile open: visible but discret active style */
 nav.open a.active{
   background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
   color:var(--brand-bg);
@@ -127,7 +127,7 @@ nav.open a.active{
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* SINGLE text block + texte réduit */
+/* SINGLE text block + petit ajout (texte réduit) */
 .services-intro{
   max-width:1000px;
   margin:0 auto;
@@ -176,15 +176,7 @@ nav.open a.active{
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 footer i{ vertical-align:middle }
 
-/* style des icônes sociales / footer pour desktop (plus visibles) */
-@media (min-width:769px){
-  .site-social a{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; background:rgba(212,175,55,0.12); color:var(--accent); margin:0 6px; text-decoration:none; transition:transform .14s ease; }
-  .site-social a:hover{ transform:translateY(-3px); background:rgba(212,175,55,0.18); }
-  /* colorise les icônes inline (footer & about) */
-  footer .fab, .about h2 i, .topbar a i { color:var(--accent); }
-}
-
-/* responsive tweaks */
+/* small screens responsive */
 @media (max-width:900px){ .logo img{ height:42px } }
 @media (max-width:768px){
   :root{
@@ -253,12 +245,12 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     </button>
 
     <nav id="mainNav" aria-label="Menu principal">
-      <!-- garde la classe "active" sur la page courante (ici Accueil) -->
+      <!-- <-- IMPORTANT : Contact pointe maintenant vers contact.html -->
       <a href="index.html" class="active" aria-current="page">Accueil</a>
       <a href="formation.html">Formations</a>
       <a href="produits.html">Produits</a>
       <a href="propos.html">À propos</a>
-      <a href="#contact">Contact</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
@@ -315,7 +307,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <div class="service-card">
       <img src="caoching.png" alt="Coaching beauté">
       <div class="service-content">
-        <h33>Coaching Beauté</h33>
+        <h3>Coaching Beauté</h3>
         <p><strong>Apprenez à sublimer votre visage</strong> au quotidien grâce à nos séances personnalisées.</p>
         <a href="contact.html" class="btn">Réserver une séance</a>
       </div>
@@ -346,7 +338,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </section>
 
 <!-- Footer -->
-<footer role="contentinfo" id="contact">
+<footer role="contentinfo">
   <h3>Contactez-nous</h3>
   <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
   <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
@@ -370,7 +362,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   window.addEventListener('resize', setVh);
 })();
 
-/* Mobile nav toggle - simple behavior (like initial) */
+/* Mobile nav toggle - simple behavior */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
@@ -392,9 +384,8 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     if(nav.classList.contains('open')) closeUI(); else openUI();
   });
 
-  // close when clicking a link inside nav (keeps behavior "like au début")
+  // close when clicking a link inside nav
   nav.addEventListener('click', (e) => {
-    // allow clicks on inner elements of a link to count as link click
     const a = e.target.closest && e.target.closest('a');
     if(a){
       closeUI();
@@ -414,7 +405,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   });
 })();
 
-/* Helper amélioré : priorité au hash, et mise à jour à chaque changement d'URL/hash */
+/* Helper amélioré : priorité au hash (si présent), sinon par fichier */
 (function(){
   const links = document.querySelectorAll('#mainNav a');
 
@@ -428,12 +419,12 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
       if(!href) return;
 
       // Si on a un hash dans l'URL, on ne marque QUE le lien qui correspond au hash
+      if(hasHash && href === hash){
+        setActive(a);
+        return;
+      }
       if(hasHash){
-        if(href === hash){
-          setActive(a);
-        } else {
-          clearActive(a);
-        }
+        clearActive(a);
         return;
       }
 
@@ -463,7 +454,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   // initial
   updateActive();
 
-  // mettre à jour si le hash change (click sur ancre) ou navigation SPA-like
+  // mettre à jour si le hash change ou navigation
   window.addEventListener('hashchange', updateActive);
   window.addEventListener('popstate', updateActive);
 })();
