@@ -104,60 +104,7 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 .hero p{ font-size:clamp(.95rem,2.2vw,1.1rem); margin-bottom:14px; font-weight:500 }
 .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
 
-/* --- SECTION : Nos atouts (professionnelle) --- */
-.features{
-  position:relative;
-  padding:40px 4vw;
-  margin-top: -12px; /* légère superposition avec le hero */
-  z-index:2;
-  display:block;
-  background: linear-gradient(180deg, rgba(92,64,51,0.02), rgba(212,175,55,0.03));
-}
-.features .features-inner{
-  max-width:1200px; margin:0 auto; display:grid; gap:18px;
-}
-.features .title{
-  text-align:center; margin-bottom:8px; color:var(--brand-bg); font-weight:700; font-size:1.1rem;
-}
-.features .subtitle{ text-align:center; color:#5a4337; margin-bottom:18px; font-weight:500 }
-.features-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
-  align-items:stretch;
-}
-.feature-card{
-  background:#fff;
-  border-radius:12px;
-  padding:18px;
-  display:flex;
-  gap:12px;
-  align-items:flex-start;
-  box-shadow:0 8px 18px rgba(0,0,0,.06);
-  transition:transform .28s ease, box-shadow .28s ease;
-}
-.feature-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 18px 30px rgba(0,0,0,.1);
-}
-.feature-icon{
-  min-width:64px; min-height:64px;
-  border-radius:12px;
-  display:grid; place-items:center; font-size:1.45rem;
-  background:linear-gradient(135deg,rgba(212,175,55,0.12),rgba(92,64,51,0.06));
-  color:var(--brand-bg);
-  border:1px solid rgba(92,64,51,0.06);
-}
-.feature-body h4{ margin:0 0 8px; font-size:1rem; color:var(--brand-bg) }
-.feature-body p{ margin:0; font-size:.95rem; color:#555 }
-.features .features-cta{
-  margin-top:16px; text-align:center;
-}
-.features .features-cta .btn.secondary{
-  background:transparent; color:var(--brand-bg); border:2px solid rgba(92,64,51,0.08); padding:10px 20px; border-radius:999px; font-weight:700;
-}
-
-/* content sections (existing) */
+/* content sections */
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 20px; font-weight:700; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:0 4vw 48px; }
@@ -225,11 +172,6 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
   .hero::after{ background: rgba(0,0,0,0.02); }
   .hero{ padding:0 4vw; }
-
-  /* features responsive spacing */
-  .features{ padding:22px 4vw; margin-top:-6px }
-  .feature-card{ padding:14px; gap:10px }
-  .feature-icon{ min-width:54px; min-height:54px; font-size:1.2rem }
 }
 
 /* very small screens tweaks */
@@ -302,53 +244,6 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
       <a href="#services" class="btn">Nos Services</a>
       <a href="https://wa.me/2250777867309" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Commander</a>
-    </div>
-  </div>
-</section>
-
-<!-- === SECTION : Nos atouts (remplace l'ancienne features) === -->
-<section class="features" aria-labelledby="featuresTitle">
-  <div class="features-inner">
-    <h3 id="featuresTitle" class="title">Nos atouts</h3>
-    <p class="subtitle">L’expérience, la qualité et l’accompagnement qui font la différence — pour des résultats visibles et durables.</p>
-
-    <div class="features-grid" role="list">
-      <div class="feature-card" role="listitem">
-        <div class="feature-icon" aria-hidden="true"><i class="fas fa-graduation-cap"></i></div>
-        <div class="feature-body">
-          <h4>Expertise professionnelle</h4>
-          <p>Formations conçues et dispensées par des spécialistes, alliant savoir-faire technique et tendances actuelles.</p>
-        </div>
-      </div>
-
-      <div class="feature-card" role="listitem">
-        <div class="feature-icon" aria-hidden="true"><i class="fas fa-shield-alt"></i></div>
-        <div class="feature-body">
-          <h4>Produits sûrs & testés</h4>
-          <p>Sélection rigoureuse de produits authentiques, adaptés aux peaux africaines et respectueux des normes de sécurité.</p>
-        </div>
-      </div>
-
-      <div class="feature-card" role="listitem">
-        <div class="feature-icon" aria-hidden="true"><i class="fas fa-user-check"></i></div>
-        <div class="feature-body">
-          <h4>Accompagnement personnalisé</h4>
-          <p>Coaching individuel et suivi sur-mesure pour développer vos compétences et votre style professionnel.</p>
-        </div>
-      </div>
-
-      <div class="feature-card" role="listitem">
-        <div class="feature-icon" aria-hidden="true"><i class="fas fa-calendar-check"></i></div>
-        <div class="feature-body">
-          <h4>Flexibilité & réservation</h4>
-          <p>Planification souple, réservation en ligne ou via WhatsApp et organisation pour s’adapter à votre agenda.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="features-cta">
-      <a href="formation.html" class="btn secondary" aria-label="Voir nos formations">Découvrir nos formations</a>
-      <a href="https://wa.me/2250777867309" class="btn" target="_blank" rel="noopener noreferrer" aria-label="Réserver via WhatsApp" style="margin-left:12px;">Réserver / Contact</a>
     </div>
   </div>
 </section>
