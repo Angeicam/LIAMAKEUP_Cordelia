@@ -118,11 +118,7 @@
       box-shadow: none;
     }
 
-    /* HERO - structure à 3 calques:
-       .hero-bg   -> background-size:cover pour remplir tout
-       .hero-media picture img -> object-fit:contain centré pour voir la personne entière
-       .hero-content -> texte et boutons (au-dessus)
-    */
+    /* HERO - un seul calque d'image en fond (pas deux) */
     .hero{
       position:relative;
       height: calc(var(--vh,1vh) * 100 - var(--topbar-height) - var(--header-height));
@@ -133,37 +129,22 @@
       background: transparent;
     }
 
-    /* calque de fond (cover) - toujours présent, il remplit l'écran */
+    /* Calque unique de fond. Par défaut desktop: background-size:cover.
+       Sur mobile/tablette on utilise background-size:contain pour afficher l'image entière. */
     .hero-bg{
       position:absolute;
       inset:0;
       z-index:0;
       background-position: center center;
-      background-size: cover;
+      background-size: cover; /* desktop: couvre l'écran */
       background-repeat:no-repeat;
       transform-origin:center;
+      /* image par défaut (desktop) - changez le chemin si nécessaire */
+      background-image: url('16_9_desktop_1920x1080.jpg');
+      filter: none;
     }
 
-    /* calque qui affiche l'image complète (devant le background) */
-    .hero-media{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none; /* l'image ne bloque pas les interactions */
-    }
-    .hero-media picture img{
-      display:block;
-      max-width:100%;
-      max-height:100%;
-      width:auto;
-      height:100%;
-      object-fit:contain; /* montre toute l'image sans crop */
-    }
-
-    /* légère superposition / teinte */
+    /* overlay et lisibilité */
     .hero-overlay{
       position:absolute;
       inset:0;
@@ -177,7 +158,7 @@
     .hero p{ font-size:clamp(.95rem,2.2vw,1.05rem); margin-bottom:12px; font-weight:500 }
     .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
 
-    /* Services */
+    /* Services et le reste (inchangés) */
     .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
     .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
@@ -220,6 +201,14 @@
         padding-top:0;
       }
 
+      /* TABLET / MOBILE : on affiche l'image entière (contain) pour éviter le crop */
+      .hero-bg{
+        background-image: url('4_5_instaportrait_1080x1350.jpg');
+        background-size: contain;
+        background-position: center top;
+        background-repeat: no-repeat;
+      }
+
       .hero-overlay{ background: rgba(0,0,0,0.18); }
 
       .hero-content{
@@ -232,7 +221,14 @@
       .testimonials .container{ padding:0 4px; gap:10px; }
     }
 
-    @media (max-width:420px){
+    @media (max-width:480px){
+      /* SMARTPHONE: image verticale optimisée, on s'assure que l'image tient entièrement */
+      .hero-bg{
+        background-image: url('9_16_mobile_1080x1920.jpg');
+        background-size: contain;
+        background-position: center top;
+      }
+
       :root{ --topbar-height:56px; --header-height:54px }
       .logo img{ height:36px }
       .service-card img{ height:150px }
@@ -282,22 +278,10 @@
 
   <!-- HERO -->
   <section class="hero" role="region" aria-label="Bannière principale">
-    <!-- 1) calque fond - remplira toujours le hero (cover) -->
-    <div class="hero-bg" aria-hidden="true" style="background-image:url('lia_make_up_3.png');"></div>
+    <!-- UNIQUE calque de fond (remplacé par media queries selon l'écran) -->
+    <div class="hero-bg" aria-hidden="true"></div>
 
-    <!-- 2) calque média contenant <picture> centré selon l'écran -->
-    <div class="hero-media" aria-hidden="true">
-      <picture>
-        <!-- Smartphone -->
-        <source media="(max-width:480px)" srcset="lia_mobile_9_16.png">
-        <!-- Tablette / écran moyen -->
-        <source media="(max-width:900px)" srcset="lia_portrait_4_5.png">
-        <!-- Desktop -->
-        <img src="lia_desktop_16_9.png" alt="Équipe LIAMAKEUP">
-      </picture>
-    </div>
-
-    <!-- 3) overlay sombre pour lisibilité -->
+    <!-- overlay pour lisibilité -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
     <div class="hero-content">
