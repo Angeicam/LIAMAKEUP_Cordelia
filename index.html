@@ -12,8 +12,8 @@
 :root{
   --topbar-height:44px;
   --header-height:64px;
-  --accent:#D4AF37;
-  --brand-bg:#5C4033;
+  --accent:#D4AF37;      /* couleur accent (doré) */
+  --brand-bg:#5C4033;    /* couleur marque (brun) */
   --muted-bg:#f5f5dc;
   --text:#333;
   --btn-radius:28px;
@@ -38,7 +38,7 @@ body{
   position:fixed; top:0; left:0; right:0;
   height:var(--topbar-height); background:#2c1e18; color:#fff;
   display:flex; align-items:center; justify-content:flex-end; gap:12px;
-  padding:0 4vw; z-index:130; font-size:.95rem;
+  padding:0 4vw; z-index:140; font-size:.95rem;
 }
 .topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center }
 
@@ -47,7 +47,7 @@ header{
   position:fixed; top:var(--topbar-height); left:0; right:0;
   height:var(--header-height); background:var(--brand-bg); color:#fff;
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 4vw; z-index:129; box-shadow:0 4px 10px rgba(0,0,0,.12);
+  padding:0 4vw; z-index:141; box-shadow:0 4px 10px rgba(0,0,0,.12);
 }
 .logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
 .logo img{height:48px; display:block}
@@ -59,7 +59,7 @@ nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; bord
 nav a:hover{ color:var(--brand-bg); background:var(--accent) }
 nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:none; }
 
-/* Hamburger */
+/* Hamburger (hidden on desktop) */
 .nav-toggle{
   display:none;
   background:transparent;
@@ -71,6 +71,33 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
   align-items:center;
   justify-content:center;
 }
+
+/* Mobile nav panel + overlay */
+#navOverlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.38);
+  z-index:145;
+}
+nav.open{
+  display:flex !important;
+  position:fixed;
+  top:0;
+  right:0;
+  height:100vh;
+  width:84%;
+  max-width:360px;
+  padding:calc(var(--topbar-height) + var(--header-height)) 20px 20px 20px;
+  background:#fff;
+  color:#333;
+  box-shadow:-10px 0 30px rgba(0,0,0,.16);
+  flex-direction:column;
+  gap:12px;
+  z-index:146;
+  overflow:auto;
+}
+nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600; }
 
 /* HERO */
 .hero{
@@ -91,28 +118,28 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* Plain text intro (sans cartes) */
+/* Plain text intro (simple, avec icônes devant chaque thème) */
 .services-intro{
   max-width:1000px;
   margin:0 auto;
   padding:12px 4vw 20px;
   text-align:left;
   color:#333;
-  display:block;
+}
+.services-intro .theme{
+  display:flex;
   gap:12px;
+  align-items:flex-start;
+  margin-bottom:14px;
 }
-.services-intro h4{
-  margin:0 0 8px;
-  color:var(--brand-bg);
-  font-size:1.05rem;
-  font-weight:700;
+.services-intro .theme .icon{
+  min-width:44px; min-height:44px; display:grid; place-items:center; border-radius:8px;
+  background:linear-gradient(135deg, rgba(212,175,55,0.12), rgba(92,64,51,0.06));
+  color:var(--brand-bg); font-size:1.15rem;
+  flex-shrink:0;
 }
-.services-intro p{
-  margin:0 0 16px;
-  color:#444;
-  font-size:0.98rem;
-  line-height:1.6;
-}
+.services-intro h4{ margin:0 0 6px; color:var(--brand-bg); font-size:1.02rem; font-weight:700; }
+.services-intro p{ margin:0; color:#444; font-size:.98rem; line-height:1.45; }
 
 /* service cards (images) */
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:8px 4vw 48px; max-width:1200px; margin:0 auto; }
@@ -125,15 +152,13 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
 .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
-/* responsiveness */
+/* responsive */
 @media (max-width:900px){ .logo img{ height:42px } }
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px; --mobile-hero-vh:44 }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .nav-toggle{ display:inline-flex; }
-  nav{ display:none; }
-  nav.open{ display:flex; position:fixed; top:calc(var(--topbar-height)+var(--header-height)); right:0; background:#fff; color:#333; width:78%; max-width:340px; height:100vh; padding:20px; box-shadow:-6px 0 18px rgba(0,0,0,.12); flex-direction:column; gap:10px; z-index:140; overflow:auto; }
-  nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600; }
+  nav{ display:none; } /* desktop nav hidden on mobile; nav.open will show */
   .hero{ height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height)); min-height:32vh; align-items:flex-start; justify-content:center; padding-top:8px; }
   .hero-content{ padding-top:6px; transform: translateY(75%); -webkit-transform: translateY(75%); }
   .hero::after{ background: rgba(0,0,0,0.02); }
@@ -188,6 +213,9 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </div>
 </header>
 
+<!-- overlay for mobile nav -->
+<div id="navOverlay" aria-hidden="true"></div>
+
 <!-- HERO -->
 <section class="hero" role="region" aria-label="Bannière principale">
   <div class="hero-media" aria-hidden="true">
@@ -208,24 +236,32 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <section id="services" class="services" aria-labelledby="servicesTitle">
   <h2 id="servicesTitle" class="section-title">Nos Services</h2>
 
-  <!-- Texte simple (titres + paragraphes) -->
+  <!-- Texte simple avec icônes (titre + paragraphe réduit) -->
   <div class="services-intro" aria-hidden="false">
-    <div>
-      <h4>Formation maquillage</h4>
-      <p>Devenez maquilleuse professionnelle grâce à nos cours certifiés et ateliers pratiques. Nos programmes allient théorie et pratique intensive : techniques de teint, correction colorimétrique, maquillage événementiel et bridal, ainsi que des modules spécifiques adaptés aux peaux et aux styles africains. À la fin de la formation, vous recevrez un accompagnement pour construire votre portfolio et démarrer votre activité en confiance.</p>
+    <div class="theme">
+      <div class="icon" aria-hidden="true"><i class="fas fa-paint-brush"></i></div>
+      <div>
+        <h4>Formation maquillage</h4>
+        <p>Devenez maquilleuse professionnelle grâce à nos cours certifiés et ateliers pratiques. Techniques de teint, correction colorimétrique, maquillage événementiel et bridal — modules adaptés aux peaux et styles africains. À la fin, accompagnement pour construire votre portfolio et lancer votre activité.</p>
+      </div>
     </div>
 
-    <div>
-      <h4>Produits de qualité</h4>
-      <p>Nous sélectionnons des marques fiables et contrôlées, avec des formulations adaptées aux peaux locales et des critères stricts de sécurité. Chaque produit est choisi pour sa tenue, sa compatibilité avec différentes carnations et son innocuité. Nous proposons également un suivi qualité et des recommandations d’utilisation pour garantir des résultats professionnels et durables.</p>
+    <div class="theme">
+      <div class="icon" aria-hidden="true"><i class="fas fa-box-open"></i></div>
+      <div>
+        <h4>Produits de qualité</h4>
+        <p>Marques fiables et contrôlées, formulations adaptées aux peaux locales et critères stricts de sécurité. Produits choisis pour tenue, compatibilité avec différentes carnations et innocuité ; suivi qualité et recommandations d’utilisation incluses.</p>
+      </div>
     </div>
 
-    <div>
-      <h4>Coaching & suivi</h4>
-      <p>Accompagnement individuel pour développer votre signature beauté : conseils d’image, techniques avancées, gestion clientèle et stratégie commerciale. Nos sessions de coaching incluent des retours personnalisés, des exercices pratiques en situation réelle et un plan d’évolution pour que vous puissiez fidéliser vos clients et gagner en visibilité professionnelle.</p>
+    <div class="theme">
+      <div class="icon" aria-hidden="true"><i class="fas fa-user-tie"></i></div>
+      <div>
+        <h4>Coaching & suivi</h4>
+        <p>Accompagnement individuel pour développer votre signature beauté : conseils d’image, techniques avancées, gestion clientèle et stratégie commerciale. Sessions avec retours personnalisés, exercices pratiques et plan d’évolution pour fidéliser et gagner en visibilité.</p>
+      </div>
     </div>
   </div>
-  <!-- fin texte simple -->
 
   <div class="service-cards">
     <div class="service-card">
@@ -294,41 +330,50 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   window.addEventListener('resize', setVh);
 })();
 
-/* Mobile nav toggle */
+/* Mobile nav toggle + overlay behavior */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
-  if(!toggle || !nav) return;
+  const overlay = document.getElementById('navOverlay');
+  if(!toggle || !nav || !overlay) return;
 
-  function setAria(open){ toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  function openNav(){
+    nav.classList.add('open');
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    toggle.setAttribute('aria-expanded','true');
+    toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
+    overlay.setAttribute('aria-hidden','false');
+  }
+  function closeNav(){
+    nav.classList.remove('open');
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    toggle.setAttribute('aria-expanded','false');
+    toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>';
+    overlay.setAttribute('aria-hidden','true');
+  }
 
   toggle.addEventListener('click', (e)=> {
     e.stopPropagation();
-    nav.classList.toggle('open');
-    const opened = nav.classList.contains('open');
-    setAria(opened);
-    toggle.innerHTML = opened ? '<i class="fas fa-times" aria-hidden="true"></i>' : '<i class="fas fa-bars" aria-hidden="true"></i>';
+    if(nav.classList.contains('open')) closeNav(); else openNav();
   });
 
-  // close nav when clicking a link
+  // close when clicking overlay or a link
+  overlay.addEventListener('click', closeNav);
   nav.addEventListener('click', (e) => {
     if(e.target.tagName === 'A'){
-      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>';
+      closeNav();
     }
   });
 
-  // close nav on outside click
-  document.addEventListener('click', (e) => {
-    if(!nav.contains(e.target) && !toggle.contains(e.target) && nav.classList.contains('open')){
-      nav.classList.remove('open'); setAria(false); toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>';
+  // close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && nav.classList.contains('open')){
+      closeNav();
     }
   });
 })();
-
-/* keyboard focus hint */
-document.addEventListener('keyup', (e) => {
-  if(e.key === 'Tab') document.body.classList.add('show-focus-outline');
-});
 </script>
 
 </body>
