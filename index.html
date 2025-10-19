@@ -12,20 +12,19 @@
 :root{
   --topbar-height:44px;
   --header-height:64px;
-  --accent:#D4AF37;      /* couleur accent (doré) */
-  --brand-bg:#5C4033;    /* couleur marque (brun) */
+  --accent:#D4AF37;
+  --brand-bg:#5C4033;
   --muted-bg:#f5f5dc;
   --text:#333;
   --btn-radius:28px;
   --vh:1vh;
-  --mobile-hero-vh:44;
 }
 
 /* reset */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Poppins',sans-serif;
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
   background:var(--muted-bg);
   color:var(--text);
   line-height:1.6;
@@ -52,14 +51,14 @@ header{
 .logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
 .logo img{height:48px; display:block}
 
-/* Nav desktop */
+/* Desktop nav */
 .nav-wrap{display:flex; align-items:center; gap:12px}
 nav{display:flex; gap:8px; align-items:center}
 nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; }
 nav a:hover{ color:var(--brand-bg); background:var(--accent) }
 nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:none; }
 
-/* Hamburger (hidden on desktop) */
+/* Hamburger */
 .nav-toggle{
   display:none;
   background:transparent;
@@ -72,13 +71,14 @@ nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:no
   justify-content:center;
 }
 
-/* Mobile nav panel + overlay */
+/* Mobile nav overlay + panel */
 #navOverlay{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.38);
+  background:rgba(0,0,0,0.06); /* très discret */
   z-index:145;
+  transition:opacity .22s ease;
 }
 nav.open{
   display:flex !important;
@@ -88,18 +88,17 @@ nav.open{
   height:100vh;
   width:84%;
   max-width:360px;
-  padding:calc(var(--topbar-height) + var(--header-height)) 20px 20px 20px;
+  padding:calc(var(--topbar-height) + var(--header-height)) 18px 20px 18px;
   background:#fff;
   color:#333;
-  box-shadow:-10px 0 30px rgba(0,0,0,.16);
+  box-shadow:-8px 0 24px rgba(0,0,0,.12);
   flex-direction:column;
   gap:12px;
   z-index:146;
   overflow:auto;
 }
-nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 10px; text-align:left; font-weight:600; }
 
-/* HERO */
+/* hero */
 .hero{
   position:relative;
   height: calc(var(--vh,1vh) * 100 - var(--topbar-height) - var(--header-height));
@@ -108,17 +107,17 @@ nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 
 }
 .hero-media{ position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center; background: var(--muted-bg); }
 .hero-media img{ width:100%; height:100%; display:block; object-fit:cover; object-position:center center; transform:none; }
-.hero::after{ content:""; position:absolute; inset:0; z-index:1; background: rgba(0,0,0,0.22); }
+.hero::after{ content:""; position:absolute; inset:0; z-index:1; background: rgba(0,0,0,0.18); }
 .hero-content{ position:relative; z-index:2; text-align:center; padding:0 4vw; max-width:900px; color:#fff; }
-.hero h1{ font-size:clamp(1.5rem,4vw,2.8rem); color:var(--accent); margin-bottom:8px; font-weight:800 }
-.hero p{ font-size:clamp(.95rem,2.2vw,1.1rem); margin-bottom:14px; font-weight:500 }
+.hero h1{ font-size:clamp(1.6rem,4vw,2.6rem); color:var(--accent); margin-bottom:6px; font-weight:800 }
+.hero p{ font-size:clamp(.95rem,2.2vw,1.05rem); margin-bottom:12px; font-weight:500 }
 .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
 
-/* Services section */
+/* Services */
 .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; }
 .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* Plain text intro (simple, avec icônes devant chaque thème) */
+/* services intro reduced text, icons inline in heading */
 .services-intro{
   max-width:1000px;
   margin:0 auto;
@@ -127,41 +126,55 @@ nav.open a{ color:#333; background:transparent; border-radius:6px; padding:12px 
   color:#333;
 }
 .services-intro .theme{
-  display:flex;
-  gap:12px;
-  align-items:flex-start;
   margin-bottom:14px;
 }
-.services-intro .theme .icon{
-  min-width:44px; min-height:44px; display:grid; place-items:center; border-radius:8px;
-  background:linear-gradient(135deg, rgba(212,175,55,0.12), rgba(92,64,51,0.06));
-  color:var(--brand-bg); font-size:1.15rem;
-  flex-shrink:0;
+.services-intro h4{
+  margin:0 0 8px;
+  color:var(--brand-bg);
+  font-size:1.02rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
-.services-intro h4{ margin:0 0 6px; color:var(--brand-bg); font-size:1.02rem; font-weight:700; }
-.services-intro p{ margin:0; color:#444; font-size:.98rem; line-height:1.45; }
+.services-intro h4 i{
+  display:inline-grid;
+  place-items:center;
+  width:34px; height:34px; border-radius:8px;
+  background:linear-gradient(135deg, rgba(212,175,55,0.12), rgba(92,64,51,0.06));
+  color:var(--brand-bg);
+  font-size:1rem;
+}
+.services-intro p{
+  margin:0;
+  color:#444;
+  font-size:.98rem;
+  line-height:1.45;
+  max-width:74ch;
+}
 
-/* service cards (images) */
+/* service cards (images) kept below */
 .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:8px 4vw 48px; max-width:1200px; margin:0 auto; }
 .service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
 .service-card img{ width:100%; height:200px; object-fit:cover }
 .service-content{ padding:16px; text-align:center; }
 
-/* rest */
+/* footer/other */
 .testimonials{ padding:36px 4vw; background:#fff; text-align:center; }
 .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
 footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
 
-/* responsive */
+/* responsive tweaks */
 @media (max-width:900px){ .logo img{ height:42px } }
 @media (max-width:768px){
   :root{ --topbar-height:56px; --header-height:56px; --mobile-hero-vh:44 }
   .topbar{ justify-content:space-between; padding:6px 4vw; }
   .nav-toggle{ display:inline-flex; }
-  nav{ display:none; } /* desktop nav hidden on mobile; nav.open will show */
-  .hero{ height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height)); min-height:32vh; align-items:flex-start; justify-content:center; padding-top:8px; }
-  .hero-content{ padding-top:6px; transform: translateY(75%); -webkit-transform: translateY(75%); }
-  .hero::after{ background: rgba(0,0,0,0.02); }
+  nav{ display:none; } /* nav.open will show */
+  /* hero text moved up on mobile */
+  .hero{ height: calc(var(--vh,1vh) * var(--mobile-hero-vh) - var(--topbar-height) - var(--header-height)); min-height:30vh; align-items:flex-start; justify-content:center; padding-top:6px; }
+  .hero-content{ padding-top:6px; transform: translateY(50%); -webkit-transform: translateY(50%); }
+  .hero::after{ background: rgba(0,0,0,0.12); }
   .services-intro{ padding:10px 4vw 16px; }
   .service-cards{ padding:8px 4vw 32px; }
 }
@@ -169,8 +182,11 @@ footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
   :root{ --topbar-height:56px; --header-height:54px }
   .logo img{ height:36px }
   .service-card img{ height:150px }
-  .hero-content{ transform: translateY(60%); -webkit-transform: translateY(60%); }
+  .hero-content{ transform: translateY(46%); -webkit-transform: translateY(46%); }
 }
+
+/* accessibility focus */
+.show-focus-outline :focus { outline: 3px solid rgba(212,175,55,0.25); outline-offset:3px; }
 
 /* touches */
 a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
@@ -208,12 +224,12 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
       <a href="formation.html">Formations</a>
       <a href="produits.html">Produits</a>
       <a href="propos.html">À propos</a>
-      <a href="contact.html">Contact</a>
+      <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 
-<!-- overlay for mobile nav -->
+<!-- subtle overlay for mobile nav -->
 <div id="navOverlay" aria-hidden="true"></div>
 
 <!-- HERO -->
@@ -236,30 +252,21 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <section id="services" class="services" aria-labelledby="servicesTitle">
   <h2 id="servicesTitle" class="section-title">Nos Services</h2>
 
-  <!-- Texte simple avec icônes (titre + paragraphe réduit) -->
-  <div class="services-intro" aria-hidden="false">
+  <!-- Reduced text with inline icons -->
+  <div class="services-intro">
     <div class="theme">
-      <div class="icon" aria-hidden="true"><i class="fas fa-paint-brush"></i></div>
-      <div>
-        <h4>Formation maquillage</h4>
-        <p>Devenez maquilleuse professionnelle grâce à nos cours certifiés et ateliers pratiques. Techniques de teint, correction colorimétrique, maquillage événementiel et bridal — modules adaptés aux peaux et styles africains. À la fin, accompagnement pour construire votre portfolio et lancer votre activité.</p>
-      </div>
+      <h4><i class="fas fa-paint-brush" aria-hidden="true"></i> Formation maquillage</h4>
+      <p>Programme certifié mêlant théorie et pratique : techniques de teint, maquillage événementiel et modules adaptés aux peaux africaines. Accompagnement pour portfolio et lancement.</p>
     </div>
 
     <div class="theme">
-      <div class="icon" aria-hidden="true"><i class="fas fa-box-open"></i></div>
-      <div>
-        <h4>Produits de qualité</h4>
-        <p>Marques fiables et contrôlées, formulations adaptées aux peaux locales et critères stricts de sécurité. Produits choisis pour tenue, compatibilité avec différentes carnations et innocuité ; suivi qualité et recommandations d’utilisation incluses.</p>
-      </div>
+      <h4><i class="fas fa-box-open" aria-hidden="true"></i> Produits de qualité</h4>
+      <p>Marques vérifiées et formulations adaptées aux carnations locales. Produits choisis pour tenue et sécurité, avec conseils d’utilisation et suivi qualité.</p>
     </div>
 
     <div class="theme">
-      <div class="icon" aria-hidden="true"><i class="fas fa-user-tie"></i></div>
-      <div>
-        <h4>Coaching & suivi</h4>
-        <p>Accompagnement individuel pour développer votre signature beauté : conseils d’image, techniques avancées, gestion clientèle et stratégie commerciale. Sessions avec retours personnalisés, exercices pratiques et plan d’évolution pour fidéliser et gagner en visibilité.</p>
-      </div>
+      <h4><i class="fas fa-user-tie" aria-hidden="true"></i> Coaching & suivi</h4>
+      <p>Sessions individuelles : conseils d’image, techniques avancées et gestion clientèle. Retours personnalisés et plan d’évolution pour mieux fidéliser vos clients.</p>
     </div>
   </div>
 
@@ -330,7 +337,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   window.addEventListener('resize', setVh);
 })();
 
-/* Mobile nav toggle + overlay behavior */
+/* Mobile nav toggle + overlay behavior (lighter overlay, close on click or ESC) */
 (function(){
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('mainNav');
@@ -340,6 +347,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   function openNav(){
     nav.classList.add('open');
     overlay.style.display = 'block';
+    overlay.style.opacity = '1';
     document.body.style.overflow = 'hidden';
     toggle.setAttribute('aria-expanded','true');
     toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
@@ -347,7 +355,8 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   }
   function closeNav(){
     nav.classList.remove('open');
-    overlay.style.display = 'none';
+    overlay.style.opacity = '0';
+    setTimeout(()=> overlay.style.display = 'none', 220);
     document.body.style.overflow = '';
     toggle.setAttribute('aria-expanded','false');
     toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>';
