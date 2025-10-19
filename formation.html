@@ -35,34 +35,50 @@ body{
 
 /* Topbar (same as index) */
 .topbar{
-  position:fixed; top:0; left:0; right:0;
-  height:var(--topbar-height); background:#2c1e18; color:#fff;
-  display:flex; align-items:center; justify-content:flex-end; gap:12px;
-  padding:0 4vw; z-index:140; font-size:.95rem;
-}
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      height:var(--topbar-height);
+      background:#2c1e18;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:12px;
+      padding:0 4vw;
+      z-index:140;
+      font-size:.95rem;
+    }
 .topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center }
+.topbar a i{ color:inherit; }
 
-/* Header (same as index) */
-header{
-  position:fixed; top:var(--topbar-height); left:0; right:0;
-  height:var(--header-height); background:var(--brand-bg); color:#fff;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 4vw; z-index:141; box-shadow:0 4px 10px rgba(0,0,0,.12);
-}
-.logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
-.logo img{height:48px; display:block}
+ /* Header */
+    header{
+      position:fixed;
+      top:var(--topbar-height);
+      left:0;
+      right:0;
+      height:var(--header-height);
+      background:var(--brand-bg);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 4vw;
+      z-index:141;
+      box-shadow:0 4px 10px rgba(0,0,0,.12);
+    }
+    .logo{display:flex; align-items:center; gap:12px; color:var(--accent); font-weight:700; cursor:pointer}
+    .logo img{height:48px; display:block}
 
-/* Nav / desktop */
-.nav-wrap{display:flex; align-items:center; gap:12px}
-nav{display:flex; gap:8px; align-items:center}
-nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; transition:all .18s ease; }
-nav a:hover{ color:var(--brand-bg); background:var(--accent) }
-nav a.active{
-  background:var(--accent);
-  color:var(--brand-bg);
-  pointer-events:none;
-  box-shadow: 0 6px 14px rgba(92,64,51,0.12);
-}
+    /* Desktop nav */
+    .nav-wrap{display:flex; align-items:center; gap:12px}
+    nav{display:flex; gap:8px; align-items:center}
+    nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; transition:all .18s ease; gap:8px; }
+    nav a:hover{ color:var(--brand-bg); background:var(--accent) }
+    nav a.active{ background:var(--accent); color:var(--brand-bg); pointer-events:none; box-shadow: 0 6px 14px rgba(92,64,51,0.12); }
+
 
 /* Hamburger */
 .nav-toggle{
@@ -222,11 +238,11 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <span class="tb-text">+225 07 77 86 73 09</span>
   </a>
 
-    <a href="#contact" aria-label="Localisation de LIAMAKEUP">
-      <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-      <span class="tb-text">Yamoussoukro</span>
-    </a>
-  </div>
+  <a href="#contact" aria-label="Localisation de LIAMAKEUP">
+    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+    <span class="tb-text">Yamoussoukro</span>
+  </a>
+</div>
 
 <!-- header (copié de l'index) -->
 <header role="navigation">
