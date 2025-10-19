@@ -216,7 +216,57 @@
     .services-intro .single .text b{ color:var(--brand-bg); }
 
     .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:8px 4vw 48px; max-width:1200px; margin:0 auto; }
-    .service-card{ background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.08); display:flex; flex-direction:column; }
+   /* Encadrement professionnel des cards */
+.service-card {
+  background: #fff; /* couleur de fond de la carte */
+  border-radius: 16px; /* coins arrondis */
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12); /* ombre subtile pour effet profondeur */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px); /* léger lift au survol */
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18); /* ombre plus prononcée */
+}
+
+.service-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid var(--accent); /* petite séparation visuelle */
+}
+
+.service-content {
+  padding: 18px 16px; /* espace intérieur plus généreux */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  border: 2px solid rgba(212,175,55,0.6); /* encadrement léger */
+  border-radius: 12px; /* coins arrondis */
+  background: #fff; /* assure contraste avec l'image */
+}
+
+.service-content h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--brand-bg);
+  margin-bottom: 6px;
+}
+
+.service-content p {
+  font-size: 0.98rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+.service-content a.btn {
+  margin-top: 10px;
+  align-self: center;
+}
     .service-card img{ width:100%; height:200px; object-fit:cover }
     .service-content{ padding:16px; text-align:center; }
 
