@@ -10,13 +10,14 @@
     :root{
       --topbar-height:44px;
       --header-height:64px;
-      --accent:#D4AF37;
-      --brand-bg:#5C4033;
+      --accent:#D4AF37;   /* doré / orange-jaune */
+      --brand-bg:#5C4033; /* marron header */
       --muted-bg:#f5f5dc;
       --text:#333;
       --btn-radius:28px;
       --vh:1vh;
       --hero-mobile-y:65%;
+      --bubble-brown: #24160f; /* marron très sombre pour les bulles */
     }
 
     /* reset */
@@ -117,35 +118,33 @@
       font-weight:700;
       box-shadow: none;
     }
+
    @media (max-width:768px) {
-  /* Lien actif pleine largeur + effet pro */
-  nav.open a.active {
-    display: block;
-    width: 100%; /* ✅ prend toute la largeur */
-    box-sizing: border-box;
-    background: linear-gradient(135deg, rgba(212,175,55,0.95), rgba(240,210,100,0.85));
-    color: var(--brand-bg);
-    border: 2px solid rgba(212,175,55,1); /* contour doré net */
-    border-radius: 14px; /* coins plus arrondis */
-    padding: 18px 20px;   /* ✅ bande plus large */
-    font-weight: 800;
-    text-align: center;    /* texte centré */
-    letter-spacing: 0.4px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.3);
-    transition: all 0.25s ease;
-  }
+     /* Lien actif pleine largeur + effet pro */
+     nav.open a.active {
+       display: block;
+       width: 100%;
+       box-sizing: border-box;
+       background: linear-gradient(135deg, rgba(212,175,55,0.95), rgba(240,210,100,0.85));
+       color: var(--brand-bg);
+       border: 2px solid rgba(212,175,55,1);
+       border-radius: 14px;
+       padding: 18px 20px;
+       font-weight: 800;
+       text-align: center;
+       letter-spacing: 0.4px;
+       box-shadow: 0 6px 14px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.3);
+       transition: all 0.25s ease;
+     }
 
-  /* Légère animation au survol pour donner effet “pro” */
-  nav.open a.active:hover {
-    background: linear-gradient(135deg, rgba(212,175,55,1), rgba(245,220,120,0.9));
-    box-shadow: 0 8px 18px rgba(0,0,0,0.2), inset 0 2px 6px rgba(255,255,255,0.35);
-  }
+     nav.open a.active:hover {
+       background: linear-gradient(135deg, rgba(212,175,55,1), rgba(245,220,120,0.9));
+     }
 
-  /* Autres liens restent stylés */
-  nav.open a:hover:not(.active) {
-    background: rgba(212,175,55,0.12);
-  }
-}
+     nav.open a:hover:not(.active) {
+       background: rgba(212,175,55,0.12);
+     }
+   }
 
     /* HERO */
     .hero{
@@ -154,7 +153,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      overflow:hidden;
+      /* allow overlap to show correctly */
+      overflow: visible; /* <-- visible to allow cards to sit under hero edge */
       background: transparent;
     }
     .hero-bg{
@@ -196,50 +196,73 @@
     .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
 
     /* Services */
-    .section-title{ text-align:center; color:var(--brand-bg); margin:20px 0 12px; font-weight:700; font-size:1.2rem; }
-    .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
-    .services-intro{ max-width:1000px; margin:0 auto; padding:12px 4vw 20px; text-align:left; color:#333; }
+    /* center titles + underline centered and consistent */
+    .section-title{
+      display:block;
+      margin:22px auto 8px;
+      text-align:center;
+      color:var(--brand-bg);
+      font-weight:700;
+      font-size:1.2rem;
+      position:relative;
+      width:fit-content;
+    }
+    .section-title::after{
+      content:"";
+      display:block;
+      width:60px;
+      height:4px;
+      background:var(--accent);
+      margin:10px auto 0;
+      border-radius:2px;
+    }
+
+    /* ensure anchor-target titles don't hide behind fixed header */
+    h2[id], .section-title, .about h2 {
+      scroll-margin-top: calc(var(--topbar-height) + var(--header-height) + 12px);
+    }
+
+    /* keep intro clearly visible: add bottom space + higher stacking so it's never overlapped */
+    .services-intro{
+      max-width:1000px;
+      margin:0 auto;
+      padding:12px 4vw 20px; /* padding-bottom increased so text isn't touched */
+      text-align:left;
+      color:#333;
+      position:relative;
+      z-index:5; /* above hero overlap area */
+      background: transparent;
+    }
     .services-intro .single{ display:block; }
     .services-intro .single .text{ font-size:.98rem; color:#444; line-height:1.5; }
     .services-intro .single .text b{ color:var(--brand-bg); }
 
-    .service-cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; padding:8px 4vw 48px; max-width:1200px; margin:0 auto; }
-
-    /* TITRES DES SERVICES ENCADRÉS PRO + MARRON + HOVER */
-    .service-content h3 {
-      display: inline-block;
-      padding: 14px 24px;
-      border: 2px solid #2E1F1A;
-      border-radius: 16px;
-      background: linear-gradient(145deg, rgba(92,64,51,0.8), rgba(92,64,51,0.6)); 
-      color: #fff;
-      font-size: 1.25rem;
-      font-weight: 800;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.12), inset 0 1px 3px rgba(255,255,255,0.3);
-      transition: all 0.3s ease;
-      margin-bottom: 16px;
-    }
-    .service-content h3:hover,
-    .service-content h3:focus {
-      background: linear-gradient(145deg, rgba(92,64,51,0.9), rgba(92,64,51,0.7));
-      box-shadow: 0 6px 16px rgba(0,0,0,0.18), inset 0 2px 4px rgba(255,255,255,0.35);
-      transform: translateY(-2px);
-      cursor: pointer;
+    /* CARDS: larger min width so they appear more imposant */
+    .service-cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); /* larger min width */
+      gap:20px;
+      padding:8px 4vw 48px;
+      max-width:1200px;
+      margin:0 auto;
+      position:relative;
+      z-index:6; /* sits above hero */
+      margin-top: -10px; /* juste à ras la fin de l'image, léger recouvrement sans cacher l'intro */
     }
 
-    /* --- MISE EN AVANT CARTE "FORMATIONS" --- */
+    /* make sure cards overlap cleanly */
     .service-card {
-      background: linear-gradient(135deg, rgba(245,228,215,0.8), rgba(230,210,185,0.8)); /* fond doux */
-      border: 2px solid #5C4033; /* contour marron foncé */
+      background: linear-gradient(135deg, rgba(245,228,215,0.95), rgba(230,210,185,0.95));
+      border: 2px solid #5C4033;
       border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.14);
+      overflow: visible;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      position:relative;
     }
     .service-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
     }
 
     .service-card img {
@@ -247,24 +270,101 @@
       height: 200px;
       object-fit: cover;
       border-bottom: 2px solid #5C4033;
+      display:block;
     }
 
     .service-content {
-      padding: 16px;
+      padding: 20px 18px;
       text-align: center;
+      position:relative;
+      z-index:7;
     }
 
+    /* TITRES DES SERVICES : FOND MARRON TRÈS FONCÉ + CONTOUR MÊME COULEUR
+       display:block et full width pour éviter masquage/clipping
+    */
+    .service-content h3 {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 18px;
+      border: 2px solid var(--bubble-brown);
+      border-radius: 12px;
+      background: var(--bubble-brown);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.16);
+      transition: none;
+      cursor: default;
+      margin: 0 auto 14px;
+      white-space: normal;
+      word-break: break-word;
+      line-height:1.15;
+    }
+    .service-content h3:hover,
+    .service-content h3:focus {
+      background: var(--bubble-brown);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.16);
+      transform: none;
+      cursor: default;
+    }
+
+    /* RECADRAGE + SOULIGNURE POUR "Why" (About) */
+    .about{
+      background:var(--brand-bg);
+      color:#fff;
+      padding:36px 4vw;
+      text-align:center;
+    }
+    .about h2{
+      display:block;
+      margin:0 auto 12px;
+      text-align:center;
+      font-size:1.25rem;
+      position:relative;
+      width:fit-content;
+    }
+    .about h2::after{
+      content:"";
+      display:block;
+      width:60px;
+      height:4px;
+      background:var(--accent);
+      margin:10px auto 0;
+      border-radius:2px;
+    }
+    .about p{
+      max-width:920px;
+      margin: 10px auto 0;
+      padding:18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(212,175,55,0.12);
+      border-left: 6px solid var(--accent);
+      border-radius:10px;
+      line-height:1.6;
+      color: #fff;
+      text-align:left;
+    }
+
+    /* Testimonials title uses .section-title so already centered */
     .testimonials{ padding:36px 4vw; background:transparent; text-align:center; }
     .testimonials .container{ max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:14px; align-items:stretch; }
     .testimonials .testimonial{ background:#fff; padding:18px; border-radius:12px; text-align:left; color:#333; box-shadow:0 10px 26px rgba(0,0,0,0.06); border-left:6px solid var(--accent); font-style:italic; }
     .testimonials .testimonial .author{ display:block; margin-top:8px; font-weight:700; font-style:normal; color:var(--brand-bg) }
 
-    .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
-    .about h2{ display:inline-flex; align-items:center; gap:10px; justify-content:center; font-size:1.25rem; }
-    .about h2 i{ color:var(--accent); font-size:1.25rem; display:inline-block; transform:translateY(2px); }
-
-    footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw }
-    footer i{ vertical-align:middle }
+    /* Footer: Contactez-nous accentué and social icons in accent */
+    footer{
+      background:#2c1e18;
+      color:#fff;
+      text-align:center;
+      padding:24px 4vw;
+    }
+    footer h3{ color: var(--accent); margin-bottom:8px; }
+    .site-social a{ margin:0 6px; display:inline-block; text-decoration:none; color:inherit; }
+    .site-social a i{ font-size:1.15rem; color:var(--accent); }
+    footer p, footer a { color: #fff; }
 
     /* small screens responsive */
     @media (max-width:900px){ .logo img{ height:42px } }
@@ -290,9 +390,14 @@
         -webkit-transform: translateY(var(--hero-mobile-y));
       }
 
-      .services-intro{ padding:10px 4vw 16px; }
-      .service-cards{ padding:8px 4vw 32px; }
+      .services-intro{ padding:10px 4vw 18px; }
+      .service-cards{ padding:8px 4vw 32px; margin-top:-6px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); } /* less overlap on mobile */
       .testimonials .container{ padding:0 4px; gap:10px; }
+
+      /* tidy a bit on small screens for the h3 (avoid overflow) */
+      .service-content h3 { padding: 10px 14px; font-size:1rem; display:block; width:100%; box-sizing:border-box; }
+      .about p { padding:14px; }
+      .section-title{ margin-top:18px; }
     }
 
     @media (max-width:420px){
@@ -345,15 +450,24 @@
 
   <!-- HERO -->
   <section class="hero" role="region" aria-label="Bannière principale">
+    <!-- 1) calque fond - remplira toujours le hero (cover) -->
     <div class="hero-bg" aria-hidden="true" style="background-image:url('lia_make_up_3.png');"></div>
+
+    <!-- 2) calque média contenant <picture> centré selon l'écran -->
     <div class="hero-media" aria-hidden="true">
       <picture>
+        <!-- Smartphone -->
         <source media="(max-width:480px)" srcset="">
+        <!-- Tablette / écran moyen -->
         <source media="(max-width:900px)" srcset="">
+        <!-- Desktop -->
         <img src="" alt="">
       </picture>
     </div>
+
+    <!-- 3) overlay sombre pour lisibilité -->
     <div class="hero-overlay" aria-hidden="true"></div>
+
     <div class="hero-content">
       <h1>Révélez votre beauté</h1>
       <p>Maquillage, formations et produits de qualité</p>
@@ -426,18 +540,19 @@
   </section>
 
   <!-- Footer -->
-<footer>
-  <h3>Contactez-nous</h3>
-  <p><i class="fas fa-phone" aria-hidden="true"></i> +225 07 77 86 73 09</p>
-  <p><i class="fas fa-envelope" aria-hidden="true"></i> contact@liamakeup.ci</p>
-  <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Yamoussoukro, Côte d’Ivoire</p>
-  <p>
-    <a href="#" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-    <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-    <a href="https://wa.me/2250777867309" aria-label="WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
-  </p>
-  <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
-</footer>
+  <footer role="contentinfo">
+    <h3>Contactez-nous</h3>
+    <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
+    <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
+    <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
+    <p class="site-social" aria-label="Réseaux sociaux">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+      <a href="https://wa.me/2250777867309" aria-label="WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+      <a href="#" aria-label="TikTok"><i class="fab fa-tiktok" aria-hidden="true"></i></a>
+    </p>
+    <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+  </footer>
 
   <script>
     /* Fix mobile 100vh */
@@ -449,7 +564,7 @@
       window.addEventListener('resize', setVh);
     })();
 
-    /* Mobile nav toggle */
+    /* Mobile nav toggle - simple behavior */
     (function(){
       const toggle = document.getElementById('navToggle');
       const nav = document.getElementById('mainNav');
@@ -464,7 +579,7 @@
 
     /* Helper amélioré : priorité au hash (si présent), sinon par fichier */
     (function(){
-      const links = document.querySelectorAll('#mainNav a');
+      const links = Array.from(document.querySelectorAll('#mainNav a'));
       function updateActive(){
         const path = location.pathname.split('/').pop() || 'index.html';
         const hash = location.hash || '';
@@ -472,15 +587,13 @@
         links.forEach(a=>{
           const href = a.getAttribute('href');
           if(!href) return;
-          if(hasHash && href === hash){ setActive(a); return; }
-          if(hasHash){ clearActive(a); return; }
-          if(href.startsWith('#')){ clearActive(a); return; }
+          if(hasHash && href === hash){ a.classList.add('active'); a.setAttribute('aria-current','page'); return; }
+          if(hasHash){ a.classList.remove('active'); a.removeAttribute('aria-current'); return; }
+          if(href.startsWith('#')){ a.classList.remove('active'); a.removeAttribute('aria-current'); return; }
           const hName = href.split('/').pop() || 'index.html';
-          if(hName === path){ setActive(a); } else { clearActive(a); }
+          if(hName === path){ a.classList.add('active'); a.setAttribute('aria-current','page'); } else { a.classList.remove('active'); a.removeAttribute('aria-current'); }
         });
       }
-      function setActive(el){ el.classList.add('active'); el.setAttribute('aria-current','page'); }
-      function clearActive(el){ el.classList.remove('active'); el.removeAttribute('aria-current'); }
       updateActive();
       window.addEventListener('hashchange', updateActive);
       window.addEventListener('popstate', updateActive);
