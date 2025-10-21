@@ -19,7 +19,6 @@
       --hero-mobile-y:65%;
       --title-brown:#2f1f18; /* fond marron des titres */
       --card-bg:#f4e8dd;     /* fond léger des cards */
-      --card-image-h:200px;  /* hauteur image (desktop) */
     }
 
     /* reset */
@@ -53,7 +52,6 @@
     }
     .topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center }
     .topbar a i{ color:inherit; }
-    .topbar .tb-text { display:inline-block; }
 
     /* Header */
     header{
@@ -123,24 +121,6 @@
     }
 
    @media (max-width:768px) {
-     /* === MOBILE SMALL ADJUSTMENTS (ONLY THESE) === */
-     /* show hamburger on mobile (was hidden) */
-     .nav-toggle{
-       display:inline-flex;
-       position:relative;
-       z-index:200; /* ensure visible above header/topbar */
-     }
-
-     /* reduce topbar text size slightly to fit better on small screens */
-     .topbar .tb-text{
-       font-size:0.88rem;
-       line-height:1;
-     }
-
-     /* keep spacing reasonable */
-     .topbar a{ margin:0 8px; }
-
-     /* mobile menu active style (kept as before) */
      nav.open a.active {
        display: block;
        width: 100%;
@@ -165,12 +145,6 @@
        background: rgba(212,175,55,0.12);
      }
    }
-
-    /* ensure super small screens display compact topbar text */
-    @media (max-width:420px){
-      .topbar .tb-text{ font-size:0.82rem; }
-      .topbar a{ margin:0 6px; }
-    }
 
     /* HERO */
     .hero{
@@ -264,7 +238,7 @@
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
       gap:22px;
-      padding:8px 4vw 48px;
+      padding:8px 4vw 56px;
       max-width:1200px;
       margin:0 auto;
       position:relative;
@@ -272,108 +246,157 @@
       margin-top: -8px; /* slight overlap under hero */
     }
 
-    .service-card{
+    /* ---------- CHANGED: make titles inside cards clearly visible as card headers ---------- */
+    .service-card {
       background: var(--card-bg);
       border: 2px solid rgba(92,64,51,0.9);
       border-radius: 16px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.12);
-      overflow: hidden; /* <= IMPORTANT : empêche l'image de sortir du cadre */
+      /* allow the title to overlap the image slightly */
+      overflow: visible;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      position:relative;
+      min-height: 330px;
       display:flex;
       flex-direction:column;
-      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      justify-content:flex-start;
     }
-    .service-card:hover{
+    .service-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 20px 40px rgba(0,0,0,0.18);
     }
 
-    .service-card img{
-      width:100%;
-      height: var(--card-image-h);
-      object-fit:cover;
+    .service-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
       display:block;
       border-bottom: 2px solid rgba(92,64,51,0.9);
     }
 
-    .service-content{
-      padding:16px;
+    .service-content {
+      padding: 20px 18px 26px;
       text-align:left;
-      color:#333;
+      color:#2b2b2b;
       position:relative;
+      z-index:7;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
     }
 
-    .service-content h3{
+    /* Title styled as a header inside each card (visible, framed, non-clickable) */
+    .service-content h3 {
       display:block;
-      width: calc(100% - 36px);
-      margin: -36px 18px 12px;
-      padding: 12px 16px;
-      background: var(--title-brown);
-      border: 2px solid var(--accent);
+      width:calc(100% - 32px);
+      margin: -40px 16px 8px; /* <- negative top margin to pull the title up over the image */
+      padding:12px 16px;
+      background: var(--title-brown);      /* marron foncé intérieur */
+      border: 2px solid var(--accent);     /* contour or */
       color: #fff;
-      font-size: 1.15rem;
+      font-size:1.15rem;
       font-weight:800;
       text-align:center;
-      border-radius: 10px;
+      border-radius:10px;
       box-shadow: 0 8px 18px rgba(0,0,0,0.18);
-      pointer-events: none;
-      cursor: default;
+      pointer-events:none; /* not clickable, looks like a label */
+      cursor:default;
       line-height:1.15;
+      position:relative;
+      z-index:9;
     }
 
+    /* ensure the paragraph sits below the title (no overlap) */
     .service-content p{
-      margin-top:6px;
-      color:#3b3b3b;
+      margin-top: 6px;
+      color:#333;
       font-size:0.98rem;
-      line-height:1.5;
+      line-height:1.6;
       text-align:left;
     }
 
     .service-content .btn{
-      display:block;
-      max-width:220px;
-      width:100%;
-      box-sizing:border-box;
-      margin:12px auto 0;
-      text-align:center;
-      justify-content:center;
-      padding:10px 18px;
+      display:inline-flex;
+      align-self:center;
+      margin-top:8px;
     }
 
+    /* small screens responsive: reduce overlap and size */
     @media (max-width:768px){
-      :root{ --card-image-h:160px; }
-      .service-card img{ height: var(--card-image-h); }
-      .service-cards{ grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap:16px; padding-bottom:40px; }
-      .service-content h3{ margin: -28px 12px 10px; padding:10px 12px; font-size:1.02rem; width: calc(100% - 24px); }
-      .service-content p{ margin-top:8px; }
-      .service-content .btn{ max-width:100%; width:80%; }
+      .service-card img{ height:160px; }
+      .service-cards{ grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+      .service-content h3{
+        margin: -28px 12px 8px;
+        padding:10px 12px;
+        font-size:1.03rem;
+      }
     }
 
-    @media (max-width:420px){
-      :root{ --card-image-h:150px; --topbar-height:56px; --header-height:54px; }
-      .service-card img{ height: var(--card-image-h); }
-      .service-content h3{ margin: -24px 10px 10px; padding:9px 10px; font-size:0.98rem; width: calc(100% - 20px); }
-      .service-content p{ margin-top:8px; }
-      .logo img{ height:36px; }
-      .service-content .btn{ width:86%; }
-    }
-
+    /* rest unchanged */
     .testimonials{ padding:36px 4vw; background:transparent; text-align:center; }
     .testimonials .container{ max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:14px; align-items:stretch; }
     .testimonials .testimonial{ background:#fff; padding:18px; border-radius:12px; text-align:left; color:#333; box-shadow:0 10px 26px rgba(0,0,0,0.06); border-left:6px solid var(--accent); font-style:italic; }
     .testimonials .testimonial .author{ display:block; margin-top:8px; font-weight:700; font-style:normal; color:var(--brand-bg) }
 
-    .about{ background:var(--brand-bg); color:#fff; padding:36px 4vw; text-align:center; }
-    .about h2{ display:inline-flex; align-items:center; gap:10px; justify-content:center; font-size:1.25rem; }
-    .about h2::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
-    .about p{ max-width:920px; margin: 10px auto 0; padding:18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.12); border-left: 6px solid var(--accent); border-radius:10px; line-height:1.6; color: #fff; text-align:left; }
+    .about{
+      background:var(--brand-bg);
+      color:#fff;
+      padding:36px 4vw;
+      text-align:center;
+    }
+    .about h2{
+      display:block;
+      margin:0 auto 12px;
+      text-align:center;
+      font-size:1.25rem;
+      position:relative;
+      width:fit-content;
+    }
+    .about h2::after{
+      content:"";
+      display:block;
+      width:60px;
+      height:4px;
+      background:var(--accent);
+      margin:10px auto 0;
+      border-radius:2px;
+    }
+    .about p{
+      max-width:920px;
+      margin: 10px auto 0;
+      padding:18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(212,175,55,0.12);
+      border-left: 6px solid var(--accent);
+      border-radius:10px;
+      line-height:1.6;
+      color: #fff;
+      text-align:left;
+    }
 
-    footer{ background:#2c1e18; color:#fff; text-align:center; padding:24px 4vw; }
+    footer{
+      background:#2c1e18;
+      color:#fff;
+      text-align:center;
+      padding:24px 4vw;
+    }
     footer h3{ color: var(--accent); margin-bottom:8px; }
     .site-social a{ margin:0 6px; display:inline-block; text-decoration:none; color:inherit; }
     .site-social a i{ font-size:1.15rem; color:var(--accent); }
     footer p, footer a { color: #fff; }
 
+    /* small screens responsive */
     @media (max-width:900px){ .logo img{ height:42px } }
+
+    @media (max-width:420px){
+      :root{ --topbar-height:56px; --header-height:54px }
+      .logo img{ height:36px }
+      .service-card img{ height:150px }
+      .hero-content{
+        transform: translateY(calc(var(--hero-mobile-y) + 2%));
+        -webkit-transform: translateY(calc(var(--hero-mobile-y) + 2%));
+      }
+    }
 
     .show-focus-outline :focus { outline: 3px solid rgba(212,175,55,0.25); outline-offset:3px; }
 
@@ -441,6 +464,8 @@
         <a href="https://wa.me/2250777867309" class="btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> Commander</a>
       </div>
     </div>
+
+    <!-- (La bande "Formations · Vente de Produits · Coaching Beauté" a été retirée) -->
   </section>
 
   <!-- Services -->
