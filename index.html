@@ -336,6 +336,14 @@
     .site-social a i{ font-size:1.15rem; color:var(--accent); }
     footer p, footer a { color: #fff; }
 
+    @media (min-width:769px){
+      .footer-info{
+        justify-content:space-between;
+        max-width:960px;
+        margin:0 auto;
+        flex-wrap:nowrap;
+      }
+    }
   </style>
 </head>
 <body>
@@ -464,10 +472,17 @@
   <!-- Footer -->
   <footer role="contentinfo">
     <h3>LIAMAKEUP</h3>
+    <div class="footer-info" style="display:flex; flex-wrap:wrap; justify-content:center; gap:18px; font-size:.95rem;">
+      <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
+      <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro</p>
+      <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
+      <p><i class="fab fa-tiktok"></i> LIAMAKEUP</p>
+    </div>
     <div class="site-social">
       <a href="https://facebook.com/LIAMAKEUP" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
       <a href="https://instagram.com/LIAMAKEUP" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
       <a href="https://wa.me/2250777867309" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://tiktok.com/@LIAMAKEUP" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
     </div>
     <p>&copy; 2025 LIAMAKEUP. Tous droits réservés.</p>
   </footer>
@@ -480,16 +495,32 @@
       window.addEventListener('resize', setVh);
     })();
 
-    /* Mobile nav toggle */
+    /* Mobile nav toggle + active page effect */
     (function(){
       const toggle = document.getElementById('navToggle');
       const nav = document.getElementById('mainNav');
+      const links = Array.from(nav.querySelectorAll('a'));
       if(!toggle || !nav) return;
+
+      function setActiveLink(){
+        const path = location.pathname.split('/').pop() || 'index.html';
+        links.forEach(a=>{
+          const hName = a.getAttribute('href').split('/').pop() || '';
+          if(hName === path){ a.classList.add('active'); a.setAttribute('aria-current','page'); }
+          else { a.classList.remove('active'); a.removeAttribute('aria-current'); }
+        });
+      }
+
+      setActiveLink();
+      window.addEventListener('popstate', setActiveLink);
+      window.addEventListener('hashchange', setActiveLink);
+
       function openUI(){ nav.classList.add('open'); toggle.setAttribute('aria-expanded','true'); toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>'; }
       function closeUI(){ nav.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>'; }
+
       toggle.addEventListener('click', (e) => { e.stopPropagation(); if(nav.classList.contains('open')) closeUI(); else openUI(); });
-      nav.addEventListener('click', (e) => { const a = e.target.closest && e.target.closest('a'); if(a){ closeUI(); } });
-      document.addEventListener('click', (e) => { if(nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)){ closeUI(); } });
+      nav.addEventListener('click', (e) => { if(e.target.closest('a')) closeUI(); });
+      document.addEventListener('click', (e) => { if(nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)) closeUI(); });
       document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && nav.classList.contains('open')) closeUI(); });
     })();
   </script>
