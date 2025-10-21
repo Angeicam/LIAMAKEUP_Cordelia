@@ -194,6 +194,46 @@
     .hero p{ font-size:clamp(.95rem,2.2vw,1.05rem); margin-bottom:12px; font-weight:500 }
     .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
 
+    /* --- Strip title directly on image (no space) --- */
+    .hero-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;           /* flush with image bottom (no space) */
+      z-index:5;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      pointer-events:none; /* purely decorative / non-clickable */
+      padding:0 12px;
+    }
+    .hero-title .title-strip {
+      display:inline-block;
+      background: var(--title-brown);                 /* marron foncé */
+      border-top: 3px solid var(--accent);            /* contour or en haut */
+      border-left: 3px solid var(--accent);
+      border-right: 3px solid var(--accent);
+      border-bottom: 0;                               /* bottom flush with image */
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 10px 10px 0 0;                   /* coins arrondis en haut, bas droits -> attaché */
+      font-weight:800;
+      font-size:1.05rem;
+      letter-spacing:0.3px;
+      box-shadow: 0 -8px 24px rgba(0,0,0,0.30);
+      max-width:calc(100% - 40px);
+      text-align:center;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      pointer-events:none;
+    }
+    /* smaller screens: allow wrap and smaller font */
+    @media (max-width:640px){
+      .hero-title { padding:0 8px; }
+      .hero-title .title-strip { font-size:0.95rem; padding:10px 14px; white-space:normal; }
+    }
+
     /* Section titles - centered + underline */
     .section-title{
       display:block;
@@ -465,7 +505,10 @@
       </div>
     </div>
 
-    <!-- (La bande "Formations · Vente de Produits · Coaching Beauté" a été retirée) -->
+    <!-- TITLE STRIP directly attached to image bottom (no gap) -->
+    <div class="hero-title" aria-hidden="true">
+      <div class="title-strip">Formations · Vente de Produits · Coaching Beauté</div>
+    </div>
   </section>
 
   <!-- Services -->
