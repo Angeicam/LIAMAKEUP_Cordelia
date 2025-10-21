@@ -10,18 +10,18 @@
     :root{
       --topbar-height:44px;
       --header-height:64px;
-      --accent:#D4AF37;      /* gold accent */
-      --brand-bg:#5C4033;    /* brand brown */
+      --accent:#D4AF37;
+      --brand-bg:#5C4033;
       --muted-bg:#f5f5dc;
       --text:#333;
       --btn-radius:28px;
       --vh:1vh;
 
-      --title-brown:#2f1f18;   /* ribbon & icon bg */
-      --card-bg:#f8efe6;       /* slightly lighter */
-      --card-banner-d1:#c8ad85; /* darker banner */
+      --title-brown:#2f1f18;
+      --card-bg:#f8efe6;
+      --card-banner-d1:#c8ad85;
       --card-banner-d2:#b28f5d;
-      --icon-color: #D4AF37;   /* icon color (accent) */
+      --icon-color:#D4AF37;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -78,7 +78,7 @@
 
     .nav-toggle{ display:none; background:transparent; border:0; color:#fff; font-size:1.25rem; padding:8px; border-radius:8px; }
 
-    /* MOBILE PANEL when .open is toggled by JS */
+    /* MOBILE PANEL */
     nav.open{
       display:flex !important;
       position:fixed;
@@ -98,7 +98,6 @@
       transform:translateX(0);
       transition:transform .28s ease;
     }
-    /* Link style inside mobile panel (plain text, centered like ton 2ème code) */
     nav.open a{
       color:#333;
       background:transparent;
@@ -109,7 +108,7 @@
       display:flex;
       align-items:center;
       gap:8px;
-      justify-content:center; /* center like second code */
+      justify-content:center;
     }
     nav.open a.active{
       background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
@@ -122,28 +121,34 @@
 
     @media (max-width:768px) {
       .nav-toggle{ display:inline-flex; }
-      #mainNav{ display:none; } /* menu fermé par défaut sur mobile */
+      #mainNav{ display:none; }
     }
 
-    /* HERO (unchanged visual intent) */
+    /* HERO - full width breakout so image covers entire viewport width */
     .hero{
-      height:36vh;
-      background-image:url('formalite_1.png');
-      background-position:center 35%;
+      height:50vh; /* same as ton exemple */
+      width:100vw; /* force full viewport width */
+      position:relative;
+      left:50%;
+      right:50%;
+      margin-left:calc(-50vw + 0px); /* break out of centered container */
+      margin-right:calc(-50vw + 0px);
+      background-image:url('formalite_1.png'); /* ton image */
+      background-position:center 40%;
       background-size:cover;
       background-repeat:no-repeat;
-      position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
       color:#fff;
       margin-bottom:14px;
+      z-index:1;
     }
-    .hero::after {content:""; position:absolute; inset:0; background:rgba(0,0,0,0.34);}
-    .hero-content {position:relative; z-index:1; max-width:900px;}
-    .hero-content h1 {font-size:clamp(1.6rem,4vw,36px); color:var(--accent); margin-bottom:8px; font-weight:800}
-    .hero-content p {font-size:clamp(.95rem,2.2vw,1rem); margin-bottom:6px; font-weight:600; color:#fff; opacity:.95}
+    .hero::after {content:""; position:absolute; inset:0; background:rgba(0,0,0,0.4);} /* overlay 0.4 */
+    .hero-content {position:relative; z-index:2; max-width:800px; padding:0 4vw;}
+    .hero-content h1 { font-size:clamp(2rem,4vw,48px); color:var(--accent); margin-bottom:12px; font-weight:700; }
+    .hero-content p  { font-size:clamp(1rem,2.2vw,20px); margin-bottom:12px; font-weight:500; color:#fff; }
 
     .section-title{
       display:block;
@@ -151,7 +156,7 @@
       text-align:center;
       color:var(--brand-bg);
       font-weight:700;
-      font-size:1.1rem;
+      font-size:1.2rem;
       width:fit-content;
     }
     .section-title::after{ content:""; display:block; width:60px; height:4px; background:var(--accent); margin:8px auto 0; border-radius:2px; }
@@ -172,7 +177,7 @@
       border: 2px solid rgba(212,175,55,0.95);
       border-radius: 14px;
       box-shadow: 0 8px 22px rgba(92,64,51,0.06);
-      overflow: hidden; /* <-- rendu arrondi : on clippe le contenu pour montrer les coins arrondis */
+      overflow: hidden;
       display:flex;
       flex-direction:column;
       transition: transform .22s cubic-bezier(.2,.9,.3,1), box-shadow .22s ease;
@@ -198,17 +203,17 @@
       position:relative;
       background: linear-gradient(135deg, var(--card-banner-d1), var(--card-banner-d2));
       overflow:visible;
-      padding-top:8px; /* give a little space so icon is not too close to top */
-      border-top-left-radius: 12px;   /* arrondir le haut de la bannière pour suivre les coins du card */
+      padding-top:8px;
+      border-top-left-radius: 12px;
       border-top-right-radius: 12px;
     }
 
-    /* Icon: moved up (absolute) so it's higher in the banner but stays inside the card */
+    /* Icon: absolute and higher so it stays inside the card */
     .banner-icon {
       position: absolute;
-      top: 8px;                 /* moved to top of banner */
+      top: 8px;
       left: 50%;
-      transform: translateX(-50%); /* centered horizontally */
+      transform: translateX(-50%);
       width:64px;
       height:64px;
       border-radius:50%;
@@ -218,16 +223,16 @@
       justify-content:center;
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);
       border: 3px solid rgba(255,255,255,0.06);
-      z-index:12; /* above title so it is not cut */
+      z-index:12;
     }
     .banner-icon i{
       color:var(--icon-color);
       font-size:28px;
     }
 
-    /* Title ribbon (kept as before) */
+    /* Title ribbon */
     .formation-title {
-      margin: -36px auto 12px; /* less negative than before so icon stays visible */
+      margin: -36px auto 12px;
       padding: 12px 18px;
       background: var(--title-brown);
       border: 2px solid var(--accent);
@@ -325,7 +330,7 @@
     .formation-cta a.btn i{ font-size:1.02rem; }
     .formation-cta a.btn:hover{ transform: translateY(-2px); }
 
-    /* Promo: red pill as requested */
+    /* Promo: red pill */
     .formation-card .ribbon{
       position:absolute;
       top:12px;
@@ -335,7 +340,7 @@
       gap:8px;
       height:28px;
       padding:6px 10px;
-      background: linear-gradient(180deg,#ff6b6b,#d83b3b); /* red */
+      background: linear-gradient(180deg,#ff6b6b,#d83b3b);
       color:#fff;
       font-weight:700;
       border-radius:18px;
@@ -359,12 +364,11 @@
       .formation-card .ribbon{ right:10px; top:8px; font-size:0.72rem; }
       .price{ font-size:1.02rem; }
       .formation-desc{ min-height:44px; }
-      /* further reduce icon size on small screens so it remains fully visible */
       .banner-icon{ width:48px; height:48px; left:50%; top:6px; transform:translateX(-50%); border-width:2px; }
       .banner-icon i{ font-size:20px; }
     }
 
-    /* Modal / Footer unchanged (kept compact) */
+    /* Modal / Footer */
     .modal { display:none; position:fixed; z-index:1000; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; padding:20px; }
     .modal.show { display:flex; }
     .modal-content{ position:relative; width:100%; max-width:560px; border-radius:14px; overflow:hidden; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03)); color:#fff; z-index:1001; box-shadow:0 12px 40px rgba(0,0,0,0.5); }
@@ -407,7 +411,7 @@
         <i class="fas fa-bars" aria-hidden="true"></i>
       </button>
 
-      <!-- Nav : plain text (comme ton second code) -->
+      <!-- Nav : plain text -->
       <nav id="mainNav" aria-label="Menu principal">
         <a href="index.html">Accueil</a>
         <a href="formation.html" class="active" aria-current="page">Formations</a>
@@ -599,7 +603,7 @@
       window.addEventListener('resize', setVh);
     })();
 
-    /* Mobile nav toggle (keeps accessibility + prevents background scroll) */
+    /* Mobile nav toggle */
     (function(){
       const toggle = document.getElementById('navToggle');
       const nav = document.getElementById('mainNav');
