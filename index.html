@@ -122,6 +122,16 @@
     }
 
    @media (max-width:768px) {
+     /* === MODIF : centrer les éléments de la topbar sur mobile ===
+         (remplaceait précédemment justify-content:space-between) */
+     .topbar{
+       justify-content:center;
+       padding:6px 4vw;
+     }
+     .topbar a{
+       margin:0 10px; /* léger espacement entre téléphone et localisation */
+     }
+
      nav.open a.active {
        display: block;
        width: 100%;
