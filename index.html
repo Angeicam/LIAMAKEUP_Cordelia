@@ -185,7 +185,8 @@
       background: rgba(0,0,0,0.18);
       pointer-events:none;
     }
-    .hero-content{ position:relative; z-index:3; text-align:center; padding:0 4vw; max-width:900px; color:#fff; transition:transform .24s ease; }
+    /* MOVED: hero content slightly lower on desktop (6vh). Mobile remains controlled separately. */
+    .hero-content{ position:relative; z-index:3; text-align:center; padding:0 4vw; max-width:900px; color:#fff; transition:transform .24s ease; transform: translateY(6vh); }
     .hero h1{ font-size:clamp(1.6rem,4vw,2.6rem); color:var(--accent); margin-bottom:6px; font-weight:800 }
     .hero p{ font-size:clamp(.95rem,2.2vw,1.05rem); margin-bottom:12px; font-weight:500 }
     .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
@@ -242,7 +243,7 @@
       margin:0 auto;
       position:relative;
       z-index:6;
-      margin-top: -8px;
+      margin-top: 24px; /* <-- CHANGED: moved down so "Nos Services" appears lower under the hero */
     }
 
     .service-card{
@@ -369,6 +370,9 @@
       .service-content h3{ margin: -28px 12px 10px; padding:10px 12px; font-size:1rem; width: calc(100% - 24px); }
       .service-content p{ margin-top:8px; }
       .service-content .btn{ max-width:100%; width:80%; }
+
+      /* keep mobile hero placement using the existing variable (so mobile appearance is preserved) */
+      .hero-content{ transform: translateY(var(--hero-mobile-y)); }
     }
     @media (max-width:420px){
       :root{ --card-image-h:150px; --topbar-height:56px; --header-height:54px; }
