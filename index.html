@@ -185,8 +185,8 @@
       background: rgba(0,0,0,0.18);
       pointer-events:none;
     }
-    /* MOVED: hero content slightly lower on desktop (6vh). Mobile remains controlled separately. */
-    .hero-content{ position:relative; z-index:3; text-align:center; padding:0 4vw; max-width:900px; color:#fff; transition:transform .24s ease; transform: translateY(6vh); }
+    /* MOVED: hero content slightly lower on desktop (12vh). Mobile remains controlled separately. */
+    .hero-content{ position:relative; z-index:3; text-align:center; padding:0 4vw; max-width:900px; color:#fff; transition:transform .24s ease; transform: translateY(12vh); }
     .hero h1{ font-size:clamp(1.6rem,4vw,2.6rem); color:var(--accent); margin-bottom:6px; font-weight:800 }
     .hero p{ font-size:clamp(.95rem,2.2vw,1.05rem); margin-bottom:12px; font-weight:500 }
     .btn{ display:inline-flex; gap:10px; align-items:center; padding:10px 18px; border-radius:var(--btn-radius); background:var(--accent); color:var(--brand-bg); font-weight:700; text-decoration:none; }
@@ -243,7 +243,7 @@
       margin:0 auto;
       position:relative;
       z-index:6;
-      margin-top: 24px; /* <-- CHANGED: moved down so "Nos Services" appears lower under the hero */
+      margin-top: 24px; /* <-- CHANGED earlier: moved down so "Nos Services" appears lower under the hero */
     }
 
     .service-card{
