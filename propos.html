@@ -38,9 +38,10 @@ body{
 .topbar{
   position:fixed; top:0; left:0; right:0;
   height:var(--topbar-height); background:#2c1e18; color:#fff;
-  display:flex; align-items:center; justify-content:flex-end; gap:12px;
+  display:flex; align-items:center; justify-content:space-between;
   padding:0 4vw; z-index:140; font-size:.95rem;
 }
+.tb-left, .tb-right { display:flex; gap:8px; align-items:center; }
 .topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center }
 
 /* Header (identique) */
@@ -58,11 +59,13 @@ header{
 nav{display:flex; gap:8px; align-items:center}
 nav a{ color:#fff; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; font-size:.95rem; display:inline-flex; align-items:center; justify-content:center; transition:all .18s ease; }
 nav a:hover{ color:var(--brand-bg); background:var(--accent) }
+
+/* Force visible active look (yellow background like other pages) */
 nav a.active{
-  background:var(--accent);
-  color:var(--brand-bg);
+  background: var(--accent) !important;
+  color: var(--brand-bg) !important;
   pointer-events:none;
-  box-shadow: 0 6px 14px rgba(92,64,51,0.12);
+  box-shadow: 0 6px 14px rgba(92,64,51,0.12) !important;
 }
 
 /* Hamburger */
@@ -98,7 +101,7 @@ nav.open{
 }
 nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 12px; text-align:left; font-weight:700; display:flex; align-items:center; gap:8px; }
 
-/* Mobile open: active link */
+/* Mobile open: active link (keeps yellow left border and tinted bg) */
 nav.open a.active{
   background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
   color:var(--brand-bg);
@@ -108,19 +111,24 @@ nav.open a.active{
   box-shadow:none;
 }
 
-/* Hero */
+/* Hero (full-bleed and same height as other pages) */
 .hero {
     height:50vh;
+    width:100vw;
+    position:relative;
+    left:50%;
+    margin-left:calc(-50vw + 0px);
+    margin-right:calc(-50vw + 0px);
     background-image: url("apropos2.png");
-    background-position: center;
+    background-position: center 40%;
     background-size: cover;
     background-repeat: no-repeat;
-    position:relative;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
     color:#fff;
+    z-index:1;
 }
 .hero::after { content: ""; position:absolute; inset:0; background: rgba(0,0,0,0.5); }
 .hero-content { position:relative; z-index:1; }
@@ -165,12 +173,10 @@ nav.open a.active{
 .city-info h3 { color:var(--brand-bg); margin-bottom:10px; }
 .city-info img { width:100%; border-radius:10px; margin-bottom:15px; max-height:180px; object-fit:cover; }
 
-/* Footer */
+/* Footer (only LIAMAKEUP and copyright as requested) */
 footer { background:#2c1e18; color:#fff; text-align:center; padding:30px 5vw; }
-footer h3 { color:var(--accent); margin-bottom:10px; }
-footer p { margin:5px 0; }
-footer a { color:var(--accent); margin:0 8px; text-decoration:none; }
-footer a:hover { text-decoration:underline; }
+footer h3 { color:var(--accent); margin-bottom:8px; }
+footer p { margin:6px 0; }
 
 /* Responsive */
 @media (max-width:900px){ .logo img{height:42px} .hero{height:42vh} }
@@ -194,15 +200,19 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 
 <!-- Topbar -->
 <div class="topbar" role="banner">
-  <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
-    <i class="fas fa-phone" aria-hidden="true"></i>
-    <span class="tb-text">+225 07 77 86 73 09</span>
-  </a>
+  <div class="tb-left">
+    <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
+      <i class="fas fa-phone" aria-hidden="true"></i>
+      <span class="tb-text">+225 07 77 86 73 09</span>
+    </a>
+  </div>
 
-  <a href="#contact" aria-label="Localisation de LIAMAKEUP">
-    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-    <span class="tb-text">Yamoussoukro</span>
-  </a>
+  <div class="tb-right">
+    <a href="#contact" aria-label="Localisation de LIAMAKEUP">
+      <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+      <span class="tb-text">Yamoussoukro</span>
+    </a>
+  </div>
 </div>
 
 <!-- Header (identique aux autres pages) -->
@@ -282,18 +292,10 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </div>
 </section>
 
-<!-- Footer -->
-<footer>
-  <h3>Contactez-nous</h3>
-  <p><i class="fas fa-phone" aria-hidden="true"></i> +225 07 77 86 73 09</p>
-  <p><i class="fas fa-envelope" aria-hidden="true"></i> contact@liamakeup.ci</p>
-  <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Côte d’Ivoire</p>
-  <p>
-    <a href="#" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-    <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-    <a href="https://wa.me/2250777867309" aria-label="WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
-  </p>
-  <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+<!-- Footer (only the two lines requested) -->
+<footer id="contact" role="contentinfo">
+  <h3>LIAMAKEUP</h3>
+  <p>© 2025 LIAMAKEUP. Tous droits réservés.</p>
 </footer>
 
 <!-- Scripts -->
