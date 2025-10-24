@@ -31,14 +31,15 @@ body {
   padding-top: calc(var(--topbar-height) + var(--header-height));
 }
 
-/* Topbar (same as index) */
+/* Topbar (same layout as formations page) */
 .topbar{
   position:fixed; top:0; left:0; right:0;
   height:var(--topbar-height); background:#2c1e18; color:#fff;
-  display:flex; align-items:center; justify-content:flex-end; gap:12px;
+  display:flex; align-items:center; justify-content:space-between;
   padding:0 4vw; z-index:140; font-size:.95rem;
 }
-.topbar a{ color:var(--accent); text-decoration:none; display:inline-flex; gap:8px; align-items:center }
+.tb-left, .tb-right { display:flex; gap:8px; align-items:center; }
+.topbar a{ color:var(--accent); text-decoration:none; display:flex; gap:8px; align-items:center; }
 .topbar a i{ color:inherit; }
 
 /* Header (same as index) */
@@ -96,7 +97,6 @@ nav.open{
 }
 nav.open a{ color:#333; background:transparent; border-radius:8px; padding:12px 12px; text-align:left; font-weight:700; display:flex; align-items:center; gap:8px; }
 
-/* Mobile open: visible but discreet active style */
 nav.open a.active{
   background: linear-gradient(90deg, rgba(212,175,55,0.14), rgba(212,175,55,0.06));
   color:var(--brand-bg);
@@ -106,19 +106,24 @@ nav.open a.active{
   box-shadow:none;
 }
 
-/* Hero */
+/* Hero: full-bleed like formations page and same height 50vh */
 .hero {
     height:50vh;
+    width:100vw;
+    position:relative;
+    left:50%;
+    margin-left:calc(-50vw + 0px);
+    margin-right:calc(-50vw + 0px);
     background-image:url("produits.png");
     background-position:center 40%;
     background-size:cover;
     background-repeat:no-repeat;
-    position:relative;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
     color:#fff;
+    z-index:1;
 }
 .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.4); }
 .hero-content { position:relative; z-index:1; max-width:800px; }
@@ -129,24 +134,44 @@ nav.open a.active{
 .section-title { text-align:center; font-size:clamp(1.25rem,3vw,32px); color:var(--brand-bg); margin:48px 0 24px; font-weight:600; }
 .section-title::after { content:""; display:block; width:60px; height:4px; background:var(--accent); margin:10px auto 0; border-radius:2px; }
 
-/* Produits (kept same as yours) */
+/* Products cards - encadrées like formation-card */
 .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; padding:0 5vw 60px; }
 .product-card {
-    background:#fff;
-    border-radius:15px;
+    background: linear-gradient(180deg, #f8efe6, #ffffff);
+    border: 2px solid rgba(212,175,55,0.95);
+    border-radius: 14px;
     overflow:hidden;
-    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 22px rgba(92,64,51,0.06);
     transition:transform 0.3s, box-shadow 0.3s;
     display:flex;
     flex-direction:column;
     text-align:center;
+    padding-bottom:10px;
 }
-.product-card:hover { transform:translateY(-8px); box-shadow:0 10px 25px rgba(0,0,0,0.15); }
-.product-card img { width:100%; height:250px; object-fit:cover; }
-.product-card .product-content { padding:20px; }
-.product-card h3 { color:var(--brand-bg); margin-bottom:10px; font-weight:700; }
-.product-card p { font-size:14px; color:#444; margin-bottom:15px; }
-.product-card .price { color:var(--accent); font-weight:700; font-size:16px; margin-bottom:10px; }
+.product-card:hover { transform:translateY(-8px); box-shadow:0 20px 40px rgba(92,64,51,0.12); }
+.product-card img { width:100%; height:220px; object-fit:cover; display:block; border-top-left-radius:12px; border-top-right-radius:12px; }
+
+/* product-title badge similar to formation-title */
+.product-title {
+  margin:-28px auto 12px;
+  padding:10px 14px;
+  background:var(--title-brown, #2f1f18);
+  border: 2px solid var(--accent);
+  color:#fff;
+  font-size:1rem;
+  font-weight:800;
+  text-align:center;
+  border-radius:10px;
+  width:fit-content;
+  max-width:86%;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+/* content */
+.product-card .product-content { padding:10px 18px 18px; color:#333; display:flex; flex-direction:column; gap:10px; align-items:center; text-align:center; }
+.product-card h3 { color:var(--brand-bg); margin-bottom:4px; font-weight:700; }
+.product-card p { font-size:14px; color:#444; margin-bottom:6px; }
+.product-card .price { color:var(--accent); font-weight:700; font-size:16px; margin-bottom:8px; }
 .product-card a.btn {
     display:inline-block;
     padding:10px 20px;
@@ -157,9 +182,9 @@ nav.open a.active{
     font-weight:600;
     transition:0.3s;
 }
-.product-card a.btn:hover { background:#b8962e; transform:scale(1.05); }
+.product-card a.btn:hover { background:#b8962e; transform:scale(1.03); }
 
-/* Footer */
+/* Footer changed to only show LIAMAKEUP and copyright as requested */
 footer {
     background:#2c1e18;
     color:#fff;
@@ -167,15 +192,14 @@ footer {
     padding:30px 5vw;
 }
 footer h3 {color:var(--accent); margin-bottom:10px; font-weight:700;}
-footer p {margin:5px 0;}
-footer a {color:var(--accent); margin:0 8px; text-decoration:none;}
-footer a:hover {text-decoration:underline;}
+footer p {margin:6px 0;}
 
 /* responsive */
 @media (max-width:900px){
   .logo img{height:42px}
   .hero{height:42vh}
-  .product-card{padding:18px}
+  .product-card img{height:200px}
+  .product-title{ margin-top:8px; }
 }
 @media (max-width:768px){
   .nav-toggle{ display:inline-flex; }
@@ -195,17 +219,21 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 </head>
 <body>
 
-<!-- Topbar (aligned with index) -->
+<!-- Topbar (phone left, city right as requested) -->
 <div class="topbar" role="banner">
-  <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
-    <i class="fas fa-phone" aria-hidden="true"></i>
-    <span class="tb-text">+225 07 77 86 73 09</span>
-  </a>
+  <div class="tb-left">
+    <a href="tel:+2250777867309" aria-label="Appeler LIAMAKEUP">
+      <i class="fas fa-phone" aria-hidden="true"></i>
+      <span class="tb-text">+225 07 77 86 73 09</span>
+    </a>
+  </div>
 
-  <a href="#contact" aria-label="Localisation de LIAMAKEUP">
-    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-    <span class="tb-text">Yamoussoukro</span>
-  </a>
+  <div class="tb-right">
+    <a href="#contact" aria-label="Localisation de LIAMAKEUP">
+      <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+      <span class="tb-text">Yamoussoukro</span>
+    </a>
+  </div>
 </div>
 
 <!-- Header (copied from index) -->
@@ -246,6 +274,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <!-- Kit Perso -->
     <div class="product-card">
       <img src="Média_78.jpg" alt="Kit de maquillage personnel">
+      <div class="product-title">Kit de Maquillage Perso</div>
       <div class="product-content">
         <h3>Kit de Maquillage Perso</h3>
         <p>Le kit idéal pour débuter et créer des looks simples au quotidien. Comprend : rouge à lèvres, mini palette d’ombres, pinceau de base et miroir.</p>
@@ -257,6 +286,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <!-- Kit Apprenti -->
     <div class="product-card">
       <img src="Média_78.jpg" alt="Kit de maquillage apprenti">
+      <div class="product-title">Kit de Maquillage Apprenti</div>
       <div class="product-content">
         <h3>Kit de Maquillage Apprenti</h3>
         <p>Pour les passionnés souhaitant progresser. Contient : palette complète d’ombres, pinceaux variés, rouge à lèvres longue tenue, fond de teint et accessoires de précision.</p>
@@ -268,6 +298,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
     <!-- Kit Pro -->
     <div class="product-card">
       <img src="Média_78.jpg" alt="Kit de maquillage professionnel">
+      <div class="product-title">Kit de Maquillage Pro</div>
       <div class="product-content">
         <h3>Kit de Maquillage Pro</h3>
         <p>Destiné aux professionnels et maquilleurs confirmés. Comprend : palette pro avec multiples textures, pinceaux premium, accessoires avancés, rouge à lèvres et produits pour teint impeccable.</p>
@@ -279,18 +310,10 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
   </div>
 </section>
 
-<!-- Footer -->
-<footer>
-  <h3>Contactez-nous</h3>
-  <p><i class="fas fa-phone"></i> +225 07 77 86 73 09</p>
-  <p><i class="fas fa-envelope"></i> contact@liamakeup.ci</p>
-  <p><i class="fas fa-map-marker-alt"></i> Yamoussoukro, Côte d’Ivoire</p>
-  <p>
-    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-    <a href="https://wa.me/2250777867309" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-  </p>
-  <p>&copy; 2025 LIAMAKEUP - Tous droits réservés</p>
+<!-- Footer (only the two lines requested) -->
+<footer id="contact" role="contentinfo">
+  <h3>LIAMAKEUP</h3>
+  <p>© 2025 LIAMAKEUP. Tous droits réservés.</p>
 </footer>
 
 <script>
