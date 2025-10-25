@@ -211,7 +211,10 @@ nav.open a.active{
 .modal-header .logo{ width:64px; height:64px; display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden; }
 .modal-header .logo img{ width:100%; height:auto; display:block; }
 .modal-header .title{ font-weight:800; color:var(--brand-bg); font-size:1.15rem; }
-.modal-close{ position:absolute; right:12px; top:12px; font-size:26px; cursor:pointer; padding:6px; border-radius:8px; background:transparent; color:#333; }
+
+/* CLOSE - made identical to formations page */
+.close{ position:absolute; top:14px; right:18px; font-size:24px; cursor:pointer; color:#333; z-index:1002; background:transparent; border-radius:6px; padding:6px; }
+.close:hover{ background:rgba(0,0,0,0.04); }
 
 /* body */
 .modal-body{ padding:18px 20px; display:grid; grid-template-columns: 1fr 320px; gap:20px; overflow:auto; }
@@ -377,7 +380,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
         <p>Destiné aux professionnels et maquilleurs confirmés.</p>
         <p class="price">150.000 FCFA</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-          <a href="#" class="details-btn btn" role="button" aria-haspopup="dialog"><i class="fab fa-whatsapp" aria-hidden="true"></i>&nbsp;Détails</a>
+          <a href="#" class="details-btn btn" role="Button" aria-haspopup="dialog"><i class="fab fa-whatsapp" aria-hidden="true"></i>&nbsp;Détails</a>
         </div>
       </div>
     </div>
@@ -388,7 +391,9 @@ a,button{-webkit-tap-highlight-color:rgba(0,0,0,0.06)}
 <!-- Modal (details) -->
 <div class="modal" id="productModal" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-content" role="document" aria-labelledby="modalTitle" aria-describedby="modalDesc">
-    <button class="modal-close" id="modalClose" aria-label="Fermer la fenêtre">&times;</button>
+    <!-- Close: replaced with the exact .close element from formations page -->
+    <span class="close" id="modalClose" role="button" aria-label="Fermer la fenêtre">&times;</span>
+
     <div class="modal-header">
       <div class="logo"><img src="logo_liamakeup_1.png" alt="LIAMAKEUP logo"></div>
       <div class="title" id="modalTitle">Titre</div>
